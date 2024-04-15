@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "gestor-de-eventos-web-part-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/gestorDeEventosWebPart/GestorDeEventosWebPartWebPart.js",
+          "manifest": "./src/webparts/gestorDeEventosWebPart/GestorDeEventosWebPartWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "GestorDeEventosWebPartWebPartStrings": "lib/webparts/gestorDeEventosWebPart/loc/{locale}.js"
+  }
+}
