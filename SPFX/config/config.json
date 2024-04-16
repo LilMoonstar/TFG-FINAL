@@ -13,6 +13,6 @@
   },
   "externals": {},
   "localizedResources": {
-    "GestorDeEventosWebPartWebPartStrings": "lib/webparts/gestorDeEventosWebPart/loc/{locale}.js"
+    "GestorDeEventosWebPartWebPartStrings": "src/loc/{locale}.js"
   }
 }

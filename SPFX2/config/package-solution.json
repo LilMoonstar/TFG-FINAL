@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "gestor-eventos-client-side-solution",
+    "id": "3097db7c-4771-4c09-96c1-1699c0003a8f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "GestorEventos description"
+      },
+      "longDescription": {
+        "default": "GestorEventos description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "gestor-eventos Feature",
+        "description": "The feature that activates elements of the gestor-eventos solution.",
+        "id": "f58e2194-bec3-48f0-b279-400265d68fc1",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/gestor-eventos.sppkg"
+  }
+}

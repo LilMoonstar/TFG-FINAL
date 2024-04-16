@@ -72,7 +72,6 @@ if ($contentType -ne $null) {
         $context.Load($viewFields)
         $context.ExecuteQuery()
 
-            $viewFields.Add("EV_type")
             $viewFields.Add("EV_observations")
             $viewFields.Add("EV_number")
             $viewFields.Add("EV_game")

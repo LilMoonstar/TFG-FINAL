@@ -1,4 +1,4 @@
-export interface IGestorDeEventosWebPartProps {
+export interface IGestorEventosWpProps {
   description: string;
   isDarkTheme: boolean;
   environmentMessage: string;

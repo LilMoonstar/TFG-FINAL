@@ -1,4 +1,4 @@
-declare interface IEjemploWebpartWebPartStrings {
+declare interface IGestorDeEventosWebpartWebPartStrings {
     PropertyPaneDescription: string;
     BasicGroupName: string;
     DescriptionFieldLabel: string;
@@ -12,8 +12,8 @@ declare interface IEjemploWebpartWebPartStrings {
     AppOutlookEnvironment: string;
   }
   
-  declare module 'EjemploWebpartWebPartStrings' {
-    const strings: IEjemploWebpartWebPartStrings;
+  declare module 'GestorDeEventosWebpartWebPartStrings' {
+    const strings: IGestorDeEventosWebpartWebPartStrings;
     export = strings;
   }
   

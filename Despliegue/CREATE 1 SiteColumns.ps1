@@ -3,27 +3,10 @@ $context.Load($fields);
 $context.ExecuteQuery();
 $fieldsArray = @();
 
-$fieldsArray += '<Field ID="4b16df65-27eb-404d-967d-34664757df09" 
-                Name="EV_type"
-                DisplayName="Type" 
-                Type="Text"
-                Indexed="FALSE"
-                Group="Eventos" 
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
-
-$fieldsArray += '<Field ID="1cd2568f-1f8e-4523-a798-b807d3e1184a" 
-                Name="EV_observations"
-                DisplayName="Observations" 
-                Type="Text"
-                Indexed="FALSE"
-                Group="Eventos" 
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
 
 $fieldsArray += '<Field ID="bf9c293c-a7d3-41b1-9753-cc82bcfe80d4" 
-                Name="EV_number"
-                DisplayName="Number" 
+                Name="EV_id"
+                DisplayName="ID" 
                 Type="Number"
                 Hidden="TRUE"
                 Group="Eventos" 
@@ -79,7 +62,7 @@ $fieldsArray += '<Field ID="0bd3d07b-3ef1-4f57-8015-492109800627"
                 </Field>';
 
 $fieldsArray += '<Field ID="a99c8636-7882-4fc9-9181-5c77b6b37b67" 
-                Name="EV_Composition"
+                Name="EV_composition"
                 DisplayName="Composition" 
                 Type="Number"
                 Group="Eventos" 

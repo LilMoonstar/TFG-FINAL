@@ -1,4 +1,4 @@
-declare interface IGestorDeEventosWebPartWebPartStrings {
+declare interface IGestorEventosWpWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -10,10 +10,9 @@ declare interface IGestorDeEventosWebPartWebPartStrings {
   AppTeamsTabEnvironment: string;
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
-  UnknownEnvironment: string;
 }
 
-declare module 'GestorDeEventosWebPartWebPartStrings' {
-  const strings: IGestorDeEventosWebPartWebPartStrings;
+declare module 'GestorEventosWpWebPartStrings' {
+  const strings: IGestorEventosWpWebPartStrings;
   export = strings;
 }

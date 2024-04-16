@@ -3,7 +3,7 @@ $contentTypeGroup = "Eventos"
 $contentTypeName = "THISEventos"
 
 # Añadir los nombres internos de las columnas que compondrán el tipo de contenido
-$columns = "EV_type", "EV_observations", "EV_number", "EV_game", "EV_title", "EV_requirements", "EV_description", "EV_awards", "EV_date", "EV_Composition"
+$columns = "EV_id", "EV_game", "EV_title", "EV_requirements", "EV_description", "EV_awards", "EV_date", "EV_composition"
 
 
 # ID del tipo de contenido padre

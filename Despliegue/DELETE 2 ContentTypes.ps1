@@ -6,7 +6,7 @@
         $context.ExecuteQuery();
 
 
-        $tiposdecontenido = "THISestudiantes"
+        $tiposdecontenido = "THISEventos"
         $tiposBorrar = New-Object System.Collections.ArrayList($null);
 
         foreach($tipo in $tiposdecontenido) {
