@@ -2,6 +2,8 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { IList } from "@pnp/sp/lists";
 import { IItem, IWeb } from "@pnp/sp/presets/all";
 import { EventosItem } from "./EventosItem";
+import "@pnp/sp/presets/all";
+import "@pnp/sp/lists";
 
 export class EventosItLista {
   public NombreLista = "Eventos";
@@ -23,13 +25,13 @@ export class EventosItLista {
     this.List = this.web.lists.getByTitle(this.NombreLista);
   }
 
-  public async CargarTodos(BatchedWeb?: IWeb): Promise<EventosItem[] | void> {
+  public async CargarTodos(BatchedWeb?: IWeb): Promise<EventosItem[]> {
     const Items = this.List.items
       .expand(this.ExpandAllFields.join())
       .orderBy("Title")
       .select(this.SelectAllFields.join())()
-      .then((Data: IItem[]) => {
-        return Data.map((I) => {
+      .then((Data: any) => {
+        return Data.map((I: IItem) => {
           return new EventosItem(I, this);
         });
       })

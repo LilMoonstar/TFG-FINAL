@@ -8,7 +8,7 @@ import {
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 
 import GestorDeEventosWebPart, {
-  IGestorDeEventosWebpartProps,
+  IEventoWebpartProps,
 } from "./components/GestorDeEventosWebPart";
 import { SPFI, SPFx, spfi } from "@pnp/sp/presets/all";
 import * as strings from "GestorDeEventosWebpartWebPartStrings";
@@ -25,7 +25,7 @@ export default class GestorDeEventosWebpartWebPart extends BaseClientSideWebPart
       SP: this.SP,
       WebPartContext: this.context,
     };
-    const element: React.ReactElement<IGestorDeEventosWebpartProps> =
+    const element: React.ReactElement<IEventoWebpartProps> =
       React.createElement(GestorDeEventosWebPart, webpartProps);
     ReactDom.render(element, this.domElement);
   }

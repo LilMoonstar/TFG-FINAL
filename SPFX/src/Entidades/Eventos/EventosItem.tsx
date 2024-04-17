@@ -1,5 +1,4 @@
 import { EventosItLista } from "./EventosLista";
-import { IItem } from "@pnp/sp/items";
 
 export class EventosItem {
   public ListItem: any;
@@ -15,19 +14,20 @@ export class EventosItem {
   public Date: Date;
   public Composition: number;
 
-  constructor(ListItem: IItem, Lista: EventosItLista) {
+  constructor(ListItem: any, Lista: EventosItLista) {
     this.ListItem = ListItem;
     this.Lista = Lista;
+    this.MapearCampos();
   }
 
   public MapearCampos() {
-    this.ID = this.ListItem["ID"];
-    this.Game = this.ListItem["Game"];
-    this.Title = this.ListItem["Title"];
-    this.Requirements = this.ListItem["Requirements"];
-    this.Description = this.ListItem["Description"];
-    this.Awards = this.ListItem["Awards"];
-    this.Date = this.ListItem["Date"];
-    this.Composition = this.ListItem["Composition"];
+    this.ID = this.ListItem.ID;
+    this.Game = this.ListItem.Game;
+    this.Title = this.ListItem.Title;
+    this.Requirements = this.ListItem.Requirements;
+    this.Description = this.ListItem.Description;
+    this.Awards = this.ListItem.Awards;
+    this.Date = this.ListItem.Date;
+    this.Composition = this.ListItem.Composition;
   }
 }
