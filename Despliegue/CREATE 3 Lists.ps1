@@ -72,18 +72,16 @@ if ($contentType -ne $null) {
         $context.Load($viewFields)
         $context.ExecuteQuery()
 
-            $viewFields.Add("EV_observations")
-            $viewFields.Add("EV_number")
+            $viewFields.Add("ID")
             $viewFields.Add("EV_game")
-            $viewFields.Add("EV_title")
             $viewFields.Add("EV_requirements")
             $viewFields.Add("EV_description")
             $viewFields.Add("EV_awards")
             $viewFields.Add("EV_date")
-            $viewFields.Add("EV_Composition")
+            $viewFields.Add("EV_composition")
 
 
-        $vista.ViewQuery = "<OrderBy><FieldRef Name='Title' Ascending='FALSE'/></OrderBy>"
+        $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"
         $vista.Update()
 
         $context.ExecuteQuery()

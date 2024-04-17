@@ -3,30 +3,17 @@ $context.Load($fields);
 $context.ExecuteQuery();
 $fieldsArray = @();
 
-
-$fieldsArray += '<Field ID="bf9c293c-a7d3-41b1-9753-cc82bcfe80d4" 
-                Name="EV_id"
-                DisplayName="ID" 
-                Type="Number"
-                Hidden="TRUE"
-                Group="Eventos" 
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
-
 $fieldsArray += '<Field ID="5a2335ef-d6e1-4b79-8c91-1fb040fe7f82" 
                 Name="EV_game"
                 DisplayName="Game" 
-                Type="Text"
+                Type="Choice"
+                Required="TRUE"
                 Group="Eventos" 
                 xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
-
-$fieldsArray += '<Field ID="8ec85538-7976-4f9f-a762-e70d678ef0f8" 
-                Name="EV_title"
-                DisplayName="Title" 
-                Type="Text"
-                Group="Eventos" 
-                xmlns="http://schemas.microsoft.com/sharepoint/">
+                <CHOICES>
+                       <CHOICE>LEAGUE OF LEGENDS</CHOICE>
+                       <CHOICE>FORTNITE</CHOICE>
+                </CHOICES>
                 </Field>';
 
 $fieldsArray += '<Field ID="1f794eea-2ffb-43d2-83b2-09e75d1e18d0" 

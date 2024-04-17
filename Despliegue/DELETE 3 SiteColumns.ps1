@@ -7,7 +7,7 @@
 
         $context.ExecuteQuery();
 
-        $columns ="ID", "Game", "Title", "Requirements", "Description", "Awards", "Date", "Composition"
+        $columns ="EV_game", "EV_requirements", "EV_description", "EV_awards", "EV_date", "EV_composition"
 
         foreach($column in $columns) {
 
