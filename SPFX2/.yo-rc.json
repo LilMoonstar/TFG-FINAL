@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "14.19.3",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "gestor-eventos",
+    "libraryId": "9b8e7d0f-3133-4d79-b7d4-973e9e0d285e",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "gestor eventos",
+    "solutionShortDescription": "gestor eventos description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
