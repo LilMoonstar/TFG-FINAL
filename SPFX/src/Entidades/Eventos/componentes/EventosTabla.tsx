@@ -14,6 +14,7 @@ export default function EventosWebpart(
       key: "ID",
       title: "ID",
       dataIndex: "ID",
+      sorter: (a: { ID: number; }, b: { ID: number; }) => a.ID - b.ID,
     },
     {
       key: "Game",
