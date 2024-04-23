@@ -4,7 +4,7 @@ import { SPFI } from "@pnp/sp";
 import * as React from "react";
 import { EventosLista } from "../../../Entidades/Eventos/EventosLista";
 import EventosTabla from "../../../Entidades/Eventos/componentes/EventosTabla";
-import { EventosItem } from "../../../Entidades/Eventos/EventosItem";
+
 
 export interface IEventoWebpartProps {
   SP: SPFI;
@@ -15,11 +15,12 @@ export default function EventoWebpart(
   props: IEventoWebpartProps
 ): JSX.Element {
   const [cargando, setCargando] = React.useState(true);
-  const [Items, setItems] = React.useState<EventosItem[]>([]);
-  const lista = React.useRef<EventosLista>(new EventosLista(props.SP.web, props.WebPartContext));
+  const [Items, setItems] = React.useState([]);
+  const lista = React.useRef<EventosLista>(null);
 
   React.useEffect(() => {
-    lista.current.CargarTodos().then((i: React.SetStateAction<EventosItem[]>) => {
+    lista.current = new EventosLista(props.SP.web, props.WebPartContext);
+    lista.current.CargarTodos().then((i) => {
       console.log(i);
       setItems(i);
     });

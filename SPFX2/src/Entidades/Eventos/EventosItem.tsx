@@ -12,10 +12,12 @@ export class EventosItem {
   public Awards: string;
   public Date: Date;
   public Composition: number;
+  public SubmitButton: string;
 
   constructor(ListItem: any, Lista: EventosLista) {
     this.ListItem = ListItem;
     this.Lista = Lista;
+    this.SubmitButton;
     this.MapearCampos();
   }
 

@@ -7,7 +7,7 @@ import "@pnp/sp/presets/all";
 import "@pnp/sp/lists";
  
 export class EventosLista {
-  public NombreLista = "Eventoss";
+  public NombreLista = "Eventos";
   public SelectAllFields: string[] = [
     "*",
   ];
