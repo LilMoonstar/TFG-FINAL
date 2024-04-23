@@ -3,12 +3,22 @@ import { EventosItem } from "../EventosItem";
 import { Table } from "antd";
 import EventosJuego from "./EventosJuego";
 import BOTONGENIAL from "./EventosSubmit";
-import Troll from "./EventosBotonTroll";
-import Infinito from "./EventosInfinito";
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
 }
+
+const generateRandomHex = (): string => {
+  let randomNumber = Math.floor(Math.random() * 16777214).toString();
+  while (randomNumber.length < 8) {
+    randomNumber = "0" + randomNumber;
+  }
+  return "#" + parseInt(randomNumber, 10).toString(16).toUpperCase();
+};
+
+const patata = generateRandomHex();
+const pepino = generateRandomHex();
+
 
 export default function EventosWebpart(
   Props: IEventoWebpartProps
@@ -36,7 +46,9 @@ export default function EventosWebpart(
       title: "Requirements",
       dataIndex: "Requirements",
       render: (text: string) => (
-        <div style={{ whiteSpace: "pre-line" }}>{text}</div>
+        <div>
+            <BOTONGENIAL titlename="Requisitos" text={text} backgroundColor={patata} fontColor={pepino} />
+        </div>
       ),
     },
     {
@@ -44,7 +56,9 @@ export default function EventosWebpart(
       title: "Description",
       dataIndex: "Description",
       render: (text: string) => (
-        <div style={{ whiteSpace: "pre-line" }}>{text}</div>
+        <div>
+          <BOTONGENIAL titlename="Descripción" text={text} backgroundColor={pepino} fontColor={patata} />
+        </div>
       ),
     },
     {
@@ -52,7 +66,10 @@ export default function EventosWebpart(
       title: "Awards",
       dataIndex: "Awards",
       render: (text: string) => (
-        <div style={{ whiteSpace: "pre-line" }}>{text}</div>
+        <div>
+          <BOTONGENIAL titlename="Premios" text={text} backgroundColor={patata} fontColor={pepino} />
+
+        </div>
       ),
     },
     {
@@ -65,14 +82,6 @@ export default function EventosWebpart(
       title: "Composition",
       dataIndex: "Composition",
     },
-    {
-      key: "SubmitButton",
-      title: "SubmitButton",
-      dataIndex: "SubmitButton",
-      render: (boton: string) => {
-        return <BOTONGENIAL />;
-      },
-    }
   ];
 
   const tableStyle = {
@@ -82,8 +91,6 @@ export default function EventosWebpart(
 
   return (
     <>
-      <Troll />
-      <Infinito />
       <Table dataSource={Props.Items} columns={columns} style={tableStyle} />;
     </>
   )
