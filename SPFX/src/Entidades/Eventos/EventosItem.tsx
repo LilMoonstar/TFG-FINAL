@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any*/
-import { EventosItLista } from "./EventosLista";
+import { EventosLista } from "./EventosLista";
 
 export class EventosItem {
   public ListItem: any;
-  public Lista: EventosItLista;
-  public ItemEdit: EventosItem;
+  public Lista: EventosLista;
+  public ItemEdit: EventosItem | undefined;
 
   public ID: number;
   public Game: string;
@@ -14,13 +13,13 @@ export class EventosItem {
   public Date: Date;
   public Composition: number;
 
-  constructor(ListItem: any, Lista: EventosItLista) {
+  constructor(ListItem: any, Lista: EventosLista) {
     this.ListItem = ListItem;
     this.Lista = Lista;
     this.MapearCampos();
   }
 
-  public MapearCampos():void {
+  private MapearCampos(): void {
     this.ID = this.ListItem.ID;
     this.Game = this.ListItem.EV_game;
     this.Requirements = this.ListItem.EV_requirements;
@@ -30,4 +29,3 @@ export class EventosItem {
     this.Composition = this.ListItem.EV_composition;
   }
 }
-/* eslint-enable */
