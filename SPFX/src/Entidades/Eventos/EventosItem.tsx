@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
 import { EventosItLista } from "./EventosLista";
 
 export class EventosItem {
@@ -7,7 +8,6 @@ export class EventosItem {
 
   public ID: number;
   public Game: string;
-  public Title: string;
   public Requirements: string;
   public Description: string;
   public Awards: string;
@@ -20,14 +20,14 @@ export class EventosItem {
     this.MapearCampos();
   }
 
-  public MapearCampos() {
+  public MapearCampos():void {
     this.ID = this.ListItem.ID;
-    this.Game = this.ListItem.Game;
-    this.Title = this.ListItem.Title;
-    this.Requirements = this.ListItem.Requirements;
-    this.Description = this.ListItem.Description;
-    this.Awards = this.ListItem.Awards;
-    this.Date = this.ListItem.Date;
-    this.Composition = this.ListItem.Composition;
+    this.Game = this.ListItem.EV_game;
+    this.Requirements = this.ListItem.EV_requirements;
+    this.Description = this.ListItem.EV_description;
+    this.Awards = this.ListItem.EV_awards;
+    this.Date = this.ListItem.EV_date;
+    this.Composition = this.ListItem.EV_composition;
   }
 }
+/* eslint-enable */

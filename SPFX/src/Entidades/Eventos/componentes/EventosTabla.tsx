@@ -1,29 +1,29 @@
 import * as React from "react";
-import { EventosItem } from "../EventosItem";
 import { Table } from "antd";
+import type { ColumnsType } from "antd/lib/table";
+import { EventosItem } from "../EventosItem";
 
-export interface IEventoWebpartProps {
+interface IEventoWebpartProps {
   Items: EventosItem[];
 }
 
-export default function EventosWebpart(
-  Props: IEventoWebpartProps
-): JSX.Element {
-  const columns = [
+const EventosWebpart: React.FC<IEventoWebpartProps> = ({ Items }) => {
+  const columns: ColumnsType<EventosItem> = [
     {
       key: "ID",
       title: "ID",
       dataIndex: "ID",
+      sorter: (item1, item2) => item1.ID - item2.ID,
     },
     {
       key: "Game",
       title: "Game",
       dataIndex: "Game",
-    },
-    {
-      key: "Title",
-      title: "Title",
-      dataIndex: "Title",
+      filters: [
+        { text: 'LEAGUE OF LEGENDS', value: 'LEAGUE OF LEGENDS' },
+        { text: 'FORTNITE', value: 'FORTNITE' },
+      ],
+      
     },
     {
       key: "Requirements",
@@ -49,8 +49,16 @@ export default function EventosWebpart(
       key: "Composition",
       title: "Composition",
       dataIndex: "Composition",
+      sorter: (item1, item2) => item1.ID - item2.ID,
     },
   ];
 
-  return <Table dataSource={Props.Items} columns={columns} />;
-}
+  return (
+    <div>
+        <Table dataSource={Items} columns={columns} />
+    </div>
+);
+
+};
+
+export default EventosWebpart;
