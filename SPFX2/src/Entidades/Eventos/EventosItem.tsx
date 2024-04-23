@@ -5,6 +5,8 @@ export class EventosItem {
   public Lista: EventosLista;
   public ItemEdit: EventosItem | undefined;
 
+  public Resume: string;
+  public Nombre: string;
   public ID: number;
   public Game: string;
   public Requirements: string;
@@ -20,6 +22,8 @@ export class EventosItem {
   }
 
   private MapearCampos(): void {
+    this.Resume = this.ListItem.EV_resume;
+    this.Nombre = this.ListItem.Title;
     this.ID = this.ListItem.ID;
     this.Game = this.ListItem.EV_game;
     this.Requirements = this.ListItem.EV_requirements;

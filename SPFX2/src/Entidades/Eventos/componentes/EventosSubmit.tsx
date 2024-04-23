@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Modal } from 'antd';
 
-const BOTONGENIAL: React.FC<{ titlename: string, text: string, backgroundColor: string, fontColor: string }> = ({ titlename, text, backgroundColor, fontColor }) => {
+const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, text }) => {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
 
     const showModal = () => {
@@ -16,17 +16,12 @@ const BOTONGENIAL: React.FC<{ titlename: string, text: string, backgroundColor: 
         setIsModalOpen(false);
     };
 
-    const buttonStyle = {
-        backgroundColor: backgroundColor,
-        color: fontColor,
-    };
-
     return (
         <>
-            <Button type="primary" onClick={showModal} style={buttonStyle}>
+            <Button type="primary" onClick={showModal}>
                 {titlename}
             </Button>
-            <Modal title={titlename} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title={titlename} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <div style={{ whiteSpace: "pre-line" }}>{text}</div>
             </Modal>
         </>

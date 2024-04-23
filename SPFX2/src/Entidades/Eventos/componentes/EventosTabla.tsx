@@ -3,28 +3,33 @@ import { EventosItem } from "../EventosItem";
 import { Table } from "antd";
 import EventosJuego from "./EventosJuego";
 import BOTONGENIAL from "./EventosSubmit";
+import EventosResume from "./EventosResume";
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
 }
-
-const generateRandomHex = (): string => {
-  let randomNumber = Math.floor(Math.random() * 16777214).toString();
-  while (randomNumber.length < 8) {
-    randomNumber = "0" + randomNumber;
-  }
-  return "#" + parseInt(randomNumber, 10).toString(16).toUpperCase();
-};
-
-const patata = generateRandomHex();
-const pepino = generateRandomHex();
-
 
 export default function EventosWebpart(
   Props: IEventoWebpartProps
 ): JSX.Element {
 
   const columns = [
+    {
+      key: "Resume",
+      title: "Resume",
+      dataIndex: "Resume",
+      render: (text: string, record: EventosItem) => (
+        <div>
+           <EventosResume titlename="Resume" text={text} info={record} />
+        </div>
+      )
+    },
+    {
+      key: "Nombre",
+      title: "Nombre",
+      dataIndex: "Nombre",
+      sorter: (a: { ID: number; }, b: { ID: number; }) => a.ID - b.ID,
+    },
     {
       key: "ID",
       title: "ID",
@@ -47,7 +52,7 @@ export default function EventosWebpart(
       dataIndex: "Requirements",
       render: (text: string) => (
         <div>
-            <BOTONGENIAL titlename="Requisitos" text={text} backgroundColor={patata} fontColor={pepino} />
+          <BOTONGENIAL titlename="Condiciones" text={text} />
         </div>
       ),
     },
@@ -57,7 +62,7 @@ export default function EventosWebpart(
       dataIndex: "Description",
       render: (text: string) => (
         <div>
-          <BOTONGENIAL titlename="Descripción" text={text} backgroundColor={pepino} fontColor={patata} />
+          <BOTONGENIAL titlename="Descripción" text={text} />
         </div>
       ),
     },
@@ -67,8 +72,7 @@ export default function EventosWebpart(
       dataIndex: "Awards",
       render: (text: string) => (
         <div>
-          <BOTONGENIAL titlename="Premios" text={text} backgroundColor={patata} fontColor={pepino} />
-
+          <BOTONGENIAL titlename="Premios" text={text} />
         </div>
       ),
     },
