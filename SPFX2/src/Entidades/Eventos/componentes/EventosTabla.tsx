@@ -1,9 +1,12 @@
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
-import { Table } from "antd";
-import EventosJuego from "./EventosJuego";
-import BOTONGENIAL from "./EventosSubmit";
+import { Table, TableColumnsType } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
+import BOTONGENIAL from "./EventosBoton";
 import EventosResume from "./EventosResume";
+import FiltroJuego from "./Filtros/FiltroBusqueda";
+import EventosJuego, { JuegoFiltro } from "./EventosJuego";
+import FiltroFecha from "./Filtros/FiltroFecha";
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
@@ -13,7 +16,15 @@ export default function EventosWebpart(
   Props: IEventoWebpartProps
 ): JSX.Element {
 
-  const columns = [
+  const [startDate, setStartDate] = React.useState<string>('');
+  const [endDate, setEndDate] = React.useState<string>('');
+
+  const handleFilter = (startDate: string, endDate: string) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
+
+  const columns:TableColumnsType<EventosItem> = [
     {
       key: "Resume",
       title: "Resume",
@@ -28,7 +39,12 @@ export default function EventosWebpart(
       key: "Nombre",
       title: "Nombre",
       dataIndex: "Nombre",
-      sorter: (a: { ID: number; }, b: { ID: number; }) => a.ID - b.ID,
+      filterDropdown: FiltroJuego, 
+      filterIcon: (filtered: boolean) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      onFilter: (value: any, record: EventosItem) =>
+        record.Nombre.toLowerCase().indexOf((value as string).toLowerCase()) !== -1,
     },
     {
       key: "ID",
@@ -40,6 +56,8 @@ export default function EventosWebpart(
       key: "Game",
       title: "Game",
       dataIndex: "Game",
+      filters: JuegoFiltro(),
+      onFilter: (value: string, record: EventosItem) => record.Game.indexOf(value) === 0,
       render: (juego: string) => {
         return (
           <EventosJuego juego={juego} />
@@ -79,7 +97,10 @@ export default function EventosWebpart(
     {
       key: "Date",
       title: "Date",
-      dataIndex: "Date"
+      dataIndex: "Date",
+      render: (date: Date, record: EventosItem) => (
+        <span>{record.getDateString()}</span>
+      ),
     },
     {
       key: "Composition",
@@ -95,7 +116,18 @@ export default function EventosWebpart(
 
   return (
     <>
-      <Table dataSource={Props.Items} columns={columns} style={tableStyle} />;
-    </>
-  )
+    <FiltroFecha onFilter={handleFilter} />
+    <Table 
+      dataSource={Props.Items.filter(item => {
+        // Filtrar por fecha si startDate y endDate no están vacíos
+        if (startDate && endDate) {
+          return item.Date >= new Date(startDate) && item.Date <= new Date(endDate);
+        }
+        return true; // Devuelve todos los elementos si no hay filtro de fecha
+      })}
+      columns={columns}
+      style={tableStyle} 
+    />
+  </>
+);
 }

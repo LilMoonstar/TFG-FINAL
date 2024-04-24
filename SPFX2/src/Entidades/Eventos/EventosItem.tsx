@@ -29,7 +29,12 @@ export class EventosItem {
     this.Requirements = this.ListItem.EV_requirements;
     this.Description = this.ListItem.EV_description;
     this.Awards = this.ListItem.EV_awards;
-    this.Date = this.ListItem.EV_date;
+    this.Date = new Date(this.ListItem.EV_date);
     this.Composition = this.ListItem.EV_composition;
+  }
+
+  // Método para obtener la fecha como cadena de texto
+  public getDateString(): string {
+    return this.Date.toISOString();
   }
 }
