@@ -99,8 +99,7 @@ export default function EventosWebpart(
       title: "Date",
       dataIndex: "Date",
       render: (date: Date, record: EventosItem) => (
-        <span>{record.getDateString()}</span>
-      ),
+        <span>{record.Date.toLocaleDateString()} {record.Date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>),
     },
     {
       key: "Composition",
