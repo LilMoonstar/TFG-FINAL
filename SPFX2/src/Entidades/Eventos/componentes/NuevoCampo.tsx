@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { ActionButton } from "@fluentui/react";
 import { EventosItem } from "../EventosItem";
 
-const EventosResume: React.FC<{ titlename: string; text: string; info: EventosItem }> = ({ titlename, text, info }) => {
+const NuevoCampo: React.FC<{ titlename: string; text: string; info: EventosItem }> = ({ titlename, text, info }) => {
 
     const infoModal = () => {
         Modal.info({
@@ -38,4 +38,4 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
     );
 };
 
-export default EventosResume;
+export default NuevoCampo;

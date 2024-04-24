@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
 import * as React from "react";
 import { Button, Modal } from 'antd';
 
@@ -47,3 +48,4 @@ const Infinito: React.FC = () => {
 };
 
 export default Infinito;
+/*eslint-enable*/

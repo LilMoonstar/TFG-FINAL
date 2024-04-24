@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
 import * as React from "react";
 import { DatePicker, Button } from 'antd';
 import { Moment } from 'moment';
@@ -35,10 +36,10 @@ const FiltroFecha: React.FC<FiltroFechaProps> = ({ onFilter }) => {
         onChange={handleDateChange}
         style={{ marginRight: 8 }}
       />
-      <Button type="primary" onClick={handleFilter} style={{ marginRight: 8 }}>
+      <Button type="primary" onClick={handleFilter} style={{ marginRight: 8, backgroundColor: "#1B3DB0" , color: "#FFFFFF" }}>
         Filtrar
       </Button>
-      <Button onClick={handleReset}>
+      <Button onClick={handleReset} style={{ backgroundColor: "#1B3DB0" , color: "#FFFFFF" }}>
         Reiniciar
       </Button>
     </div>
@@ -46,3 +47,4 @@ const FiltroFecha: React.FC<FiltroFechaProps> = ({ onFilter }) => {
 };
 
 export default FiltroFecha;
+/*eslint-enable*/

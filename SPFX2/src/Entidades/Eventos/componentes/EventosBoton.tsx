@@ -1,29 +1,44 @@
 import * as React from "react";
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
+import { IconButton, Stack } from "@fluentui/react";
 
 const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, text }) => {
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-    const showModal = () => {
-        setIsModalOpen(true);
+    const info = (): void => {
+        Modal.info({
+            title: titlename,
+            content: (
+                <div>
+                    <div style={{ whiteSpace: "pre-line", margin: "20px" }}>{text}</div>
+                </div>
+            ),
+            onOk() { },
+        });
     };
 
-    const handleOk = () => {
-        setIsModalOpen(false);
+    const getIconName = (titlename: string) => {
+        switch (titlename) {
+            case "Condiciones":
+                return "IssueTracking";
+            case "Descripcion":
+                return "KnowledgeArticle";
+            case "Premios":
+                return "Trophy";
+            default:
+                return "ComplianceAudit";
+        }
     };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
-                {titlename}
-            </Button>
-            <Modal title={titlename} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <div style={{ whiteSpace: "pre-line" }}>{text}</div>
-            </Modal>
+            <Stack horizontal disableShrink>
+                <IconButton
+                    onClick={info}
+                    iconProps={{ iconName: getIconName(titlename) }}
+                    styles={{ root: { backgroundColor: "#FFFFFF", color: "#1B3DB0" } }}
+                />
+            </Stack>
         </>
     );
 };

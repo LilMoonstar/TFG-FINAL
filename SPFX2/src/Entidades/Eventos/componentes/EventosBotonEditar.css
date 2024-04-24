@@ -1,0 +1,15 @@
+.custom-multiline-1 {
+    height: calc(1.5em * 6);
+    overflow-y: auto; 
+  }
+  
+  .custom-multiline-2 {
+    height: calc(1.5em * 4);
+    overflow-y: auto;
+  }
+  
+  .custom-multiline-3 {
+    height: calc(1.5em * 7);
+    overflow-y: auto;
+  }
+  

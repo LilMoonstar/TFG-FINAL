@@ -1,8 +1,8 @@
 {
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
-    "isCreatingSolution": true,
-    "nodeVersion": "14.19.3",
+    "isCreatingSolution": false,
+    "nodeVersion": "16.13.2",
     "sdksVersions": {
       "@microsoft/microsoft-graph-client": "3.0.2",
       "@microsoft/teams-js": "2.4.1"

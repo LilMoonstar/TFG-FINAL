@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { Table, TableColumnsType } from "antd";
@@ -7,9 +8,12 @@ import EventosResume from "./EventosResume";
 import FiltroJuego from "./Filtros/FiltroBusqueda";
 import EventosJuego, { JuegoFiltro } from "./EventosJuego";
 import FiltroFecha from "./Filtros/FiltroFecha";
+import EventosBotonEditar from "./EventosBotonEditar";
+import NuevoCampo from "./NuevoCampo";
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
+  callback: () => Promise<void>
 }
 
 export default function EventosWebpart(
@@ -25,6 +29,16 @@ export default function EventosWebpart(
   };
 
   const columns:TableColumnsType<EventosItem> = [
+    {
+      key: "EDIT",
+      title: "EDIT",
+      dataIndex: "EDIT",
+      render: (text: string, record: EventosItem) => (
+        <div>
+           <EventosBotonEditar item={record} callback={Props.callback}/>
+        </div>
+      )
+    },
     {
       key: "Resume",
       title: "Resume",
@@ -116,6 +130,7 @@ export default function EventosWebpart(
   return (
     <>
     <FiltroFecha onFilter={handleFilter} />
+    <NuevoCampo titlename={""} text={""} info={undefined} />
     <Table 
       dataSource={Props.Items.filter(item => {
         // Filtrar por fecha si startDate y endDate no están vacíos
@@ -130,3 +145,4 @@ export default function EventosWebpart(
   </>
 );
 }
+/*eslint-enable*/

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
 import * as React from "react";
 import { Button, Modal } from 'antd';
 
@@ -57,3 +58,4 @@ const Troll: React.FC = () => {
 };
 
 export default Troll;
+/*eslint-enable*/

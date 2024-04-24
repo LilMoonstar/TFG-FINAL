@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
+ 
 import { Spinner } from "@fluentui/react";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPFI } from "@pnp/sp";
@@ -17,6 +19,16 @@ export default function EventoWebpart(
   const [cargando, setCargando] = React.useState(true);
   const [Items, setItems] = React.useState([]);
   const lista = React.useRef<EventosLista>(null);
+
+const recargaDatos = async () => {
+
+  await lista.current.CargarTodos().then((i) => {
+    console.log(i);
+    setItems(i);
+  });
+  console.log(Items);
+
+}
 
   React.useEffect(() => {
     lista.current = new EventosLista(props.SP.web, props.WebPartContext);
@@ -38,7 +50,7 @@ export default function EventoWebpart(
       </div>
       <div hidden={cargando}>
         <h1>Mis Eventos</h1>
-        <EventosTabla Items={Items} />
+        <EventosTabla Items={Items} callback={recargaDatos} />
       </div>
     </>
   );

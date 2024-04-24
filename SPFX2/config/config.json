@@ -9,11 +9,20 @@
           "manifest": "./src/webparts/gestorEventos/GestorEventosWebPart.manifest.json"
         }
       ]
+    },
+    "perfiles-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/perfiles/PerfilesWebPart.js",
+          "manifest": "./src/webparts/perfiles/PerfilesWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "GestorEventosWebPartStrings": "src/loc/{locale}.js",
-    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "PerfilesWebPartStrings": "lib/webparts/perfiles/loc/{locale}.js"
   }
 }
