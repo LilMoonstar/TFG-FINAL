@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Modal } from "antd";
-import { Dropdown, IDropdownOption, IStackStyles, IStackTokens, IconButton, Spinner, Stack, TextField } from "@fluentui/react";
+import { IDropdownOption, IStackStyles, IStackTokens, IconButton, Stack } from "@fluentui/react";
 import { useEffect, useState } from "react";
 import { EventosItem } from "../EventosItem";
 import './EventosBotonEditar.css';
+import EventosForm from "./EventosForm";
 
 const stackStyles: IStackStyles = {
     root: {
@@ -63,62 +63,18 @@ export default function EventosBotonEditar(props: IEventosBotonEditarProps): JSX
                     iconProps={{ iconName: "Edit" }}
                     style={{ backgroundColor: "#FFFFFF", color: "#1B3DB0" }}
                 />
-                <Modal title="Características" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                    <Stack hidden={!guardando}>
-                        <Spinner label="Guardando..." />
-                    </Stack>
-                    <Stack hidden={guardando}>
-                        <TextField
-                            label="Nombre"
-                            value={itemEdit && itemEdit.Nombre}
-                            onChange={(e, newValue) => { setItemEdit({ ...itemEdit, Nombre: newValue } as EventosItem) }}
-                        />
-                        <Dropdown
-                            label="Game"
-                            selectedKey={itemEdit && itemEdit.Game}
-                            options={opcionesGame}
-                            onChange={(e, item) => {
-                                let composition;
-                                switch (item.text) {
-                                    case "LEAGUE OF LEGENDS":
-                                        composition = 5;
-                                        break;
-                                    case "FORTNITE":
-                                        composition = 4;
-                                        break;
-                                    default:
-                                        composition = itemEdit.Composition;
-                                        break;
-                                }
-                                setItemEdit({ ...itemEdit, Game: item.text, Composition: composition } as EventosItem);
-                            }}
-                        />
-                        <TextField
-                            label="Requirements"
-                            multiline
-                            autoAdjustHeight
-                            className="custom-multiline-1"
-                            value={itemEdit && itemEdit.Requirements}
-                            onChange={(e, newValue) => { setItemEdit({ ...itemEdit, Requirements: newValue } as EventosItem) }}
-                        />
-                        <TextField
-                            label="Description"
-                            multiline
-                            autoAdjustHeight
-                            className="custom-multiline-2"
-                            value={itemEdit && itemEdit.Description}
-                            onChange={(e, newValue) => { setItemEdit({ ...itemEdit, Description: newValue } as EventosItem) }}
-                        />
-                        <TextField
-                            label="Awards"
-                            multiline
-                            autoAdjustHeight
-                            className="custom-multiline-3"
-                            value={itemEdit && itemEdit.Awards}
-                            onChange={(e, newValue) => { setItemEdit({ ...itemEdit, Awards: newValue } as EventosItem) }}
-                        />
-                    </Stack>
-                </Modal>
+                <EventosForm
+                    title="Título"
+                    isModalOpen={isModalOpen}
+                    itemEdit={itemEdit}
+                    guardando={guardando}
+                    opcionesGame={opcionesGame}
+                    showModal={showModal}
+                    handleOk={handleOk}
+                    handleCancel={handleCancel}
+                    setItemEdit={setItemEdit}
+                />
+
             </Stack >
         </>
     );

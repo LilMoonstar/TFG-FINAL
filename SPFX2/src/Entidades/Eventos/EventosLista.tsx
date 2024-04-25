@@ -7,6 +7,14 @@ import "@pnp/sp/presets/all";
 import "@pnp/sp/lists";
  
 export class EventosLista {
+  HandleSPError: any;
+
+  getNewItem() {
+    const nuevo = new EventosItem(null, this);
+    nuevo.ID = null;
+    return nuevo;
+  }
+
   public NombreLista = "Eventos";
   public SelectAllFields: string[] = [
     "*",
@@ -22,6 +30,8 @@ export class EventosLista {
     this.List = this.web.lists.getByTitle(this.NombreLista);
   }
  
+
+
   public async CargarTodos(BatchedWeb?: IWeb): Promise<EventosItem[]> {
     const Items = this.List.items
       .expand(this.ExpandAllFields.join())

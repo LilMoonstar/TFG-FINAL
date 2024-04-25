@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable @typescript-eslint/no-explicit-any, dot-notation*/
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { Table, TableColumnsType } from "antd";
@@ -9,7 +9,10 @@ import FiltroJuego from "./Filtros/FiltroBusqueda";
 import EventosJuego, { JuegoFiltro } from "./EventosJuego";
 import FiltroFecha from "./Filtros/FiltroFecha";
 import EventosBotonEditar from "./EventosBotonEditar";
-import NuevoCampo from "./NuevoCampo";
+
+
+
+// "Reload" tras editar
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
@@ -20,6 +23,8 @@ export default function EventosWebpart(
   Props: IEventoWebpartProps
 ): JSX.Element {
 
+  // Filtro de fecha
+
   const [startDate, setStartDate] = React.useState<string>('');
   const [endDate, setEndDate] = React.useState<string>('');
 
@@ -28,14 +33,16 @@ export default function EventosWebpart(
     setEndDate(endDate);
   };
 
-  const columns:TableColumnsType<EventosItem> = [
+  // Filtro edición
+
+  const columns: TableColumnsType<EventosItem> = [
     {
       key: "EDIT",
       title: "EDIT",
       dataIndex: "EDIT",
       render: (text: string, record: EventosItem) => (
         <div>
-           <EventosBotonEditar item={record} callback={Props.callback}/>
+          <EventosBotonEditar item={record} callback={Props.callback} />
         </div>
       )
     },
@@ -45,7 +52,7 @@ export default function EventosWebpart(
       dataIndex: "Resume",
       render: (text: string, record: EventosItem) => (
         <div>
-           <EventosResume titlename="Resume" text={text} info={record} />
+          <EventosResume titlename="Resume" text={text} info={record} />
         </div>
       )
     },
@@ -53,7 +60,7 @@ export default function EventosWebpart(
       key: "Nombre",
       title: "Nombre",
       dataIndex: "Nombre",
-      filterDropdown: FiltroJuego, 
+      filterDropdown: FiltroJuego,
       filterIcon: (filtered: boolean) => (
         <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
       ),
@@ -113,7 +120,7 @@ export default function EventosWebpart(
       title: "Date",
       dataIndex: "Date",
       render: (date: Date, record: EventosItem) => (
-        <span>{record.Date.toLocaleDateString()} {record.Date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>),
+        <span>{record.Date.toLocaleDateString()} {record.Date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>),
     },
     {
       key: "Composition",
@@ -122,27 +129,30 @@ export default function EventosWebpart(
     },
   ];
 
+  // CSS
+
   const tableStyle = {
     margin: 'auto',
     width: 'fit-content'
   };
 
+
   return (
     <>
-    <FiltroFecha onFilter={handleFilter} />
-    <NuevoCampo titlename={""} text={""} info={undefined} />
-    <Table 
-      dataSource={Props.Items.filter(item => {
-        // Filtrar por fecha si startDate y endDate no están vacíos
-        if (startDate && endDate) {
-          return item.Date >= new Date(startDate) && item.Date <= new Date(endDate);
-        }
-        return true; // Devuelve todos los elementos si no hay filtro de fecha
-      })}
-      columns={columns}
-      style={tableStyle} 
-    />
-  </>
-);
+      <FiltroFecha onFilter={handleFilter} />
+      
+      <Table
+        dataSource={Props.Items.filter(item => {
+          // Filtrar por fecha si startDate y endDate no están vacíos
+          if (startDate && endDate) {
+            return item.Date >= new Date(startDate) && item.Date <= new Date(endDate);
+          }
+          return true; // Devuelve todos los elementos si no hay filtro de fecha
+        })}
+        columns={columns}
+        style={tableStyle}
+      />
+    </>
+  );
 }
 /*eslint-enable*/

@@ -6,6 +6,7 @@ import { SPFI } from "@pnp/sp";
 import * as React from "react";
 import { EventosLista } from "../../../Entidades/Eventos/EventosLista";
 import EventosTabla from "../../../Entidades/Eventos/componentes/EventosTabla";
+import EventosBotonNuevo from "../../../Entidades/Eventos/componentes/EventosCrear";
 
 
 export interface IEventoWebpartProps {
@@ -50,6 +51,7 @@ const recargaDatos = async () => {
       </div>
       <div hidden={cargando}>
         <h1>Mis Eventos</h1>
+        <EventosBotonNuevo lista={lista.current} callback={recargaDatos}/>
         <EventosTabla Items={Items} callback={recargaDatos} />
       </div>
     </>
