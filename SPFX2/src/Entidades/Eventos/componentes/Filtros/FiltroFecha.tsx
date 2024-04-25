@@ -36,10 +36,10 @@ const FiltroFecha: React.FC<FiltroFechaProps> = ({ onFilter }) => {
         onChange={handleDateChange}
         style={{ marginRight: 8 }}
       />
-      <Button type="primary" onClick={handleFilter} style={{ marginRight: 8, backgroundColor: "#1B3DB0" , color: "#FFFFFF" }}>
+      <Button type="primary" onClick={handleFilter} style={{ marginRight: 8, backgroundColor: "#1b4586" , color: "#FFFFFF" }}>
         Filtrar
       </Button>
-      <Button onClick={handleReset} style={{ backgroundColor: "#1B3DB0" , color: "#FFFFFF" }}>
+      <Button onClick={handleReset} style={{ backgroundColor: "#1b4586" , color: "#FFFFFF" }}>
         Reiniciar
       </Button>
     </div>

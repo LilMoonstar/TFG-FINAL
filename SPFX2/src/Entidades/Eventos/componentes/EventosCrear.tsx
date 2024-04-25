@@ -55,6 +55,7 @@ export default function EventosBotonNuevo(Props: IEventosBotonNuevoProps):JSX.El
             setItemEdit(nuevoparaForm);
             setIsModalOpen(true);
           }}
+          style={{ backgroundColor: "#1b4586", color: "#FFFFFF" }}
         />
       {nuevoEvento &&
          <EventosForm

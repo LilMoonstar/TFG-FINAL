@@ -136,7 +136,6 @@ export default function EventosWebpart(
     width: 'fit-content'
   };
 
-
   return (
     <>
       <FiltroFecha onFilter={handleFilter} />

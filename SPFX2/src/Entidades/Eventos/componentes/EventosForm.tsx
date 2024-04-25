@@ -2,6 +2,9 @@ import * as React from "react";
 import { TextField, Dropdown, IDropdownOption, Spinner, Stack } from "@fluentui/react";
 import { EventosItem } from "../EventosItem";
 import { Modal } from "antd";
+import { DateTimePicker } from "@pnp/spfx-controls-react";
+import { StackItem } from "office-ui-fabric-react";
+
 
 export interface IEventosFormProps {
     title: string;
@@ -68,6 +71,23 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
                     value={props.itemEdit && props.itemEdit.Awards}
                     onChange={(e, newValue) => { props.setItemEdit({ ...props.itemEdit!, Awards: newValue } as EventosItem) }}
                 />
+                <StackItem>
+                    <DateTimePicker
+                        showLabels={false}
+                        formatDate={(Date) => {
+                            if (Date === null) return null;
+                            return Date.toLocaleDateString();
+                        }}
+                        onChange={(Date) => {
+                            props.setItemEdit({
+                                ...props.itemEdit,
+                                Date: Date,
+                            } as EventosItem);
+                        }}
+                        allowTextInput={true}
+                        showClearDate={true}
+                    />
+                </StackItem>
             </Stack>
         </Modal>
     );

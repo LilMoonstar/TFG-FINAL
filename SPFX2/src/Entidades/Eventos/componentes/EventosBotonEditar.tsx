@@ -61,7 +61,7 @@ export default function EventosBotonEditar(props: IEventosBotonEditarProps): JSX
                 <IconButton
                     onClick={showModal}
                     iconProps={{ iconName: "Edit" }}
-                    style={{ backgroundColor: "#FFFFFF", color: "#1B3DB0" }}
+                    style={{ backgroundColor: "#FFFFFF", color: "#1b4586" }}
                 />
                 <EventosForm
                     title="Título"

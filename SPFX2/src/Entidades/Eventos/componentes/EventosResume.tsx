@@ -20,7 +20,7 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
                     <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Composition:</strong> {info.Composition}</p>
                 </div>
             ),
-            width: 800,
+            width: 1200,
             onOk() { },
         });
     };
@@ -30,11 +30,12 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
             <ActionButton
                 type="info"
                 onClick={infoModal}
-                style={{ backgroundColor: "#1B3DB0", color: "#FFFFFF" }}
+                style={{ backgroundColor: "#1b4586", color: "#FFFFFF" }}
             >
                 {titlename}
             </ActionButton>
         </>
+        
     );
 };
 

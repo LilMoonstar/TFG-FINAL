@@ -36,7 +36,7 @@ const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, te
                 <IconButton
                     onClick={info}
                     iconProps={{ iconName: getIconName(titlename) }}
-                    styles={{ root: { backgroundColor: "#FFFFFF", color: "#1B3DB0" } }}
+                    styles={{ root: { backgroundColor: "#FFFFFF", color: "#1b4586" } }}
                 />
             </Stack>
         </>
