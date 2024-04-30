@@ -71,6 +71,7 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
                     value={props.itemEdit && props.itemEdit.Awards}
                     onChange={(e, newValue) => { props.setItemEdit({ ...props.itemEdit!, Awards: newValue } as EventosItem) }}
                 />
+                <br />
                 <StackItem>
                     <DateTimePicker
                         showLabels={false}

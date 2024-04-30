@@ -9,7 +9,7 @@ export class EventosItem {
   public Lista: EventosLista;
   public ItemEdit: EventosItem | undefined;
 
-
+  public DELETE: string;
   public EDIT: string;
   public Resume: string;
   public Nombre: string;
@@ -30,6 +30,7 @@ export class EventosItem {
   }
 
   private MapearCampos(): void {
+    this.DELETE = this.ListItem.EV_delete;
     this.EDIT = this.ListItem.EV_edit;
     this.Resume = this.ListItem.EV_resume;
     this.Nombre = this.ListItem.Title;
@@ -69,6 +70,26 @@ export class EventosItem {
     }
   }
 
+  // Método para borrar un elemento en la lista
+
+  public async borrarItem(): Promise<boolean> {
+    try {
+      // Verifica si el elemento tiene un ID válido
+      if (this.ID) {
+        // Elimina el elemento de la lista por su ID
+        await this.Lista.List.items.getById(this.ID).delete();
+        console.log("Item deleted");
+        return true;
+      } else {
+        console.error("El elemento no tiene un ID válido");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error al borrar el elemento:", error);
+      return false;
+    }
+  }
+  
   // Actualizar
 
   public async updateItem(): Promise<boolean> {

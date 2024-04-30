@@ -9,6 +9,7 @@ import FiltroJuego from "./Filtros/FiltroBusqueda";
 import EventosJuego, { JuegoFiltro } from "./EventosJuego";
 import FiltroFecha from "./Filtros/FiltroFecha";
 import EventosBotonEditar from "./EventosBotonEditar";
+import EventosBorrar from "./EventosBorrar";
 
 
 
@@ -46,6 +47,20 @@ export default function EventosWebpart(
         </div>
       )
     },
+
+    // Filtro Borrado
+
+    {
+      key: "DELETE",
+      title: "DELETE",
+      dataIndex: "DELETE",
+      render: (text: string, record: EventosItem) => (
+        <div>
+          <EventosBorrar item={record} onDelete={Props.callback} />
+        </div>
+      )
+    },
+    
     {
       key: "Resume",
       title: "Resume",
@@ -139,7 +154,7 @@ export default function EventosWebpart(
   return (
     <>
       <FiltroFecha onFilter={handleFilter} />
-      
+
       <Table
         dataSource={Props.Items.filter(item => {
           // Filtrar por fecha si startDate y endDate no están vacíos
