@@ -35,7 +35,7 @@ export default function EventosJuego(Props: juegoParaTablaProps): JSX.Element {
   return (
     <>
       <Tag style={{ color: txtcolor, backgroundColor: color, fontWeight: 'bold' }} key={Props.juego}>
-        {Props.juego.toUpperCase()}
+        {Props.juego?.toUpperCase()}
       </Tag>
     </>
   );
