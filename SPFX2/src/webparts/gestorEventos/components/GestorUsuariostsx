@@ -4,10 +4,6 @@ import { Spinner } from "@fluentui/react";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPFI } from "@pnp/sp";
 import * as React from "react";
-import { EventosLista } from "../../../Entidades/Eventos/EventosLista";
-import EventosTabla from "../../../Entidades/Eventos/componentes/EventosTabla";
-import EventosBotonNuevo from "../../../Entidades/Eventos/componentes/EventosCrear";
-import UsuariosCajita from "../../../Entidades/Usuarios/Componentes/UsuariosCajita";
 
 
 export interface IEventoWebpartProps {
@@ -20,7 +16,7 @@ export default function EventoWebpart(
 ): JSX.Element {
   const [cargando, setCargando] = React.useState(true);
   const [Items, setItems] = React.useState([]);
-  const lista = React.useRef<EventosLista>(null);
+  const lista = React.useRef<UsuariosLista>(null);
 
 const recargaDatos = async () => {
 
@@ -33,12 +29,12 @@ const recargaDatos = async () => {
 }
 
   React.useEffect(() => {
-    lista.current = new EventosLista(props.SP.web, props.WebPartContext);
+    lista.current = new UsuariosLista(props.SP.web, props.WebPartContext);
     lista.current.CargarTodos().then((i) => {
       console.log(i);
       setItems(i);
     });
-    console.log(props.WebPartContext.pageContext.user.email);
+    console.log(Items);
     setTimeout(() => {
       setCargando(false);
       if (!cargando) console.log("Cargado");
@@ -50,19 +46,11 @@ const recargaDatos = async () => {
       <div>
         <Spinner hidden={!cargando} />
       </div>
-
-      <div>
-        <UsuariosCajita email={""} title={""} />
-      </div>
-
-    <br />
-    <br />
-
       <div hidden={cargando}>
-        <h1>Mis Eventos</h1>
+        <h1>Mis Usuarios</h1>
         
-        <EventosBotonNuevo lista={lista.current} callback={recargaDatos}/>
-        <EventosTabla Items={Items} callback={recargaDatos} />
+        <UsuariosBotonNuevo lista={lista.current} callback={recargaDatos}/>
+        <UsuariosTabla Items={Items} callback={recargaDatos} />
       </div>
     </>
   );

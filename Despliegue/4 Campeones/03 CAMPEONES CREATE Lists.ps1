@@ -1,7 +1,7 @@
 # Creación de la lista
-$listTitle = "Usuarios"
-$listDescription = "Lista Usuarios"
-$listTemplate = [Microsoft.SharePoint.Client.ListTemplateType]::GenericList
+$listTitle = "Campeones"
+$listDescription = "Biblioteca de Campeones"
+$listTemplate = [Microsoft.SharePoint.Client.ListTemplateType]::DocumentLibrary
 
 $lci = New-Object Microsoft.SharePoint.Client.ListCreationInformation
 $lci.title = $listTitle
@@ -26,7 +26,7 @@ $list.Update()
 $context.ExecuteQuery()
 
 # Añadir tipo de contenido existente a la lista
-$tipodecontenido = "THISUsuarios"
+$tipodecontenido = "THISCampeones"
 $contentTypes = $context.web.ContentTypes
 
 $context.Load($contentTypes)
@@ -46,15 +46,14 @@ if ($contentType -ne $null) {
     # Eliminar tipos de contenido no deseados
     $tiposBorrar = @()
 
-    foreach ($tipoenlista in $list.ContentTypes) {
-        if ($tipoenlista.Name -eq "Elemento") {
-            $tiposBorrar += $tipoenlista
-        }
-    }
-
-    foreach ($tipoBorrar in $tiposBorrar) {
-        $tipoBorrar.DeleteObject()
-    }
+                foreach ($tipoenlista in $list.ContentTypes) {
+                     if ($tipoenlista.Name -eq "Documento") {
+                       $tiposBorrar += $tipoenlista
+                 }
+           }
+         foreach ($tipoBorrar in $tiposBorrar) {
+           $tipoBorrar.DeleteObject()
+     }
 
     $context.ExecuteQuery()
 
@@ -65,7 +64,7 @@ if ($contentType -ne $null) {
     $context.Load($views)
     $context.ExecuteQuery()
 
-    $vista = $views | Where-Object {$_.Title -eq "Todos los elementos"}
+    $vista = $views | Where-Object {$_.Title -eq "Todos los documentos"}
 
     if ($vista) {
         $viewFields = $vista.ViewFields
@@ -73,12 +72,6 @@ if ($contentType -ne $null) {
         $context.ExecuteQuery()
 
             $viewFields.Add("ID")
-            $viewFields.Add("US_User")
-            $viewFields.Add("US_UsernameLOL")
-            $viewFields.Add("US_UsernameFOR")
-            $viewFields.Add("US_Role")
-            $viewFields.Add("US_Platform")
-            $viewFields.Add("US_Controls")
 
         $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"
         $vista.Update()
@@ -92,3 +85,24 @@ if ($contentType -ne $null) {
 } else {
     Write-Host "ERROR: Content type $tipodecontenido not found" -ForegroundColor Red
 }
+
+
+$fields = $web.Fields;
+$context.Load($fields);
+$context.ExecuteQuery();
+$list.ID
+write-host "|--- Lookup Activo";
+$fieldxml= '<Field ID="{d9005e7c-c300-41b2-abf1-ac0d3c23f4a3}" 
+                Name="CH_Campeones"
+                DisplayName="LookupCampeon" 
+                Type="LookupMulti"
+                List="'+$list.ID+'"
+                ShowField="Title"
+                Group="Lookups" 
+                xmlns="http://schemas.microsoft.com/sharepoint/">
+                MULT = "true"
+                </Field>';
+
+$field = $fields.AddFieldAsXml($fieldxml, $true, [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue); 
+$context.Load($field);
+$context.ExecuteQuery();

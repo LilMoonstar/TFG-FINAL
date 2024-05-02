@@ -1,17 +1,20 @@
+$fieldsArray = @();
 $fields = $web.Fields;
 $context.Load($fields);
 $context.ExecuteQuery();
-$fieldsArray = @();
 
-$fieldsArray += '<Field ID="28afedf9-7eb3-450f-853d-5857bacf3088" 
+#[guid]::NewGuid()
+
+$fieldsArray += '<Field ID="cab5099a-4359-4a96-8f06-3a078e93bad7" 
                 Name="US_User"
                 DisplayName="User" 
                 Type="Note"
-                Group="Usuarios" 
+                Group="Usuarios"
+                Required="TRUE"
                 xmlns="http://schemas.microsoft.com/sharepoint/">
                 </Field>';
 
-$fieldsArray += '<Field ID="28afedf9-7eb3-450f-853d-5857bacf3088" 
+$fieldsArray += '<Field ID="b7dc77a4-8cde-4fe2-9c41-eb2a14ddae8c" 
                 Name="US_UsernameLOL"
                 DisplayName="Nickname" 
                 Type="Note"
@@ -19,7 +22,7 @@ $fieldsArray += '<Field ID="28afedf9-7eb3-450f-853d-5857bacf3088"
                 xmlns="http://schemas.microsoft.com/sharepoint/">
                 </Field>';
                 
-$fieldsArray += '<Field ID="28afedf9-7eb3-450f-853d-5857bacf3088" 
+$fieldsArray += '<Field ID="3a75ae9f-3195-437a-9218-1cdbb2ba592b" 
                 Name="US_UsernameFOR"
                 DisplayName="Nickname" 
                 Type="Note"
@@ -27,11 +30,10 @@ $fieldsArray += '<Field ID="28afedf9-7eb3-450f-853d-5857bacf3088"
                 xmlns="http://schemas.microsoft.com/sharepoint/">
                 </Field>';
 
-$fieldsArray += '<Field ID="5a2335ef-d6e1-4b79-8c91-1fb040fe7f82" 
+$fieldsArray += '<Field ID="102598e3-bfb4-429c-bcc7-2104661d8dd6" 
                 Name="US_Role"
                 DisplayName="Role" 
                 Type="Choice"
-                Required="TRUE"
                 Group="Usuarios" 
                 xmlns="http://schemas.microsoft.com/sharepoint/">
                 <CHOICES>
@@ -43,20 +45,28 @@ $fieldsArray += '<Field ID="5a2335ef-d6e1-4b79-8c91-1fb040fe7f82"
                 </CHOICES>
                 </Field>';
 
-
-$fieldsArray += '<Field ID="5a2335ef-d6e1-4b79-8c91-1fb040fe7f82" 
-                Name="US_Champs"
-                DisplayName="Role" 
+$fieldsArray += '<Field ID="94ebb0f9-9fc0-479e-9a75-0997cbc961d0" 
+                Name="US_Platform"
+                DisplayName="Platform" 
                 Type="Choice"
-                Required="TRUE"
                 Group="Usuarios" 
                 xmlns="http://schemas.microsoft.com/sharepoint/">
                 <CHOICES>
-                       <CHOICE>TOP</CHOICE>
-                       <CHOICE>JNG</CHOICE>
-                       <CHOICE>MID</CHOICE>
-                       <CHOICE>ADC</CHOICE>
-                       <CHOICE>SUPP</CHOICE>
+                       <CHOICE>PS</CHOICE>
+                       <CHOICE>XBox</CHOICE>
+                       <CHOICE>PC</CHOICE>
+                </CHOICES>
+                </Field>';
+                
+$fieldsArray += '<Field ID="b2afd98d-37b3-4767-af00-ba5580f4dd5d" 
+                Name="US_Controls"
+                DisplayName="Controls" 
+                Type="Choice"
+                Group="Usuarios" 
+                xmlns="http://schemas.microsoft.com/sharepoint/">
+                <CHOICES>
+                       <CHOICE>Keyboard + Mouse</CHOICE>
+                       <CHOICE>Wireless Controler</CHOICE>
                 </CHOICES>
                 </Field>';
 

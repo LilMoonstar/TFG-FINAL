@@ -7,7 +7,7 @@
 
         $context.ExecuteQuery();
 
-        $columns = "US_User","US_UsernameLOL","US_UsernameFOR","US_Role","US_Platform","US_Controls"
+        $columns ="CH_Campeones"
 
         foreach($column in $columns) {
 

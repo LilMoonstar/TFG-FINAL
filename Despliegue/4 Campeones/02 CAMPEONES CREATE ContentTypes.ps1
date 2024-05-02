@@ -1,13 +1,13 @@
 # Definir el nombre del grupo y del tipo de contenido
-$contentTypeGroup = "Usuarios"
-$contentTypeName = "THISUsuarios"
+$contentTypeGroup = "Campeones"
+$contentTypeName = "THISCampeones"
 
 # Añadir los nombres internos de las columnas que compondrán el tipo de contenido
-$columns = "US_User","US_UsernameLOL","US_UsernameFOR","US_Role","CH_Campeones","US_Platform","US_Controls"
+$columns = @()
 
 
 # ID del tipo de contenido padre
-$parentContentTypeID = "0x01"
+$parentContentTypeID = "0x0101"
 
 # Cargar campos y tipos de contenido
 $fields = $context.web.fields
@@ -32,7 +32,7 @@ foreach ($ct in $contentTypes) {
         break
     }
 }
-$newContentType = $null
+
 if (-not $contentTypeExists) {
     # Cargar el tipo de contenido padre
     $parentContentType = $contentTypes.GetByID($parentContentTypeID)
