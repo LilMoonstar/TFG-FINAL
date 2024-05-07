@@ -2,7 +2,6 @@ import * as React from "react";
 import { IDropdownOption, IStackStyles, IStackTokens, IconButton, Stack } from "@fluentui/react";
 import { useEffect, useState } from "react";
 import { EventosItem } from "../EventosItem";
-import './EventosBotonEditar.css';
 import EventosForm from "./EventosForm";
 
 const stackStyles: IStackStyles = {
@@ -78,4 +77,4 @@ export default function EventosBotonEditar(props: IEventosBotonEditarProps): JSX
             </Stack >
         </>
     );
-};
+}

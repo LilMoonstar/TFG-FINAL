@@ -32,18 +32,31 @@ const recargaDatos = async () => {
 
 }
 
-  React.useEffect(() => {
-    lista.current = new EventosLista(props.SP.web, props.WebPartContext);
-    lista.current.CargarTodos().then((i) => {
-      console.log(i);
-      setItems(i);
+React.useEffect(() => {
+  lista.current = new EventosLista(props.SP.web, props.WebPartContext);
+  let isCancelled = false; // Variable para asegurarse de que las acciones dentro de setTimeout no se realicen después de que el componente sea desmontado
+
+  lista.current.CargarTodos()
+    .then((i) => {
+      if (!isCancelled) {
+        console.log(i);
+        setItems(i);
+        setTimeout(() => {
+          setCargando(false);
+          console.log("Cargado");
+        }, 2000);
+      }
+    })
+    .catch((error) => {
+      console.error('Error al cargar los eventos:', error);
+      // Manejar el error aquí
     });
-    console.log(props.WebPartContext.pageContext.user.email);
-    setTimeout(() => {
-      setCargando(false);
-      if (!cargando) console.log("Cargado");
-    }, 2000);
-  }, []);
+
+  // Función para limpiar la variable isCancelled cuando el componente se desmonta
+  return () => {
+    isCancelled = true;
+  };
+}, []);
 
   return (
     <>
@@ -52,7 +65,10 @@ const recargaDatos = async () => {
       </div>
 
       <div>
-        <UsuariosCajita email={""} title={""} />
+      <div>
+        <UsuariosCajita title="" context={props.WebPartContext} email={""} />
+      </div>
+
       </div>
 
     <br />
