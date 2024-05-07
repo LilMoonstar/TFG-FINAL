@@ -17,8 +17,8 @@ export class UsuariosItem {
   public User: ComasisUser;
   public NicknameLol: string;
   public NicknameFortnite: string;
-  public Role: string;
-  public Platform: string;
+  public Role: string | null; // Puede permitir valores nulos
+  public Platform: string| null; // Puede permitir valores nulos
   public Controls: string;
 
   constructor(ListItem: any, Lista: UsuariosLista) {
@@ -33,8 +33,8 @@ export class UsuariosItem {
     this.User = this.ListItem.US_User;
     this.NicknameLol = this.ListItem.US_UsernameLOL;
     this.NicknameFortnite = this.ListItem.US_UsernameFOR;
-    this.Role = this.ListItem.US_Role;
-    this.Platform = this.ListItem.US_Platform;
+    this.Role = this.ListItem.US_Role !== null ? this.ListItem.US_Role : null; // Establecer Role como null si US_Role es null
+    this.Platform = this.ListItem.US_Platform !== null ? this.ListItem.US_Platform : null; // Establecer Platform como null si US_Platform es null    
     this.Controls = this.ListItem.US_Controls;
   }
 }

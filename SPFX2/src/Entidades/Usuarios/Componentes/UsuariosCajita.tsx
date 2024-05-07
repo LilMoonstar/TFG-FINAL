@@ -100,12 +100,13 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = ({
         onClose={handleCloseModal}
         PROFGAME={showFortniteModal ? "FORTNITEPROFGAME" : showLolModal ? "LEAGUEPROFGAME" : ""}
         gameusernameF={gameUserNameF}
-        gameusernameL={gameUserNameL} callback={function (): Promise<void> {
+        gameusernameL={gameUserNameL}
+        role={null}
+        platform={null}
+        callback={function (): Promise<void> {
           throw new Error("Function not implemented.");
-        } }      />
-
-
-
+        } }
+      />
     </Stack>
   );
 }

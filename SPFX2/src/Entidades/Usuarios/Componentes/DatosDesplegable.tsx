@@ -10,10 +10,12 @@ interface IDatosDesplegableProps {
   PROFGAME: string;
   gameusernameF: string;
   gameusernameL: string;
+  role: string | null;
+  platform: string| null;
   callback: () => Promise<void>;
 }
 
-const DatosDesplegable: React.FC<IDatosDesplegableProps> = ({ titulo, visible, onClose, PROFGAME, gameusernameF, gameusernameL, callback }) => {
+const DatosDesplegable: React.FC<IDatosDesplegableProps> = ({ titulo, visible, onClose, PROFGAME, gameusernameF, gameusernameL, role, platform, callback }) => {
   const [isGameUserNameModalOpen, setIsGameUserNameModalOpen] = React.useState(false);
   const [newGameUserNameTemp, setNewGameUserNameTemp] = React.useState("");
   const [newGameUserNameF, setNewGameUserNameF] = React.useState(gameusernameF);
@@ -38,19 +40,56 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = ({ titulo, visible, o
     setNewGameUserNameTemp(PROFGAME === "FORTNITEPROFGAME" ? gameusernameF : gameusernameL);
   };
 
-  
+
   return (
     <>
+      {/* MODAL PRINCIPAL */}
+
       <Modal isOpen={visible} onDismiss={onClose}>
         <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
           <Text variant="large">Este es tu perfil de {titulo}</Text>
+
+          {/* Username + edit */}
+
           <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
             <Text variant="medium">Username: @{PROFGAME === "FORTNITEPROFGAME" ? newGameUserNameF : newGameUserNameL}</Text>
             <IconButton iconProps={{ iconName: 'Edit' }} onClick={handleOpenGameUserNameModal} />
           </Stack>
-          <Button onClick={onClose}>Cancelar</Button>
         </Stack>
+
+        {/* Role / Platform */}
+
+        <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
+          {/* Mostrar 'Position' si PROFGAME es 'LEAGUEPROFGAME' */}
+          {PROFGAME === 'LEAGUEPROFGAME' && (
+            <Text variant="medium">Position: {role !== null ? role : "No role assigned yet"}</Text>
+          )}
+          {/* Mostrar 'Platform' si PROFGAME es 'FORTNITEPROFGAME' */}
+          {PROFGAME === 'FORTNITEPROFGAME' && (
+            <Text variant="medium">Platform: {platform !== null ? platform : "No platform assigned yet"}</Text>
+          )}
+        </Stack>
+
+
+        {/* CANCELAR */}
+
+        <Button
+          onClick={onClose}
+          style={{
+            backgroundColor: "rgb(27, 69, 134)",
+            color: "white",
+            width: "100px",
+            margin: "15px",
+            display: "flex",
+            justifyContent: "right",
+          }}
+        >
+          Cancelar
+        </Button>
       </Modal>
+
+
+      {/* Modal EDITAR USERNAME*/}
 
       <Modal isOpen={isGameUserNameModalOpen} onDismiss={handleCancelEdit}>
         <Stack tokens={{ childrenGap: 20 }} style={{ width: '300px', padding: '20px' }}>

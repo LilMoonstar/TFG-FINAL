@@ -16,7 +16,7 @@ $fieldsArray += '<Field ID="cab5099a-4359-4a96-8f06-3a078e93bad7"
 
 $fieldsArray += '<Field ID="b7dc77a4-8cde-4fe2-9c41-eb2a14ddae8c" 
                 Name="US_UsernameLOL"
-                DisplayName="Nickname" 
+                DisplayName="Nickname LoL" 
                 Type="Note"
                 Group="Usuarios" 
                 xmlns="http://schemas.microsoft.com/sharepoint/">
@@ -24,7 +24,7 @@ $fieldsArray += '<Field ID="b7dc77a4-8cde-4fe2-9c41-eb2a14ddae8c"
                 
 $fieldsArray += '<Field ID="3a75ae9f-3195-437a-9218-1cdbb2ba592b" 
                 Name="US_UsernameFOR"
-                DisplayName="Nickname" 
+                DisplayName="Nickname Fortnite" 
                 Type="Note"
                 Group="Usuarios" 
                 xmlns="http://schemas.microsoft.com/sharepoint/">
