@@ -4,72 +4,85 @@ import { Persona } from "office-ui-fabric-react";
 import Datosdesplegable from './DatosDesplegable';
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import './UsuariosCajita.css';
+import { useState, useEffect } from "react";
+import { UsuariosItem } from '../UsuariosItem';
 
 interface IComasisPersonaProps {
   email: string;
   title: string;
+  NicknameLol: string;
+  NicknameFortnite: string;
   mostrarSiVacio?: boolean;
   mensajeSiVacio?: string;
   size?: number;
   context: WebPartContext;
 }
 
-const ComasisPersona: React.FC<IComasisPersonaProps> = ({
-  email,
-  title,
-  mostrarSiVacio = false,
-  mensajeSiVacio = "",
-  size = 40,
-  context
-}) => {
-  const [showFortniteModal, setShowFortniteModal] = React.useState(false);
-  const [showLolModal, setShowLolModal] = React.useState(false);
+const ComasisPersona: React.FC<IComasisPersonaProps> = (props: IComasisPersonaProps) => {
+
   const [currentUserEmail, setCurrentUserEmail] = React.useState<string>("");
   const [currentUserName, setCurrentUserName] = React.useState<string>("");
-  const [gameUserNameF, setGameUserNameF] = React.useState<string>("NAMEFORTNITE");
-  const [gameUserNameL, setGameUserNameL] = React.useState<string>("NAMELEAGUE");
-  
+  const [Mode, setMode] = useState<"Lol" | "Fornite">("Lol")
+  const [ShowModal, setShowModal] = useState(false)
+  const [usuariosItem, setUsuariosItem] = useState<UsuariosItem | null>(null);
+
+  // Actualizar los estados cuando cambien las props
+  useEffect(() => {
+    setUsuariosItem(new UsuariosItem(null, null));
+  }, [props]);
+
   React.useEffect(() => {
-    const userEmail = context.pageContext.user.email;
+    const userEmail = props.context.pageContext.user.email;
     setCurrentUserEmail(userEmail);
 
-    const userName = context.pageContext.user.displayName;
+    const userName = props.context.pageContext.user.displayName;
     setCurrentUserName(userName);
+  }, [props.context]);
 
-    setGameUserNameL("LOLNAME");
-    setGameUserNameF("FORTNAME");
-  }, [context]);
+  // En ComasisPersona.tsx
+
+// Función para actualizar el nombre de usuario
+const updateUsername = async (newUsername: string): Promise<void> => {
+  const updatedUsuariosItem = usuariosItem;
+  if (Mode === "Lol") {
+    updatedUsuariosItem.setNicknameLol(newUsername);
+  } else {
+    updatedUsuariosItem.setNicknameFortnite(newUsername);
+  }
+  setUsuariosItem(updatedUsuariosItem);
+  return Promise.resolve(); 
+};
+
 
   const handleFortniteButtonClick = () => {
-    setShowFortniteModal(true);
-    setShowLolModal(false);
+    setMode("Fornite")
+    setShowModal(true)
   };
 
   const handleLolButtonClick = () => {
-    setShowLolModal(true);
-    setShowFortniteModal(false);
+    setMode("Lol");
+    setShowModal(true)
   };
 
   const handleCloseModal = () => {
-    setShowFortniteModal(false);
-    setShowLolModal(false);
+    setShowModal(false)
   };
 
   return (
     <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-      {email !== "" ? (
+      {props.email !== "" ? (
         <Persona
           imageShouldFadeIn={false}
-          imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${email}`}
-          text={title}
-          coinSize={size}
+          imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${props.email}`}
+          text={props.title}
+          coinSize={props.size}
         />
-      ) : mostrarSiVacio ? (
+      ) : props.mostrarSiVacio ? (
         <Persona
           showUnknownPersonaCoin={true}
-          coinSize={size}
-          title={mensajeSiVacio}
-          text={mensajeSiVacio}
+          coinSize={props.size}
+          title={props.mensajeSiVacio}
+          text={props.mensajeSiVacio}
         />
       ) : (
         <></>
@@ -80,7 +93,7 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = ({
         <div className="usuario-info">
           <Persona
             imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${currentUserEmail}`}
-            text={title}
+            hidePersonaDetails
           />
           {/* Nombre de usuario */}
           <span>{currentUserName}</span>
@@ -95,17 +108,16 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = ({
 
       {/* Modal desplegable para los juegos */}
       <Datosdesplegable
-        titulo={showFortniteModal ? "Fortnite" : showLolModal ? "League Of Legends" : ""}
-        visible={showFortniteModal || showLolModal}
+        titulo={Mode === "Fornite" ? "Fortnite" : "League Of Legends"}
+        visible={ShowModal}
         onClose={handleCloseModal}
-        PROFGAME={showFortniteModal ? "FORTNITEPROFGAME" : showLolModal ? "LEAGUEPROFGAME" : ""}
-        gameusernameF={gameUserNameF}
-        gameusernameL={gameUserNameL}
-        role={null}
-        platform={null}
-        callback={function (): Promise<void> {
-          throw new Error("Function not implemented.");
-        } }
+        PROFGAME={Mode === "Fornite" ? "FORTNITEPROFGAME" : "LEAGUEPROFGAME"}
+        gameusernameF={usuariosItem ? usuariosItem.NicknameFortnite : ""}
+        gameusernameL={usuariosItem ? usuariosItem.NicknameLol : ""}
+        role={usuariosItem ? usuariosItem.Role : null}
+        platform={usuariosItem ? usuariosItem.Platform : null}
+        controls={usuariosItem ? usuariosItem.Controls : null}
+        callback={updateUsername} // Pasar la función de actualización como callback
       />
     </Stack>
   );

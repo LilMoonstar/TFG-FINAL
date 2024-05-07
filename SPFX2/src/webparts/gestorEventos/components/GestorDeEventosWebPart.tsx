@@ -66,7 +66,7 @@ React.useEffect(() => {
 
       <div>
       <div>
-        <UsuariosCajita title="" context={props.WebPartContext} email={""} />
+        <UsuariosCajita title="" context={props.WebPartContext} email={""} NicknameLol={""} NicknameFortnite={""} />
       </div>
 
       </div>

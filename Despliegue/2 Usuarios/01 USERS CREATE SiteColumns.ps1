@@ -8,7 +8,7 @@ $context.ExecuteQuery();
 $fieldsArray += '<Field ID="cab5099a-4359-4a96-8f06-3a078e93bad7" 
                 Name="US_User"
                 DisplayName="User" 
-                Type="Note"
+                Type="User"
                 Group="Usuarios"
                 Required="TRUE"
                 xmlns="http://schemas.microsoft.com/sharepoint/">

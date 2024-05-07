@@ -16,10 +16,9 @@
   }
   
   .botones {
-    margin-top: 15px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
   }
 
   #botonFortnite {
@@ -30,6 +29,7 @@
     width: 50px; 
     height: 50px; 
     border: none;
+    margin: 10px;
   }
   
   #botonLol {
@@ -40,10 +40,9 @@
     width: 50px;
     height: 50px;
     border: none;
+    margin: 10px;
   }
-  
-  
-  
+   
   .ms-Persona {
     display: flex;
     justify-content: center;
