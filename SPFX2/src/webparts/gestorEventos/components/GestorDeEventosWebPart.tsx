@@ -92,7 +92,7 @@ export default function EventoWebpart(
 
       <div>
         <div>
-          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} />
+          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario}/>
         </div>
 
       </div>

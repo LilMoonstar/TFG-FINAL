@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Modal, Stack, Text, DefaultButton, IconButton, TextField } from 'office-ui-fabric-react';
+import { Modal, Stack, Text, DefaultButton, TextField } from 'office-ui-fabric-react';
 import { PrimaryButton, Spinner } from "@fluentui/react";
 import { Button } from "antd";
 import { UsuariosItem } from "../UsuariosItem";
+import EditarUsuariosNick from "./UsuariosEditarNick";
 
 interface IDatosDesplegableProps {
   titulo: string;
@@ -26,11 +27,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     console.log("Usuario actualizado");
     setCargando(false)
   }, [props.item]);
-
-  const handleOpenGameUserNameModal = () => {
-    setIsGameUserNameModalOpen(true);
-    setNewGameUserNameTemp(props.PROFGAME === "FORTNITEPROFGAME" ? Item.NicknameFortnite : Item.NicknameLol);
-  };
 
   const handleSaveGameUserName = async () => {
     if (props.PROFGAME === "FORTNITEPROFGAME") {
@@ -103,8 +99,8 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
             {/* Username + edit */}
             <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-              <Text variant="medium">Username: @{props.PROFGAME === "FORTNITEPROFGAME" ? Item.NicknameFortnite : Item?.NicknameLol}</Text>
-              <IconButton iconProps={{ iconName: 'Edit' }} onClick={handleOpenGameUserNameModal} />
+              <Text variant="medium">Username: @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}</Text>
+              <EditarUsuariosNick item={props.item} callback={props.callback} profGame={props.PROFGAME} />
             </Stack>
 
           </Stack>
