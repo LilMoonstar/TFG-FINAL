@@ -7,11 +7,11 @@ import './UsuariosCajita.css';
 import { useState, useEffect } from "react";
 import { UsuariosItem } from '../UsuariosItem';
 
+
 interface IComasisPersonaProps {
   email: string;
+  item: UsuariosItem;
   title: string;
-  NicknameLol: string;
-  NicknameFortnite: string;
   mostrarSiVacio?: boolean;
   mensajeSiVacio?: string;
   size?: number;
@@ -24,34 +24,39 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = (props: IComasisPersonaPr
   const [currentUserName, setCurrentUserName] = React.useState<string>("");
   const [Mode, setMode] = useState<"Lol" | "Fornite">("Lol")
   const [ShowModal, setShowModal] = useState(false)
-  const [usuariosItem, setUsuariosItem] = useState<UsuariosItem | null>(null);
+  const [usuariosItem, setUsuariosItem] = useState<UsuariosItem>(props.item);
 
-  // Actualizar los estados cuando cambien las props
+  console.log(usuariosItem);
+
+  console.log(usuariosItem?.NicknameFortnite);
+
+
+  // Actualizar los estados cuando se inicie
   useEffect(() => {
-    setUsuariosItem(new UsuariosItem(null, null));
-  }, [props]);
+    setUsuariosItem(props.item);
+    console.log("Usuario actualizado");
+  }, [props.item]);
 
   React.useEffect(() => {
     const userEmail = props.context.pageContext.user.email;
     setCurrentUserEmail(userEmail);
-
     const userName = props.context.pageContext.user.displayName;
     setCurrentUserName(userName);
   }, [props.context]);
 
   // En ComasisPersona.tsx
 
-// Función para actualizar el nombre de usuario
-const updateUsername = async (newUsername: string): Promise<void> => {
-  const updatedUsuariosItem = usuariosItem;
-  if (Mode === "Lol") {
-    updatedUsuariosItem.setNicknameLol(newUsername);
-  } else {
-    updatedUsuariosItem.setNicknameFortnite(newUsername);
-  }
-  setUsuariosItem(updatedUsuariosItem);
-  return Promise.resolve(); 
-};
+  // Función para actualizar el nombre de usuario
+  const updateUsername = async (newUsername: string): Promise<void> => {
+    const updatedUsuariosItem = usuariosItem;
+    if (Mode === "Lol") {
+      updatedUsuariosItem.setNicknameLol(newUsername);
+    } else {
+      updatedUsuariosItem.setNicknameFortnite(newUsername);
+    }
+    setUsuariosItem(updatedUsuariosItem);
+    return Promise.resolve();
+  };
 
 
   const handleFortniteButtonClick = () => {
@@ -67,6 +72,7 @@ const updateUsername = async (newUsername: string): Promise<void> => {
   const handleCloseModal = () => {
     setShowModal(false)
   };
+
 
   return (
     <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
@@ -112,11 +118,7 @@ const updateUsername = async (newUsername: string): Promise<void> => {
         visible={ShowModal}
         onClose={handleCloseModal}
         PROFGAME={Mode === "Fornite" ? "FORTNITEPROFGAME" : "LEAGUEPROFGAME"}
-        gameusernameF={usuariosItem ? usuariosItem.NicknameFortnite : ""}
-        gameusernameL={usuariosItem ? usuariosItem.NicknameLol : ""}
-        role={usuariosItem ? usuariosItem.Role : null}
-        platform={usuariosItem ? usuariosItem.Platform : null}
-        controls={usuariosItem ? usuariosItem.Controls : null}
+        item={usuariosItem}
         callback={updateUsername} // Pasar la función de actualización como callback
       />
     </Stack>

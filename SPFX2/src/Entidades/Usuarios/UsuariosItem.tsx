@@ -58,6 +58,7 @@ export class UsuariosItem {
     this.Platform = this.ListItem.US_Platform !== null ? this.ListItem.US_Platform : null; // Establecer Platform como null si US_Platform es null    
     this.Controls = this.ListItem.US_Controls !== null ? this.ListItem.US_Controls : null; // Establecer Controls como null si US_Controls es null 
   }
+
   // Método para actualizar los datos del usuario en la lista de SharePoint
   public async updateItem(): Promise<boolean> {
     try {
@@ -66,23 +67,23 @@ export class UsuariosItem {
 
       // Verificar si se han realizado cambios en los datos del usuario
       if (this.ItemEdit.NicknameLol !== this.NicknameLol) {
-        item.US_UsernameLOL = this.ItemEdit.NicknameLol;
+        item["US_UsernameLOL"] = this.ItemEdit.NicknameLol;
         needUpdate = true;
       }
       if (this.ItemEdit.NicknameFortnite !== this.NicknameFortnite) {
-        item.US_UsernameFOR = this.ItemEdit.NicknameFortnite;
+        item["US_UsernameFOR"] = this.ItemEdit.NicknameFortnite;
         needUpdate = true;
       }
       if (this.ItemEdit.Role !== this.Role) {
-        item.US_Role = this.ItemEdit.Role;
+        item["US_Role"] = this.ItemEdit.Role;
         needUpdate = true;
       }
       if (this.ItemEdit.Platform !== this.Platform) {
-        item.US_Platform = this.ItemEdit.Platform;
+        item["US_Platform"] = this.ItemEdit.Platform;
         needUpdate = true;
       }
       if (this.ItemEdit.Controls !== this.Controls) {
-        item.US_Controls = this.ItemEdit.Controls;
+        item["US_Controls"] = this.ItemEdit.Controls;
         needUpdate = true;
       }
 

@@ -9,6 +9,7 @@ import "@pnp/sp/lists";
 export class UsuariosLista {
   HandleSPError: any;
 
+
   getNewItem() {
     const nuevo = new UsuariosItem(null, this);
     return nuevo;
@@ -16,9 +17,9 @@ export class UsuariosLista {
 
   public NombreLista = "Usuarios";
   public SelectAllFields: string[] = [
-    "*","User/Title","User/ID","User/EMail"
+    "*","US_User/Title","US_User/ID","US_User/EMail"
   ];
-  public ExpandAllFields: string[] = ["User"];
+  public ExpandAllFields: string[] = ["US_User"];
   public web: IWeb;
   public Context: WebPartContext;
   public List: IList;
@@ -28,9 +29,24 @@ export class UsuariosLista {
     this.Context = context;
     this.List = this.web.lists.getByTitle(this.NombreLista);
   }
+
+  public async CargarPorUsuario(BatchedWeb?: IWeb): Promise<UsuariosItem> {
+    const Items = this.List.items
+      .expand(this.ExpandAllFields.join())
+      .orderBy("Title")
+      .select(this.SelectAllFields.join())()
+      .then((Data: any) => {
+        return Data.map((I:IItem) => {
+          return new UsuariosItem(I, this);
+        });
+      })
+      .catch(async (E: Error) => {
+        console.error(E);
+      });
  
-
-
+    return (await Items)[0];
+  }
+  
   public async CargarTodos(BatchedWeb?: IWeb): Promise<UsuariosItem[]> {
     const Items = this.List.items
       .expand(this.ExpandAllFields.join())
