@@ -1,13 +1,15 @@
+// UsuariosCajita.tsx
 import * as React from "react";
 import { Stack, Button } from '@fluentui/react';
 import { Persona } from "office-ui-fabric-react";
-import Datosdesplegable from './UsuariosDesplegable';
+
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import './UsuariosCajita.css';
 import { UsuariosItem } from '../UsuariosItem';
+import UsuariosDesplegable from "./UsuariosDesplegable";
 
 
-interface IComasisPersonaProps {
+interface IUsuariosCajitaProps {
   email: string;
   item: UsuariosItem;
   title: string;
@@ -18,7 +20,7 @@ interface IComasisPersonaProps {
   callback: () => Promise<void>
 }
 
-const ComasisPersona: React.FC<IComasisPersonaProps> = (props: IComasisPersonaProps) => {
+const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaProps) => {
 
   const [currentUserEmail, setCurrentUserEmail] = React.useState<string>("");
   const [currentUserName, setCurrentUserName] = React.useState<string>("");
@@ -30,11 +32,11 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = (props: IComasisPersonaPr
 
   React.useEffect(() => {
     if (props.item) {
-      setUsuariosItem(props.item); 
+      setUsuariosItem(props.item);
       console.log("Usuario actualizado");
     }
   }, [props.item]);
-  
+
 
   React.useEffect(() => {
     const userEmail = props.context.pageContext.user.email;
@@ -53,8 +55,11 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = (props: IComasisPersonaPr
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleCloseModal = (): Promise<void> => {
+    return new Promise<void>((resolve) => {
+      setShowModal(false);
+      resolve();
+    });
   };
 
   return (
@@ -96,16 +101,21 @@ const ComasisPersona: React.FC<IComasisPersonaProps> = (props: IComasisPersonaPr
       </div>
 
       {/* Modal desplegable para los juegos */}
-      <Datosdesplegable
-        titulo={Mode === "Fornite" ? "Fortnite" : "League Of Legends"}
-        visible={ShowModal}
-        onClose={handleCloseModal}
-        PROFGAME={Mode === "Fornite" ? "FORTNITEPROFGAME" : "LEAGUEPROFGAME"}
-        item={usuariosItem}
-        callback={props.callback}
-      />
+      {ShowModal && (
+        <UsuariosDesplegable
+          titulo="Perfil de usuario"
+          visible={ShowModal}
+          onClose={handleCloseModal}
+          PROFGAME={Mode === "Fornite" ? "FORTNITEPROFGAME" : "LEAGUEPROFGAME"}
+          item={usuariosItem}
+          callback={props.callback}
+          showModal={() => setShowModal(true)}
+          handleOk={handleCloseModal}
+        />
+      )}
+
     </Stack>
   );
 }
 
-export default ComasisPersona;
+export default UsuariosCajita;

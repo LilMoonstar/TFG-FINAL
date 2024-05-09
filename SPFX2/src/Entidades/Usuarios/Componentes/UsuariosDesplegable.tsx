@@ -1,56 +1,29 @@
 import * as React from "react";
-import { Modal, Stack, Text, DefaultButton, TextField } from 'office-ui-fabric-react';
-import { PrimaryButton, Spinner } from "@fluentui/react";
-import { Button } from "antd";
+import { Stack, Text, Spinner } from 'office-ui-fabric-react';
 import { UsuariosItem } from "../UsuariosItem";
-import EditarUsuariosNick from "./UsuariosEditarNick";
+import { Button, Modal } from 'antd';
+import UsuariosEditar from "./UsuariosEditar";
 
 interface IDatosDesplegableProps {
   titulo: string;
   visible: boolean;
   onClose: () => void;
   PROFGAME: string;
-  item: UsuariosItem
+  item: UsuariosItem;
   callback: (newUsername: string) => Promise<void>;
+  showModal: () => void;
+  handleOk: () => Promise<void>;
 }
 
 const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDesplegableProps) => {
   const [cargando, setCargando] = React.useState(true);
-  const [Item, setItem] = React.useState(props.item)
-  const [isGameUserNameModalOpen, setIsGameUserNameModalOpen] = React.useState(false);
-  const [newGameUserNameTemp, setNewGameUserNameTemp] = React.useState("");
-  const [newGameUserNameF, setNewGameUserNameF] = React.useState(null);
-  const [newGameUserNameL, setNewGameUserNameL] = React.useState(null);
+  const [Item, setItem] = React.useState(props.item);
 
   React.useEffect(() => {
     setItem(props.item);
     console.log("Usuario actualizado");
-    setCargando(false)
+    setCargando(false);
   }, [props.item]);
-
-  const handleSaveGameUserName = async () => {
-    if (props.PROFGAME === "FORTNITEPROFGAME") {
-      setNewGameUserNameF(newGameUserNameTemp);
-    } else {
-      setNewGameUserNameL(newGameUserNameTemp);
-    }
-    setIsGameUserNameModalOpen(false);
-    console.log(newGameUserNameF+newGameUserNameL);
-    
-    try {
-      await props.callback(newGameUserNameTemp);
-    } catch (error) {
-      console.error("Error al ejecutar callback:", error);
-    }
-  };
-
-
-
-  const handleCancelEdit = () => {
-    setIsGameUserNameModalOpen(false);
-    setNewGameUserNameTemp(props.PROFGAME === "FORTNITEPROFGAME" ? Item.NicknameFortnite : Item.NicknameLol);
-  };
-
 
   // Funciones para obtener la URL de la imagen según el role y la plataforma
   const getImageForLeagueProfGame = (role: string | null): string => {
@@ -68,7 +41,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
       default:
         return 'https://th.bing.com/th/id/OIP.V0IUNhBoNimmlDySmUYo2QHaHa?rs=1&pid=ImgDetMain';
     }
-
   };
 
   const getImageForFortniteProfGame = (platform: string | null): string => {
@@ -84,106 +56,80 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
+  const [editarVisible, setEditarVisible] = React.useState(false);
+
+  const mostrarUsuariosEditar = () => {
+    setEditarVisible(true);
+  };
+
 
   return (
     <>
       <div>
         <Spinner hidden={!cargando} />
       </div>
-      {!cargando && <div>
-        {/* MODAL PRINCIPAL */}
-
-        <Modal isOpen={props.visible} onDismiss={props.onClose}>
-          <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
-            <Text variant="large">Este es tu perfil de {props.titulo}</Text>
-
-            {/* Username + edit */}
-            <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-              <Text variant="medium">Username: @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}</Text>
-              <EditarUsuariosNick item={props.item} callback={props.callback} profGame={props.PROFGAME} />
+      {!cargando && (
+        <div>
+          {/* MODAL PRINCIPAL */}
+          <Modal open={props.visible} onCancel={props.onClose}>
+            <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
+              <Text variant="large">Este es tu perfil de {props.titulo}</Text>
+              {/* Username + edit */}
+              <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
+                <Button onClick={() => mostrarUsuariosEditar()}>Editar</Button>
+                <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
+                  @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}
+                </Text>
+              </Stack>
+              {editarVisible && (
+                <UsuariosEditar
+                  item={props.item}
+                  callback={props.callback}
+                  profGame={props.PROFGAME}
+                  handleOk={props.handleOk}
+                />
+              )}
             </Stack>
-
-          </Stack>
-
-          {/* Role / Platform */}
-          <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-            {/* Mostrar 'Position' si PROFGAME es 'LEAGUEPROFGAME' */}
-            {props.PROFGAME === 'LEAGUEPROFGAME' && (
-              <>
-                <Stack.Item>
-                  <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
-                </Stack.Item>
-                <Stack.Item>
-                  {/* Mostrar imagen según el role o la imagen por defecto */}
-                  <img
-                    src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
-                    alt={Item?.Role !== null ? Item?.Role : "Default"}
-                    style={{ width: '100px', height: '100px', padding: '10px' }}
-                  />
-                </Stack.Item>
-
-              </>
-            )}
-            {/* Mostrar 'Platform' si PROFGAME es 'FORTNITEPROFGAME' */}
-            {props.PROFGAME === 'FORTNITEPROFGAME' && (
-              <>
-                <Stack.Item>
-                  <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
-                </Stack.Item>
-                <Stack.Item>
-                  {/* Mostrar imagen según la plataforma o la imagen por defecto */}
-                  <img
-                    src={Item.Platform !== null ? getImageForFortniteProfGame(Item.Platform) : getImageForFortniteProfGame(null)}
-                    alt={Item.Platform !== null ? Item.Platform : "Default"}
-                    style={{ width: '100px', height: '100px', padding: '10px' }}
-                  />
-                </Stack.Item>
-              </>
-            )}
-          </Stack>
-
-
-          {/* CANCELAR */}
-
-          <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
-            <Button
-              onClick={props.onClose}
-              style={{
-                backgroundColor: "rgb(27, 69, 134)",
-                color: "white",
-                width: "100px",
-                margin: "15px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Cancelar
-            </Button>
-          </Stack>
-        </Modal >
-
-
-        {/* Modal EDITAR USERNAME*/}
-
-        <Modal isOpen={isGameUserNameModalOpen} onDismiss={handleCancelEdit}>
-          <Stack tokens={{ childrenGap: 20 }} style={{ width: '300px', padding: '20px' }}>
-            <Text variant="large">Editar Nombre de Usuario</Text>
-            <TextField
-              label={"Este será el nuevo nombre que utilizarás en " + props.titulo}
-              value={newGameUserNameTemp} // Usar el valor temporal
-              onChange={(ev, newValue) => setNewGameUserNameTemp(newValue || "")} // Almacenar temporalmente el nuevo valor
-              maxLength={20} // Limitar a 20 caracteres
-            />
-            <PrimaryButton onClick={handleSaveGameUserName}>Guardar</PrimaryButton>
-            <DefaultButton onClick={handleCancelEdit}>Cancelar Edición</DefaultButton>
-          </Stack>
-        </Modal>
-      </div>}
-      
-
+            {/* Role / Platform */}
+            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+              {/* Mostrar 'Position' si PROFGAME es 'LEAGUEPROFGAME' */}
+              {props.PROFGAME === 'LEAGUEPROFGAME' && (
+                <>
+                  <Stack.Item>
+                    <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
+                  </Stack.Item>
+                  <Stack.Item>
+                    {/* Mostrar imagen según el role o la imagen por defecto */}
+                    <img
+                      src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
+                      alt={Item?.Role !== null ? Item?.Role : "Default"}
+                      style={{ width: '100px', height: '100px', padding: '10px' }}
+                    />
+                  </Stack.Item>
+                </>
+              )}
+              {/* Mostrar 'Platform' si PROFGAME es 'FORTNITEPROFGAME' */}
+              {props.PROFGAME === 'FORTNITEPROFGAME' && (
+                <>
+                  <Stack.Item>
+                    <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
+                  </Stack.Item>
+                  <Stack.Item>
+                    {/* Mostrar imagen según la plataforma o la imagen por defecto */}
+                    <img
+                      src={Item.Platform !== null ? getImageForFortniteProfGame(Item.Platform) : getImageForFortniteProfGame(null)}
+                      alt={Item.Platform !== null ? Item.Platform : "Default"}
+                      style={{ width: '100px', height: '100px', padding: '10px' }}
+                    />
+                  </Stack.Item>
+                </>
+              )}
+            </Stack>
+          </Modal>
+        </div>
+      )}
     </>
   );
-}
+};
 
 export default DatosDesplegable;
