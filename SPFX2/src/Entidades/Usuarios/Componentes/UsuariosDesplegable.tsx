@@ -86,7 +86,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   item={props.item}
                   callback={props.callback}
                   profGame={props.PROFGAME}
-                  handleOk={props.handleOk}
                 />
               )}
             </Stack>

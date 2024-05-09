@@ -5,32 +5,52 @@ import { useState } from "react";
 
 interface IUsuariosEditarProps {
     item: UsuariosItem;
-    callback: (newUsername: string) => Promise<void>;
+    callback: (newusername: string) => Promise<void>;
     profGame: string;
-    handleOk: () => Promise<void>;
 }
 
 const UsuariosEditar: React.FC<IUsuariosEditarProps> = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(true);
-    const [newNickname, setNewNickname] = useState(
+    const [newusername, setNewusername] = useState(
         props.profGame === "FORTNITEPROFGAME" ? props.item.getNicknameFortnite() : props.item.getNicknameLol()
     );
     const [platform, setPlatform] = useState(props.item.Platform || "");
     const [controls, setControls] = useState(props.item.Controls || "");
     const [role, setRole] = useState(props.item.Role || "");
 
+    const [Item, setItem] = useState(props.item)
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
     const handleSaveChanges = async () => {
         try {
-            const newUsername = props.profGame === "FORTNITEPROFGAME" ? newNickname : role;
-            await props.callback(newUsername);
+
+            Item.ItemEdit = {...Item} as UsuariosItem;
+
+            if (props.profGame === "FORTNITEPROFGAME") {
+                Item.ItemEdit.NicknameFortnite = newusername;
+                Item.ItemEdit.Platform = platform;
+                Item.ItemEdit.Controls = controls;
+            } else if (props.profGame === "LEAGUEPROFGAME") {
+                Item.ItemEdit.NicknameLol = newusername;
+                Item.ItemEdit.Role = role;
+            }
+            await Item.updateItem();
+            
+            setItem({...Item } as UsuariosItem)
+
+
+            await props.callback(newusername);
             handleCloseModal();
+
+            setNewusername(""); 
+
         } catch (error) {
             console.error("Error al guardar los cambios:", error);
         }
+
+
     };
     
     
@@ -38,7 +58,7 @@ const UsuariosEditar: React.FC<IUsuariosEditarProps> = (props) => {
         <>
             <Modal
                 title="Editar Usuario"
-                visible={isModalOpen}
+                open={isModalOpen}
                 onCancel={handleCloseModal}
                 onOk={handleSaveChanges}
                 okText="Guardar"
@@ -47,9 +67,9 @@ const UsuariosEditar: React.FC<IUsuariosEditarProps> = (props) => {
             >
                 <div style={{ maxWidth: 400, padding: 20, backgroundColor: "white", borderRadius: 8 }}>
                     <Input
-                        addonBefore={props.profGame === "FORTNITEPROFGAME" ? "Nuevo Nickname de Fortnite" : "Nuevo Nickname de League of Legends"}
-                        value={newNickname}
-                        onChange={(event) => setNewNickname(event.target.value)}
+                        addonBefore={props.profGame === "FORTNITEPROFGAME" ? "Nuevo username de Fortnite" : "Nuevo username de League of Legends"}
+                        value={newusername}
+                        onChange={(event) => setNewusername(event.target.value)}
                     />
                     {props.profGame === "FORTNITEPROFGAME" && (
                         <>
