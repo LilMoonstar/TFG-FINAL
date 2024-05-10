@@ -34,7 +34,7 @@ const recargaDatos = async () => {
 
   React.useEffect(() => {
     lista.current = new EventosLista(props.SP.web, props.WebPartContext);
-    lista.current.CargarTodos().then((i) => {
+    void lista.current.CargarTodos().then((i) => {
       console.log(i);
       setItems(i);
     });
@@ -52,7 +52,7 @@ const recargaDatos = async () => {
       </div>
 
       <div>
-        <UsuariosCajita email={""} title={""} />
+        <UsuariosCajita email={""} title={""} context={new WebPartContext} />
       </div>
 
     <br />
