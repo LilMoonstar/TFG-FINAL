@@ -64,8 +64,6 @@ export class UsuariosItem {
       let needUpdate = false;
       const item: any = {};
 
-      console.log(this.ItemEdit)
-      
       if (this.ItemEdit?.NicknameLol !== this?.NicknameLol) {
         item["US_UsernameLOL"] = this.ItemEdit?.NicknameLol;
         needUpdate = true;

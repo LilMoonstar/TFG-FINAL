@@ -1,18 +1,18 @@
-import * as React from "react";
-import { Stack, Text, Spinner } from 'office-ui-fabric-react';
-import { UsuariosItem } from "../UsuariosItem";
 import { Button, Modal } from 'antd';
-import UsuariosEditar from "./UsuariosEditar";
+import { Spinner, Stack, Text } from 'office-ui-fabric-react';
+import * as React from "react";
+import { UsuariosItem } from "../UsuariosItem";
+import UsuariosForm from "./UsuariosForm";
 
 interface IDatosDesplegableProps {
   titulo: string;
   visible: boolean;
   onClose: () => void;
-  PROFGAME: string;
+  PROFGAME: "FORTNITEPROFGAME" | "LEAGUEPROFGAME";
   item: UsuariosItem;
-  callback: (newUsername: string) => Promise<void>;
+  callback: () => Promise<void>;
   showModal: () => void;
-  handleOk: () => Promise<void>;
+  handleOk: () => void;
 }
 
 const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDesplegableProps) => {
@@ -21,7 +21,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
   React.useEffect(() => {
     setItem(props.item);
-    console.log("Usuario actualizado");
     setCargando(false);
   }, [props.item]);
 
@@ -58,11 +57,12 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
   const [editarVisible, setEditarVisible] = React.useState(false);
 
-  const mostrarUsuariosEditar = () => {
-    setEditarVisible(true);
+
+
+  const handleOk = async () => {
+  props.handleOk();
+
   };
-
-
   return (
     <>
       <div>
@@ -71,22 +71,32 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
       {!cargando && (
         <div>
           {/* MODAL PRINCIPAL */}
-          <Modal open={props.visible} onCancel={props.onClose}>
+          <Modal open={props.visible} onCancel={props.onClose} onOk={handleOk}>
             <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
               <Text variant="large">Este es tu perfil de {props.titulo}</Text>
               {/* Username + edit */}
               <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-                <Button onClick={() => mostrarUsuariosEditar()}>Editar</Button>
+                <Button onClick={() => {setEditarVisible(true)}}>{"Editar"}</Button>
                 <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
                   @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}
                 </Text>
               </Stack>
               {editarVisible && (
-                <UsuariosEditar
-                  item={props.item}
-                  callback={props.callback}
+                <UsuariosForm
+                  Item={props.item}
+                  guardando={cargando}
+                  CloseModal={()=>{
+                    setEditarVisible(false);
+                  }}
+                  OnSubmit={async ()=>{
+
+                    await props.callback();
+                    setEditarVisible(false);
+
+                  }}
                   profGame={props.PROFGAME}
-                />
+
+              />
               )}
             </Stack>
             {/* Role / Platform */}

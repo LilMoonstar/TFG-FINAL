@@ -28,12 +28,10 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
   const [ShowModal, setShowModal] = React.useState(false);
   const [usuariosItem, setUsuariosItem] = React.useState<UsuariosItem | null>(null);
 
-  console.log(usuariosItem);
 
   React.useEffect(() => {
     if (props.item) {
       setUsuariosItem(props.item);
-      console.log("Usuario actualizado");
     }
   }, [props.item]);
 
@@ -60,6 +58,10 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
       setShowModal(false);
       resolve();
     });
+  };
+
+  const handleFormOk = () => {
+    setShowModal(false); 
   };
 
   return (
@@ -110,7 +112,7 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           item={usuariosItem}
           callback={props.callback}
           showModal={() => setShowModal(true)}
-          handleOk={handleCloseModal}
+          handleOk={handleFormOk}
         />
       )}
 

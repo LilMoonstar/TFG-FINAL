@@ -6,38 +6,56 @@ import { Dropdown } from "@fluentui/react";
 import { useEffect, useState } from "react";
 
 export interface IUsuariosFormProps {
-    title: string;
-    isModalOpen: boolean;
-    itemEdit: UsuariosItem | null;
+    Item:UsuariosItem;
     guardando: boolean;
-    showModal: () => void;
-    handleOk: () => Promise<void>;
-    handleCancel: () => void;
-    onChangeItemEdit: React.Dispatch<React.SetStateAction<UsuariosItem | null>>;
-    profGame: string;
+    CloseModal:() => void;
+    OnSubmit:()=> void;
+    profGame: "FORTNITEPROFGAME" | "LEAGUEPROFGAME";
 }
 
 const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
-    const [ItemEdit, setItemEdit] = useState<UsuariosItem | null>(props.itemEdit);
+    const [ItemEdit, setItemEdit] = useState<UsuariosItem>({...props.Item} as UsuariosItem);
     const [opcionesPlataforma, setOpcionesPlataforma] = useState<IDropdownOption[]>([])
+    const [Submitiendo, setSubmitiendo] = useState(false)
+    
+    const SeEstanProcesandoCosas = Submitiendo || props.guardando;
 
     useEffect(() => {
-        setItemEdit(props.itemEdit);
-    }, [props.itemEdit]);
-
-    useEffect(() => {
-        console.log("AAAAAAAAAAAAAAAAAA");
-        
         setOpcionesPlataforma([
             { key: "PS", text: "PS" },
             { key: "XBox", text: "XBox" },
             { key: "PC", text: "PC" }
+            
         ]);
     }, []);
 
+    
+
+
     return (
-        <Modal title="Editar Usuario" visible={props.isModalOpen} onOk={props.handleOk} onCancel={props.handleCancel}>
-            <Stack hidden={props.guardando}>
+        <Modal title="Editar Usuario" open={true} 
+            onOk={async ()=>{
+                setSubmitiendo(true)
+                props.Item.ItemEdit = ItemEdit;
+                await props.Item.updateItem();
+                await props.OnSubmit();
+                setSubmitiendo(false)
+            }} 
+            onCancel={()=>{
+                props.CloseModal();
+            }}
+            cancelButtonProps={{
+            disabled:SeEstanProcesandoCosas
+            }}
+            okButtonProps={{
+            disabled:SeEstanProcesandoCosas,
+            }}
+            closable={false}
+        >
+            <Stack hidden={!SeEstanProcesandoCosas}>
+                <Spinner label="Guardando..." />
+            </Stack>
+            <Stack hidden={SeEstanProcesandoCosas}>
                 <TextField
                     label="Nombre de Usuario"
                     value={ItemEdit && (props.profGame === "FORTNITEPROFGAME" ? ItemEdit.NicknameFortnite : ItemEdit.NicknameLol)}
@@ -84,9 +102,7 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
                     />
                 )}
             </Stack>
-            <Stack hidden={!props.guardando}>
-                <Spinner label="Guardando..." />
-            </Stack>
+
         </Modal>
     );
 };
