@@ -19,6 +19,7 @@ export class UsuariosItem {
   public Role: string | null; 
   public Platform: string | null; 
   public Controls: string | null;
+  public Champions: any | null;
 
   static Role: string;
   static Platform: string;

@@ -4,6 +4,7 @@ import * as React from "react";
 import { UsuariosItem } from "../UsuariosItem";
 import UsuariosForm from "./UsuariosForm";
 
+
 interface IDatosDesplegableProps {
   titulo: string;
   visible: boolean;
@@ -86,7 +87,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
           {/* MODAL PRINCIPAL */}
 
-          <Modal open={props.visible}  cancelButtonProps={{ hidden: true }} onOk={handleOk} closable={false}>
+          <Modal open={props.visible} cancelButtonProps={{ hidden: true }} onOk={handleOk} closable={false}>
 
             <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '35px' }}>
 
@@ -127,54 +128,33 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               )}
             </Stack>
 
-            {/* Role / Platform */}
+{/* COSAS QUE SE VEN SI PROFGAME ES 'FORTNITEPROFGAME' */}
 
-            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-
-              {/* Mostrar 'Position' si PROFGAME es 'LEAGUEPROFGAME' */}
-
-              {props.PROFGAME === 'LEAGUEPROFGAME' && (
-                <>
-                  <Stack.Item>
-                    <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
-                  </Stack.Item>
-                  <Stack.Item>
-
-                    {/* Mostrar imagen según el role o la imagen por defecto */}
-
-                    <img
-                      src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
-                      alt={Item?.Role !== null ? Item?.Role : "Default"}
-                      style={{ width: '100px', height: '100px', padding: '10px' }}
-                    />
-                  </Stack.Item>
-                </>
-              )}
-
-              {/* Mostrar 'Platform' si PROFGAME es 'FORTNITEPROFGAME' */}
+        <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
 
               {props.PROFGAME === 'FORTNITEPROFGAME' && (
                 <>
                   <Stack.Item>
                     <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
                   </Stack.Item>
+
+                   {/* Mostrar imagen según la plataforma o la imagen por defecto */}
+
                   <Stack.Item>
-
-                    {/* Mostrar imagen según la plataforma o la imagen por defecto */}
-
                     <img
                       src={Item.Platform !== null ? getImageForFortnitePLATFORM(Item.Platform) : getImageForFortnitePLATFORM(null)}
                       alt={Item.Platform !== null ? Item.Platform : "Default"}
                       style={{ width: '100px', height: '100px', padding: '10px' }}
                     />
                   </Stack.Item>
+
                   <Stack.Item>
                     <Text variant="medium">Controls: {Item.Controls !== null ? Item.Controls : "No controls assigned yet"}</Text>
                   </Stack.Item>
-                  <Stack.Item>
 
                     {/* Mostrar imagen según los controles o la imagen por defecto */}
 
+                  <Stack.Item>
                     <img
                       src={Item.Controls !== null ? getImageForFortniteCONTROLS(Item.Controls) : getImageForFortnitePLATFORM(null)}
                       alt={Item.Controls !== null ? Item.Controls : "Default"}
@@ -183,11 +163,41 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   </Stack.Item>
                 </>
               )}
-            </Stack>
+        </Stack>
+
+{/* COSAS QUE SE VEN SI PROFGAME ES 'LEAGUEPROFGAME' */}
+
+        <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+              {props.PROFGAME === 'LEAGUEPROFGAME' && (
+                <>
+                  <Stack.Item>
+                    <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
+                  </Stack.Item>
+
+                   {/* Mostrar imagen según el role o la imagen por defecto */}
+
+                  <Stack.Item>
+                    <img
+                      src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
+                      alt={Item?.Role !== null ? Item?.Role : "Default"}
+                      style={{ width: '100px', height: '100px', padding: '10px' }}
+                    />
+                  </Stack.Item>
+
+                  <Stack.Item>
+                    
+
+
+                  </Stack.Item>
+
+                </>
+              )}
+        </Stack>
+
 
             {/* Edit */}
 
-            <Stack horizontal horizontalAlign="start" style={{ width: '500px', marginLeft: '20px', marginBottom: '20px'  }}>
+            <Stack horizontal horizontalAlign="start" style={{ width: '500px', marginLeft: '20px', marginBottom: '20px' }}>
 
               <Button onClick={() => { setEditarVisible(true) }}>{"Editar"}</Button>
 
