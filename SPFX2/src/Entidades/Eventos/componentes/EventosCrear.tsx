@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { IDropdownOption, PrimaryButton, StackItem } from "@fluentui/react";
 import { EventosLista } from "../EventosLista";
 import EventosForm from "./EventosForm";
+import './Eventos.css';
+
 
 export interface IEventosBotonNuevoProps {
   callback: (result: boolean) => Promise<void>;
@@ -45,7 +47,7 @@ export default function EventosBotonNuevo(Props: IEventosBotonNuevoProps):JSX.El
 
   return (
     <StackItem>
-        <PrimaryButton
+        <PrimaryButton id="BOTONCREAR"
           text={"Nuevo Evento"}
           title={"Nuevo Evento"}
           iconProps={{ iconName: "Add" }}
@@ -55,7 +57,6 @@ export default function EventosBotonNuevo(Props: IEventosBotonNuevoProps):JSX.El
             setItemEdit(nuevoparaForm);
             setIsModalOpen(true);
           }}
-          style={{ backgroundColor: "#1b4586", color: "#FFFFFF" }}
         />
       {nuevoEvento &&
          <EventosForm

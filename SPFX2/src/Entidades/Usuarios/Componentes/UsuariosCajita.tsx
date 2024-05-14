@@ -61,11 +61,11 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
   };
 
   const handleFormOk = () => {
-    setShowModal(false); 
+    setShowModal(false);
   };
 
   return (
-    <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+    <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }} >
       {props.email !== "" ? (
         <Persona
           imageShouldFadeIn={false}
@@ -105,7 +105,7 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
       {/* Modal desplegable para los juegos */}
       {ShowModal && (
         <UsuariosDesplegable
-          titulo="Perfil de usuario"
+          titulo={Mode === "Fornite" ? "Fortnite" : "League Of Legends"}
           visible={ShowModal}
           onClose={handleCloseModal}
           PROFGAME={Mode === "Fornite" ? "FORTNITEPROFGAME" : "LEAGUEPROFGAME"}

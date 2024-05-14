@@ -43,8 +43,12 @@
     margin: 10px;
   }
    
+  #botonFortnite:hover,
+  #botonLol:hover {
+    transform: scale(1.1);
+  }
+
   .ms-Persona {
     display: flex;
     justify-content: center;
   }
-  

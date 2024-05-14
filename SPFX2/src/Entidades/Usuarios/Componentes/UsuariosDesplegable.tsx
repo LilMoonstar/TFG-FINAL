@@ -42,7 +42,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
-  const getImageForFortniteProfGame = (platform: string | null): string => {
+  const getImageForFortnitePLATFORM = (platform: string | null): string => {
     switch (platform) {
       case 'PS':
         return 'https://img00.deviantart.net/920f/i/2012/339/2/7/playstation_icon_by_jonywallker-d5n73uu.png';
@@ -55,12 +55,25 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
+  const getImageForFortniteCONTROLS = (controls: string | null): string => {
+    switch (controls) {
+      case 'Keyboard + Mouse':
+        return 'https://cdn1.iconfinder.com/data/icons/office-glyph-1/64/office-glyph-1-08-512.png';
+      case 'Wireless Controller':
+        return 'https://th.bing.com/th/id/OIP.OmOSw-pO0_orJFIFuhn8KgAAAA?rs=1&pid=ImgDetMain';
+      default:
+        return 'https://cdn2.iconfinder.com/data/icons/database-and-server-solid-style/64/server-12-512.png';
+    }
+  };
+
+
+
   const [editarVisible, setEditarVisible] = React.useState(false);
 
 
 
   const handleOk = async () => {
-  props.handleOk();
+    props.handleOk();
 
   };
   return (
@@ -70,25 +83,39 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
       </div>
       {!cargando && (
         <div>
+
           {/* MODAL PRINCIPAL */}
-          <Modal open={props.visible} onCancel={props.onClose} onOk={handleOk}>
-            <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '20px' }}>
-              <Text variant="large">Este es tu perfil de {props.titulo}</Text>
-              {/* Username + edit */}
-              <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-                <Button onClick={() => {setEditarVisible(true)}}>{"Editar"}</Button>
-                <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
-                  @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}
-                </Text>
+
+          <Modal open={props.visible}  cancelButtonProps={{ hidden: true }} onOk={handleOk} closable={false}>
+
+            <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '35px' }}>
+
+              <Stack horizontal horizontalAlign="center" tokens={{ childrenGap: 10 }}>
+
+                <Text variant="large" style={{ fontWeight: 'bold', fontSize: '2em' }} >{props.titulo}</Text>
+
               </Stack>
+
+              {/* Username */}
+
+              <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
+
+                <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
+
+                  USERNAME: @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}
+
+                </Text>
+
+              </Stack>
+
               {editarVisible && (
                 <UsuariosForm
                   Item={props.item}
                   guardando={cargando}
-                  CloseModal={()=>{
+                  CloseModal={() => {
                     setEditarVisible(false);
                   }}
-                  OnSubmit={async ()=>{
+                  OnSubmit={async () => {
 
                     await props.callback();
                     setEditarVisible(false);
@@ -96,19 +123,25 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   }}
                   profGame={props.PROFGAME}
 
-              />
+                />
               )}
             </Stack>
+
             {/* Role / Platform */}
+
             <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+
               {/* Mostrar 'Position' si PROFGAME es 'LEAGUEPROFGAME' */}
+
               {props.PROFGAME === 'LEAGUEPROFGAME' && (
                 <>
                   <Stack.Item>
                     <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
                   </Stack.Item>
                   <Stack.Item>
+
                     {/* Mostrar imagen según el role o la imagen por defecto */}
+
                     <img
                       src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
                       alt={Item?.Role !== null ? Item?.Role : "Default"}
@@ -117,23 +150,49 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   </Stack.Item>
                 </>
               )}
+
               {/* Mostrar 'Platform' si PROFGAME es 'FORTNITEPROFGAME' */}
+
               {props.PROFGAME === 'FORTNITEPROFGAME' && (
                 <>
                   <Stack.Item>
                     <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
                   </Stack.Item>
                   <Stack.Item>
+
                     {/* Mostrar imagen según la plataforma o la imagen por defecto */}
+
                     <img
-                      src={Item.Platform !== null ? getImageForFortniteProfGame(Item.Platform) : getImageForFortniteProfGame(null)}
+                      src={Item.Platform !== null ? getImageForFortnitePLATFORM(Item.Platform) : getImageForFortnitePLATFORM(null)}
                       alt={Item.Platform !== null ? Item.Platform : "Default"}
+                      style={{ width: '100px', height: '100px', padding: '10px' }}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Text variant="medium">Controls: {Item.Controls !== null ? Item.Controls : "No controls assigned yet"}</Text>
+                  </Stack.Item>
+                  <Stack.Item>
+
+                    {/* Mostrar imagen según los controles o la imagen por defecto */}
+
+                    <img
+                      src={Item.Controls !== null ? getImageForFortniteCONTROLS(Item.Controls) : getImageForFortnitePLATFORM(null)}
+                      alt={Item.Controls !== null ? Item.Controls : "Default"}
                       style={{ width: '100px', height: '100px', padding: '10px' }}
                     />
                   </Stack.Item>
                 </>
               )}
             </Stack>
+
+            {/* Edit */}
+
+            <Stack horizontal horizontalAlign="start" style={{ width: '500px', marginLeft: '20px', marginBottom: '20px'  }}>
+
+              <Button onClick={() => { setEditarVisible(true) }}>{"Editar"}</Button>
+
+            </Stack>
+
           </Modal>
         </div>
       )}

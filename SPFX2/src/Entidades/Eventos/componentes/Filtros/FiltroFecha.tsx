@@ -2,6 +2,7 @@
 import * as React from "react";
 import { DatePicker, Button } from 'antd';
 import { Moment } from 'moment';
+import '../../../Eventos/componentes/Eventos.css';
 
 interface FiltroFechaProps {
   onFilter: (startDate: string, endDate: string) => void;
@@ -36,10 +37,10 @@ const FiltroFecha: React.FC<FiltroFechaProps> = ({ onFilter }) => {
         onChange={handleDateChange}
         style={{ marginRight: 8 }}
       />
-      <Button type="primary" onClick={handleFilter} style={{ marginRight: 8, backgroundColor: "#1b4586" , color: "#FFFFFF" }}>
+      <Button id="BOTONFILTRAR" onClick={handleFilter} style={{ marginRight: 8 }}>
         Filtrar
       </Button>
-      <Button onClick={handleReset} style={{ backgroundColor: "#1b4586" , color: "#FFFFFF" }}>
+      <Button id="BOTONREINICIAR" onClick={handleReset}>
         Reiniciar
       </Button>
     </div>

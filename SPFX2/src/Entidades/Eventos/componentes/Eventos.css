@@ -1,0 +1,53 @@
+#BOTONCREAR, #BOTONFILTRAR, #BOTONREINICIAR, #BOTONRESUME {
+    background-color: #1b4586;
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+#BOTONCREAR:hover, #BOTONFILTRAR:hover, #BOTONREINICIAR:hover, #BOTONRESUME:hover {
+    background-color: #4896d6;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+#BOTONBORRAR, #BOTONFILTRAR, #BOTONREINICIAR, #BOTONRESUME {
+    transition: all 0.3s ease;
+}
+
+#BOTONBORRAR:hover {
+    background-color: #e00606;
+    color: #ffffff;
+    font-weight: bolder;
+    animation: vibrar 0.1s infinite alternate;
+}
+
+@keyframes vibrar {
+    0% { transform: translateX(-1px) rotate(-1deg); }
+    50% { transform: translateX(1px) rotate(1deg); }
+    100% { transform: translateX(-1px) rotate(-1deg); }
+}
+
+.event-info-container {
+    text-align: center;
+    white-space: pre-line;
+}
+
+.event-info-container p {
+    text-align: justify;
+    margin-right: 35px;
+    font-size: 13px; 
+    font-weight: normal;
+}
+
+.event-info-container p:hover {
+    font-size: 15px;
+}
+
+#textomodalborrar{
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.textomodalborrar:hover {
+    font-size: 15px;
+}

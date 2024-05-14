@@ -1,6 +1,8 @@
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { Modal, Button } from "antd";
+import './Eventos.css';
+
 
 export interface IEventosBotonBorrarProps {
     item: EventosItem;
@@ -20,7 +22,7 @@ const EventosBorrar: React.FC<IEventosBotonBorrarProps> = ({ item, onDelete }: I
             title: "Confirmar eliminación",
             content: (
                 <>
-                    <p>¿Estás seguro de que quieres eliminar el elemento "{item.Nombre}" con ID "{item.ID}"?</p>
+                    <p id="textomodalborrar">¿Estás seguro de que quieres eliminar el elemento "{item.Nombre}" con ID "{item.ID}"?</p>
                 </>
             ),
             okText: "Eliminar",
@@ -32,7 +34,7 @@ const EventosBorrar: React.FC<IEventosBotonBorrarProps> = ({ item, onDelete }: I
 
     return (
         <>
-            <Button onClick={showModal} danger>
+            <Button onClick={showModal} danger id="BOTONBORRAR">
                 Eliminar
             </Button>
         </>

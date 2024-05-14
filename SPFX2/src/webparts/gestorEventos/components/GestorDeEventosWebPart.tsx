@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any*/
-
-import { Spinner } from "@fluentui/react";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPFI } from "@pnp/sp";
 import * as React from "react";
@@ -11,6 +9,7 @@ import UsuariosCajita from "../../../Entidades/Usuarios/Componentes/UsuariosCaji
 import { EventosItem } from "../../../Entidades/Eventos/EventosItem";
 import { UsuariosLista } from "../../../Entidades/Usuarios/UsuariosLista";
 import { UsuariosItem } from "../../../Entidades/Usuarios/UsuariosItem";
+import './WebPart.css';
 
 
 export interface IEventoWebpartProps {
@@ -21,7 +20,6 @@ export interface IEventoWebpartProps {
 export default function EventoWebpart(
   props: IEventoWebpartProps
 ): JSX.Element {
-  const [cargando, setCargando] = React.useState(true);
   const [Items, setItems] = React.useState<EventosItem[]>([]);
   const listaEventos = React.useRef<EventosLista>(null);
   const [ItemUsuario, setItemUsuario] = React.useState<UsuariosItem>();
@@ -57,7 +55,6 @@ export default function EventoWebpart(
           console.log(i);
           setItems(i);
           setTimeout(() => {
-            setCargando(false);
             console.log("Cargado");
           }, 2000);
         }
@@ -71,7 +68,7 @@ export default function EventoWebpart(
     ConsultaUsuario()
       .then(() => {
         // El resto del código que depende de la función consultasIniciales()
-        
+
       })
       .catch((error) => {
         console.error('Error en consultas iniciales:', error);
@@ -86,26 +83,23 @@ export default function EventoWebpart(
 
   return (
     <>
-      <div>
-        <Spinner hidden={!cargando} />
-      </div>
-
-      <div>
-        <div>
-          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario}/>
+        <p>MI PERFIL</p>
+        <div className="CAJAPERFIL" style={{ display: 'inline-block', marginLeft: '20px' }}>
+          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario} />
         </div>
 
-      </div>
-
       <br />
       <br />
 
-      <div hidden={cargando}>
-        <h1>Mis Eventos</h1>
 
+        <p>MIS EVENTOS</p>
+
+      <div className="TABLAEVENTOS">
         <EventosBotonNuevo lista={listaEventos.current} callback={recargaDatos} />
         <EventosTabla Items={Items} callback={recargaDatos} />
       </div>
+
+
     </>
   );
 }

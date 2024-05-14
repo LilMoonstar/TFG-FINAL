@@ -1,0 +1,21 @@
+p {
+    font-size: 1.5em;
+    margin: 10px 0;
+    padding: 5px;
+    transition: font-size 0.3s ease;
+    font-weight: bold;
+  }
+  
+  p:hover {
+    font-size: 1.7em;
+  }
+  
+ 
+  .CAJAPERFIL {
+    transition: transform 0.3s ease;
+  }
+  
+  .CAJAPERFIL:hover {
+    transform: scale(1.1);
+  }
+  

@@ -55,7 +55,7 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
             <Stack hidden={!SeEstanProcesandoCosas}>
                 <Spinner label="Guardando..." />
             </Stack>
-            <Stack hidden={SeEstanProcesandoCosas}>
+            <Stack hidden={SeEstanProcesandoCosas} style={{ width: '500px', padding: '35px' }}>
                 <TextField
                     label="Nombre de Usuario"
                     value={ItemEdit && (props.profGame === "FORTNITEPROFGAME" ? ItemEdit.NicknameFortnite : ItemEdit.NicknameLol)}

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Modal } from 'antd';
 import { ActionButton } from "@fluentui/react";
 import { EventosItem } from "../EventosItem";
+import './Eventos.css';
 
 const EventosResume: React.FC<{ titlename: string; text: string; info: EventosItem }> = ({ titlename, text, info }) => {
 
@@ -9,25 +10,25 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
         Modal.info({
             title: titlename,
             content: (
-                <div style={{ textAlign: "center",  whiteSpace: "pre-line" }}>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>ID:</strong> {info.ID}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Título del Evento:</strong> {info.Nombre}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Game:</strong> {info.Game}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Requirements:</strong> {info.Requirements}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Description:</strong> {info.Description}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Awards:</strong> {info.Awards}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Date:</strong> {info.Date.toString()}</p>
-                    <p style={{ textAlign: "justify", marginRight: "35px" }}><strong>Composition:</strong> {info.Composition}</p>
+                <div className="event-info-container">
+                    <p><strong>ID:</strong> {info.ID}</p>
+                    <p><strong>Título del Evento:</strong> {info.Nombre}</p>
+                    <p><strong>Game:</strong> {info.Game}</p>
+                    <p><strong>Requirements:</strong> {info.Requirements}</p>
+                    <p><strong>Description:</strong> {info.Description}</p>
+                    <p><strong>Awards:</strong> {info.Awards}</p>
+                    <p><strong>Date:</strong> {info.Date.toString()}</p>
+                    <p><strong>Composition:</strong> {info.Composition}</p>
                 </div>
             ),
             width: 1200,
-            onOk() { },
         });
     };
 
     return (
         <>
             <ActionButton
+                id="BOTONRESUME"
                 type="info"
                 onClick={infoModal}
                 style={{ backgroundColor: "#1b4586", color: "#FFFFFF" }}
@@ -35,7 +36,7 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
                 {titlename}
             </ActionButton>
         </>
-        
+
     );
 };
 
