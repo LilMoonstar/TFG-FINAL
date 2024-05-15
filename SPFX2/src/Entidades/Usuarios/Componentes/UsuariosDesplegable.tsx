@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import { Button, Modal } from 'antd';
 import { Spinner, Stack, Text } from 'office-ui-fabric-react';
 import * as React from "react";
@@ -14,11 +15,15 @@ interface IDatosDesplegableProps {
   callback: () => Promise<void>;
   showModal: () => void;
   handleOk: () => void;
+  championImageUrl: string;
 }
 
 const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDesplegableProps) => {
   const [cargando, setCargando] = React.useState(true);
   const [Item, setItem] = React.useState(props.item);
+  const [editarVisible, setEditarVisible] = React.useState(false);
+
+
 
   React.useEffect(() => {
     setItem(props.item);
@@ -67,16 +72,13 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
-
-
-  const [editarVisible, setEditarVisible] = React.useState(false);
-
-
-
   const handleOk = async () => {
     props.handleOk();
 
   };
+
+
+
   return (
     <>
       <div>
@@ -123,14 +125,13 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
                   }}
                   profGame={props.PROFGAME}
-
                 />
               )}
             </Stack>
 
-{/* COSAS QUE SE VEN SI PROFGAME ES 'FORTNITEPROFGAME' */}
+            {/* COSAS QUE SE VEN SI PROFGAME ES 'FORTNITEPROFGAME' */}
 
-        <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
 
               {props.PROFGAME === 'FORTNITEPROFGAME' && (
                 <>
@@ -138,7 +139,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                     <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
                   </Stack.Item>
 
-                   {/* Mostrar imagen según la plataforma o la imagen por defecto */}
+                  {/* Mostrar imagen según la plataforma o la imagen por defecto */}
 
                   <Stack.Item>
                     <img
@@ -152,7 +153,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                     <Text variant="medium">Controls: {Item.Controls !== null ? Item.Controls : "No controls assigned yet"}</Text>
                   </Stack.Item>
 
-                    {/* Mostrar imagen según los controles o la imagen por defecto */}
+                  {/* Mostrar imagen según los controles o la imagen por defecto */}
 
                   <Stack.Item>
                     <img
@@ -163,18 +164,18 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   </Stack.Item>
                 </>
               )}
-        </Stack>
+            </Stack>
 
-{/* COSAS QUE SE VEN SI PROFGAME ES 'LEAGUEPROFGAME' */}
+            {/* COSAS QUE SE VEN SI PROFGAME ES 'LEAGUEPROFGAME' */}
 
-        <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
               {props.PROFGAME === 'LEAGUEPROFGAME' && (
                 <>
                   <Stack.Item>
                     <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
                   </Stack.Item>
 
-                   {/* Mostrar imagen según el role o la imagen por defecto */}
+                  {/* Mostrar imagen según el role o la imagen por defecto */}
 
                   <Stack.Item>
                     <img
@@ -184,15 +185,24 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                     />
                   </Stack.Item>
 
+                  {/* Mostrar imagen del campeón seleccionado */}
+
                   <Stack.Item>
-                    
-
-
+                    <Text variant="medium">Campeon preferido: {Item?.Champions?.Url ? Item?.Champions?.Url.split('/').pop()?.replace('_0.jpg', '') : "No champ assigned yet"}</Text>
                   </Stack.Item>
+
+                  <Stack.Item>
+                    <img
+                      src={Item?.Champions?.Url || "https://pbs.twimg.com/media/EGKvlXpUcAEqfXO.jpg"}
+                      alt={Item?.Champions?.Description || "Default"}
+                      style={{ width: '100px', height: '100px', padding: '10px' }}
+                    />
+                  </Stack.Item>
+
 
                 </>
               )}
-        </Stack>
+            </Stack>
 
 
             {/* Edit */}
@@ -211,3 +221,5 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 };
 
 export default DatosDesplegable;
+/* eslint-enable*/
+ 

@@ -1,4 +1,5 @@
-
+/* eslint-disable*/
+ 
 import { CampeonesLista } from "./CampeonesLista";
 
 export class CampeonesItem {
@@ -9,6 +10,7 @@ export class CampeonesItem {
     public ID: number;
     public Nombre: string;
     public URL: string;
+  Name: any;
 
 
     constructor(ListItem: any, Lista: CampeonesLista) {
@@ -24,8 +26,9 @@ export class CampeonesItem {
     public MapearCampos(): void {
         this.ID = this.ListItem.ID;
         this.Nombre = this.ListItem.FileLeafRef.replace(this.ListItem.File_x0020_Type, "").slice(0, -1);
-        //this.Nombre = this.obtenerNombreArchivo(this.ListItem.FileLeafRef);
         this.URL = this.ListItem.FileRef;
+        console.log(this.ListItem);
+        
     }
 
     public async updateItem(): Promise<boolean> {
@@ -70,3 +73,5 @@ export class CampeonesItem {
         }
     }
 }
+/* eslint-enable*/
+ 

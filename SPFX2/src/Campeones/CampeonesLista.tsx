@@ -8,7 +8,7 @@ import "@pnp/sp/lists";
  
  
 export class CampeonesLista {
-  public NombreBiblioteca = "Campeoness";
+  public NombreBiblioteca = "Campeones";
   public SelectAllFields: string[] = [
     "*",
     "FileLeafRef",

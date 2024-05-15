@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-floating-promises*/
+/* eslint-disable */
+
 import * as React from "react";
 import { TextField, Spinner, Stack, IDropdownOption } from "@fluentui/react";
 import { UsuariosItem } from "../UsuariosItem";
@@ -7,6 +8,7 @@ import { Dropdown } from "@fluentui/react";
 import { useEffect, useState } from "react";
 import { CampeonesItem } from "../../../Campeones/CampeonesItem";
 import { CampeonesLista } from "../../../Campeones/CampeonesLista";
+import UsuariosComboBox from "./UsuariosComboBox";
 
 
 export interface IUsuariosFormProps {
@@ -15,6 +17,7 @@ export interface IUsuariosFormProps {
     CloseModal: () => void;
     OnSubmit: () => void;
     profGame: "FORTNITEPROFGAME" | "LEAGUEPROFGAME";
+    
 }
 
 const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
@@ -28,14 +31,13 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
     const consultaInicial = async (): Promise<void> => {
         FotosL.current = new CampeonesLista(props.Item.Lista.web, props.Item.Lista.Context);
         const consultaFotos = await FotosL.current.CargarTodos();
-        console.log(consultaFotos);
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         await setFotos(consultaFotos);
     }
 
     useEffect(() => {
         consultaInicial();
     }, []);
+
 
     const SeEstanProcesandoCosas = Submitiendo || props.guardando;
 
@@ -44,7 +46,6 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
             { key: "PS", text: "PS" },
             { key: "XBox", text: "XBox" },
             { key: "PC", text: "PC" }
-
         ]);
 
     }, []);
@@ -118,35 +119,17 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
                         onChange={(e, option) => setItemEdit({ ...ItemEdit!, Role: option?.key } as UsuariosItem)}
                     />
                 )}
-
-                <Dropdown
-                    label="Foto"
-                    placeholder="Seleccione una foto"
-                    //defaultSelectedKey={itemEdit?.Foto?.ID || 1}
-                    options={fotos.map(F => {
-                        return {
-                            key: F.ID,
-                            text: F.Nombre,
-                            data: F
-                        }
-                    })}
-
-                    onChange={(e, newvalue) => {
-                        console.log(newvalue.data.Url.replaceAll(" ", "%20"));
-
-                        const foto = newvalue.data.Url.replaceAll(" ", "%20");
-                        setItemEdit({ ...ItemEdit, Champions: { Description: newvalue.text, Url: foto } } as UsuariosItem);
-                    }}
-
-                />
-
+                {props.profGame === "LEAGUEPROFGAME" && (
+                    <>
+                        <h1 style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "8px", marginTop: "8px" }}>Filtrar Campeón/es Favorito/s</h1>
+                        <UsuariosComboBox fotos={fotos} Item={ItemEdit} />
+                    </>
+                )}
 
             </Stack>
-
-
-
         </Modal>
     );
 };
 
 export default UsuariosForm;
+/* eslint-enable*/

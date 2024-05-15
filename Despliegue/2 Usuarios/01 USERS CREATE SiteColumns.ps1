@@ -70,7 +70,14 @@ $fieldsArray += '<Field ID="b2afd98d-37b3-4767-af00-ba5580f4dd5d"
                 </CHOICES>
                 </Field>';
 
-
+$fieldsArray += '<Field ID="e621fba9-f92f-4416-90c7-8165f6490a42" 
+                Name="US_Championpic"
+                DisplayName="Champion Pic" 
+                Type="URL"
+                Format="Image"
+                Group="Usuarios" 
+                xmlns="http://schemas.microsoft.com/sharepoint/">
+                </Field>';
 
 
 $fieldOption = [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue;

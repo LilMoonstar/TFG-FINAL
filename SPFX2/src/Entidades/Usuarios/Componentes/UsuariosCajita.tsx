@@ -1,4 +1,5 @@
-// UsuariosCajita.tsx
+/* eslint-disable */
+ 
 import * as React from "react";
 import { Stack, Button } from '@fluentui/react';
 import { Persona } from "office-ui-fabric-react";
@@ -113,6 +114,7 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           callback={props.callback}
           showModal={() => setShowModal(true)}
           handleOk={handleFormOk}
+          championImageUrl={null}
         />
       )}
 
@@ -121,3 +123,5 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
 }
 
 export default UsuariosCajita;
+/* eslint-enable*/
+ 

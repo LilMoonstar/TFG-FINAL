@@ -79,6 +79,8 @@ if ($contentType -ne $null) {
             $viewFields.Add("US_Role")
             $viewFields.Add("US_Platform")
             $viewFields.Add("US_Controls")
+            $viewFields.Add("US_Championpic")
+            
 
         $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"
         $vista.Update()

@@ -1,4 +1,5 @@
-
+/* eslint-disable*/
+ 
 
 import { UsuariosLista } from "./UsuariosLista";
 
@@ -16,8 +17,8 @@ export class UsuariosItem {
   public User: ComasisUser;
   public NicknameLol: string;
   public NicknameFortnite: string;
-  public Role: string | null; 
-  public Platform: string | null; 
+  public Role: string | null;
+  public Platform: string | null;
   public Controls: string | null;
   public Champions: any | null;
 
@@ -33,7 +34,7 @@ export class UsuariosItem {
     }
   }
 
-  
+
   public setNicknameLol(nickname: string) {
     this.NicknameLol = nickname;
   }
@@ -54,12 +55,13 @@ export class UsuariosItem {
     this.User = this.ListItem.US_User;
     this.NicknameLol = this.ListItem.US_UsernameLOL;
     this.NicknameFortnite = this.ListItem.US_UsernameFOR;
-    this.Role = this.ListItem.US_Role !== null ? this.ListItem.US_Role : null; 
-    this.Platform = this.ListItem.US_Platform !== null ? this.ListItem.US_Platform : null; 
-    this.Controls = this.ListItem.US_Controls !== null ? this.ListItem.US_Controls : null; 
+    this.Role = this.ListItem.US_Role !== null ? this.ListItem.US_Role : null;
+    this.Platform = this.ListItem.US_Platform !== null ? this.ListItem.US_Platform : null;
+    this.Controls = this.ListItem.US_Controls !== null ? this.ListItem.US_Controls : null;
+    this.Champions = this.ListItem.US_Championpic !== null ? this.ListItem.US_Championpic : null;
   }
 
-  
+
   public async updateItem(): Promise<boolean> {
     try {
       let needUpdate = false;
@@ -85,8 +87,12 @@ export class UsuariosItem {
         item["US_Controls"] = this.ItemEdit?.Controls;
         needUpdate = true;
       }
+      if (this.ItemEdit?.Champions !== this?.Champions?.Url) {
+        item["US_Championpic"] = { Url: this.ItemEdit?.Champions?.Url };
+        needUpdate = true;
+      }
 
-      
+
       if (null !== this.ListItem.ID && needUpdate) {
         await this.Lista.List.items
           .getById(this.ListItem.ID)
@@ -97,14 +103,15 @@ export class UsuariosItem {
             this.MapearCampos();
             return true;
           });
-      } 
+      }
 
-      return true; 
+      return true;
     } catch (error) {
       console.error("Error al actualizar el item:", error);
-      return false; 
+      return false;
     }
   }
 }
 
-
+/* eslint-enable*/
+ 
