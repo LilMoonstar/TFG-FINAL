@@ -20,7 +20,7 @@ export class UsuariosItem {
   public Role: string | null;
   public Platform: string | null;
   public Controls: string | null;
-  public Champions: any | null;
+  public Champion: any | null;
 
   static Role: string;
   static Platform: string;
@@ -58,7 +58,7 @@ export class UsuariosItem {
     this.Role = this.ListItem.US_Role !== null ? this.ListItem.US_Role : null;
     this.Platform = this.ListItem.US_Platform !== null ? this.ListItem.US_Platform : null;
     this.Controls = this.ListItem.US_Controls !== null ? this.ListItem.US_Controls : null;
-    this.Champions = this.ListItem.US_Championpic !== null ? this.ListItem.US_Championpic : null;
+    this.Champion = this.ListItem.US_Championpic !== null ? this.ListItem.US_Championpic : null;
   }
 
 
@@ -87,8 +87,8 @@ export class UsuariosItem {
         item["US_Controls"] = this.ItemEdit?.Controls;
         needUpdate = true;
       }
-      if (this.ItemEdit?.Champions !== this?.Champions?.Url) {
-        item["US_Championpic"] = { Url: this.ItemEdit?.Champions?.Url };
+      if (this.ItemEdit?.Champion !== this?.Champion?.Url) {
+        item["US_Championpic"] = { Url: this.ItemEdit?.Champion?.Url };
         needUpdate = true;
       }
 

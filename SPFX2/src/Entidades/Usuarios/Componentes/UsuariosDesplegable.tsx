@@ -102,13 +102,11 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               {/* Username */}
 
               <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-
                 <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
-
-                  USERNAME: @{props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}
-
+                  {(props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol) && (props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol) !== "I Don't have a Name"
+                    ? `USERNAME: @${props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}`
+                    : `You don't have a username for this game`}
                 </Text>
-
               </Stack>
 
               {editarVisible && (
@@ -188,13 +186,13 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   {/* Mostrar imagen del campeón seleccionado */}
 
                   <Stack.Item>
-                    <Text variant="medium">Campeon preferido: {Item?.Champions?.Url ? Item?.Champions?.Url.split('/').pop()?.replace('_0.jpg', '') : "No champ assigned yet"}</Text>
+                    <Text variant="medium">Main champion: {Item?.Champion?.Url ? Item?.Champion?.Url.split('/').pop()?.replace('_0.jpg', '') : "I don't have one!"}</Text>
                   </Stack.Item>
 
                   <Stack.Item>
                     <img
-                      src={Item?.Champions?.Url || "https://pbs.twimg.com/media/EGKvlXpUcAEqfXO.jpg"}
-                      alt={Item?.Champions?.Description || "Default"}
+                      src={Item?.Champion?.Url || "https://pbs.twimg.com/media/EGKvlXpUcAEqfXO.jpg"}
+                      alt={Item?.Champion?.Description || "Default"}
                       style={{ width: '100px', height: '100px', padding: '10px' }}
                     />
                   </Stack.Item>
@@ -222,4 +220,3 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
 export default DatosDesplegable;
 /* eslint-enable*/
- 
