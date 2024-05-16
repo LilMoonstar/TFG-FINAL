@@ -120,7 +120,7 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
                     label="Nombre de Usuario"
                     value={ItemEdit && (props.profGame === "FORTNITEPROFGAME" ? ItemEdit.NicknameFortnite : ItemEdit.NicknameLol)}
                     onChange={(e, newValue) => {
-                        const trimmedValue = newValue?.trim(); 
+                        const trimmedValue = newValue?.trim().substring(0, 20); 
                         const newName = trimmedValue ? trimmedValue : "I Don't have a Name";
 
                         if (props.profGame === "FORTNITEPROFGAME") {
@@ -129,6 +129,7 @@ const UsuariosForm: React.FC<IUsuariosFormProps> = (props) => {
                             setItemEdit({ ...ItemEdit!, NicknameLol: newName } as UsuariosItem);
                         }
                     }}
+                    maxLength={20}
                 />
 
                 {/*si el parámetro recibido es fortnite*/}

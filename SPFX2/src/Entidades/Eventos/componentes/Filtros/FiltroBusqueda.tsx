@@ -10,7 +10,13 @@ interface FiltroJuegoProps {
 }
 
 const FiltroJuego: React.FC<FiltroJuegoProps> = ({
-     setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+  setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+
+  const handleReiniciar = () => {
+    clearFilters()
+    confirm ()
+  };
+
   return (
     <div style={{ padding: 8 }}>
       <Input
@@ -30,7 +36,10 @@ const FiltroJuego: React.FC<FiltroJuegoProps> = ({
         >
           Buscar
         </Button>
-        <Button onClick={clearFilters} size="small" style={{ width: 90 }}>
+        <Button
+          onClick={handleReiniciar}
+          size="small"
+          style={{ width: 90 }}>
           Reiniciar
         </Button>
       </Space>

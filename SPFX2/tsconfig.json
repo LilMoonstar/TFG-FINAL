@@ -32,5 +32,5 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx"
-, "src/webparts/gestorEventos/components/GestorUsuariostsx"  ]
+, "src/webparts/gestorEventos/components/GestorUsuariostsx", "src/Entidades/Calendario/Calendario.tsx", "src/Entidades/Calendario/Calendario.tsx"  ]
 }

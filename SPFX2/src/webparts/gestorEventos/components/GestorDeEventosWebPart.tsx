@@ -9,6 +9,7 @@ import UsuariosCajita from "../../../Entidades/Usuarios/Componentes/UsuariosCaji
 import { EventosItem } from "../../../Entidades/Eventos/EventosItem";
 import { UsuariosLista } from "../../../Entidades/Usuarios/UsuariosLista";
 import { UsuariosItem } from "../../../Entidades/Usuarios/UsuariosItem";
+import Calendario from "../../../Entidades/Calendario/Calendario";
 import './WebPart.css';
 
 
@@ -83,16 +84,22 @@ export default function EventoWebpart(
 
   return (
     <>
-        <p>MI PERFIL</p>
-        <div className="CAJAPERFIL" style={{ display: 'inline-block', marginLeft: '20px' }}>
+      <div className="ARRIBA">
+        <div className="CAJAPERFIL" >
+          <p>MI PERFIL</p>
           <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario} />
         </div>
+        <div className="CALENDARIOPERFIL">
+            <Calendario Context={new WebPartContext} eventos={[]} />
+        </div>
+      </div>
+
 
       <br />
       <br />
 
 
-        <p>MIS EVENTOS</p>
+      <p>MIS EVENTOS</p>
 
       <div className="TABLAEVENTOS">
         <EventosBotonNuevo lista={listaEventos.current} callback={recargaDatos} />

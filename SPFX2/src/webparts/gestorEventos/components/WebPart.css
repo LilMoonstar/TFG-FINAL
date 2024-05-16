@@ -10,12 +10,26 @@ p {
     font-size: 1.7em;
   }
   
- 
+  .ARRIBA {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
   .CAJAPERFIL {
     transition: transform 0.3s ease;
+    margin-left: 100px;
   }
   
   .CAJAPERFIL:hover {
     transform: scale(1.1);
   }
-  
+
+  .CALENDARIOPERFIL{
+    margin-right: 100px;
+    transition: transform 0.3s ease;
+  }
+
+  .CALENDARIOPERFIL:hover {
+    transform: scale(1.1);
+  }
