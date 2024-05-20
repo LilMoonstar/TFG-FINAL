@@ -72,12 +72,12 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           imageShouldFadeIn={false}
           imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${props.email}`}
           text={props.title}
-          coinSize={props.size}
+          coinSize={props.size || 72}  // Ajusta el tamaño de la foto aquí
         />
       ) : props.mostrarSiVacio ? (
         <Persona
           showUnknownPersonaCoin={true}
-          coinSize={props.size}
+          coinSize={props.size || 72}  // Ajusta el tamaño de la foto aquí
           title={props.mensajeSiVacio}
           text={props.mensajeSiVacio}
         />
@@ -91,9 +91,10 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           <Persona
             imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${currentUserEmail}`}
             hidePersonaDetails
+            coinSize={80}  // Ajusta el tamaño de la foto aquí
           />
           {/* Nombre de usuario */}
-          <span>{currentUserName}</span>
+          <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{currentUserName}</span>
         </div>
 
         {/* Botones F y L */}

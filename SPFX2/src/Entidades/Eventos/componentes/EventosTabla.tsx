@@ -11,13 +11,12 @@ import FiltroFecha from "./Filtros/FiltroFecha";
 import EventosBotonEditar from "./EventosBotonEditar";
 import EventosBorrar from "./EventosBorrar";
 
-
-
 // "Reload" tras editar
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
-  callback: () => Promise<void>
+  callback: () => Promise<void>;
+  ImAdmin: boolean; 
 }
 
 export default function EventosWebpart(
@@ -43,7 +42,9 @@ export default function EventosWebpart(
       dataIndex: "EDIT",
       render: (text: string, record: EventosItem) => (
         <div>
-          <EventosBotonEditar item={record} callback={Props.callback} />
+          {Props.ImAdmin && ( // Mostrar solo si es administrador
+            <EventosBotonEditar item={record} callback={Props.callback} />
+          )}
         </div>
       )
     },
@@ -56,7 +57,9 @@ export default function EventosWebpart(
       dataIndex: "DELETE",
       render: (text: string, record: EventosItem) => (
         <div>
-          <EventosBorrar item={record} onDelete={Props.callback} />
+          {Props.ImAdmin && ( // Mostrar solo si es administrador
+            <EventosBorrar item={record} onDelete={Props.callback} />
+          )}
         </div>
       )
     },

@@ -37,6 +37,7 @@
     margin-right: 35px;
     font-size: 13px; 
     font-weight: normal;
+    transition: font-size 0.3s ease;
 }
 
 .event-info-container p:hover {

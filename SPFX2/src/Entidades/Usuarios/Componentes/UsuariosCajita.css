@@ -1,54 +1,73 @@
 .usuarios-cajita {
-    background: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 400px;
-    text-align: center;
-  }
-  
-  .usuario-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .botones {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+  height: 300px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 35px;
+}
 
-  #botonFortnite {
-    background-image: url('https://clipground.com/images/fortnite-f-logo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center; 
-    width: 50px; 
-    height: 50px; 
-    border: none;
-    margin: 10px;
-  }
-  
-  #botonLol {
-    background-image: url('https://vignette.wikia.nocookie.net/leagueoflegends/images/7/76/LoL_Icon.png/revision/latest?cb=20170427054945');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 50px;
-    height: 50px;
-    border: none;
-    margin: 10px;
-  }
-   
-  #botonFortnite:hover,
-  #botonLol:hover {
-    transform: scale(1.1);
-  }
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 
-  .ms-Persona {
-    display: flex;
-    justify-content: center;
-  }
+.usuario-info .ms-Persona {
+  width: 80px;
+  height: 80px; 
+}
+
+.usuario-info span {
+  font-size: 20px; 
+  font-weight: bold; 
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#botonFortnite {
+  background-image: url('https://clipground.com/images/fortnite-f-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center; 
+  width: 100px; 
+  height: 100px; 
+  border: none;
+  margin: 10px;
+  transition: all 0.3s ease;
+}
+
+#botonLol {
+  background-image: url('https://vignette.wikia.nocookie.net/leagueoflegends/images/7/76/LoL_Icon.png/revision/latest?cb=20170427054945');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border: none;
+  margin: 10px;
+  transition: all 0.3s ease;
+}
+
+#botonFortnite:hover,
+#botonLol:hover {
+  transform: scale(1.1);
+}
+
+.ms-Persona {
+  display: flex;
+  justify-content: center;
+}

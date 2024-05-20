@@ -1,10 +1,13 @@
+import { ReactNode } from "react";
+
 export interface EventosCalendario {
-    title: string;
-    start: Date;
-    end: Date;
-    allDay?: boolean;
-    fondo: string; 
-    id?: number;
-    Ver?: (callback: () => void) => JSX.Element;
-  }
-  
+  Description: ReactNode;
+  Game: string;
+  title: string;
+  start: Date;
+  end: Date;
+  allDay?: boolean;
+  fondo?: string;
+  id?: number;
+  Ver?: (callback: () => void) => JSX.Element;
+}

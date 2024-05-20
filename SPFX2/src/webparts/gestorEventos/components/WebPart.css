@@ -1,14 +1,4 @@
-p {
-    font-size: 1.5em;
-    margin: 10px 0;
-    padding: 5px;
-    transition: font-size 0.3s ease;
-    font-weight: bold;
-  }
-  
-  p:hover {
-    font-size: 1.7em;
-  }
+
   
   .ARRIBA {
     display: flex;
@@ -18,18 +8,22 @@ p {
   
   .CAJAPERFIL {
     transition: transform 0.3s ease;
-    margin-left: 100px;
   }
   
   .CAJAPERFIL:hover {
-    transform: scale(1.1);
+    transform: scale(1.02);
   }
 
   .CALENDARIOPERFIL{
-    margin-right: 100px;
     transition: transform 0.3s ease;
   }
 
   .CALENDARIOPERFIL:hover {
-    transform: scale(1.1);
+    transform: scale(1.02);
+  }
+
+  #PARRAFOWEBPART{
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
   }
