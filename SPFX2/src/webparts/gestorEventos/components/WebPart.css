@@ -183,3 +183,11 @@
   margin-bottom: 10px;
   width: 100%;
 }
+
+#ADMINLABEL{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}

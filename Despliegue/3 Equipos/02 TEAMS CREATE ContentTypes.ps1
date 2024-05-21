@@ -1,9 +1,9 @@
 # Definir el nombre del grupo y del tipo de contenido
-$contentTypeGroup = "Usuarios"
-$contentTypeName = "THISUsuarios"
+$contentTypeGroup = "Equipos"
+$contentTypeName = "THISEquipos"
 
 # Añadir los nombres internos de las columnas que compondrán el tipo de contenido
-$columns = "US_User","US_UsernameLOL","US_UsernameFOR","US_Role","US_Platform","US_Controls","US_Championpic","US_LTeam","US_FTeam"
+$columns = "TEAM_Members","TEAM_Game","TEAM_Date"
 
 
 # ID del tipo de contenido padre

@@ -1,6 +1,6 @@
 # Creación de la lista
-$listTitle = "Usuarios"
-$listDescription = "Lista Usuarios"
+$listTitle = "Equipos"
+$listDescription = "Lista Equipos"
 $listTemplate = [Microsoft.SharePoint.Client.ListTemplateType]::GenericList
 
 $lci = New-Object Microsoft.SharePoint.Client.ListCreationInformation
@@ -26,7 +26,7 @@ $list.Update()
 $context.ExecuteQuery()
 
 # Añadir tipo de contenido existente a la lista
-$tipodecontenido = "THISUsuarios"
+$tipodecontenido = "THISEquipos"
 $contentTypes = $context.web.ContentTypes
 
 $context.Load($contentTypes)
@@ -73,16 +73,9 @@ if ($contentType -ne $null) {
         $context.ExecuteQuery()
 
             $viewFields.Add("ID")
-            $viewFields.Add("US_User")
-            $viewFields.Add("US_UsernameLOL")
-            $viewFields.Add("US_UsernameFOR")
-            $viewFields.Add("US_Role")
-            $viewFields.Add("US_Platform")
-            $viewFields.Add("US_Controls")
-            $viewFields.Add("US_Championpic")
-            $viewFields.Add("US_LTeam")
-            $viewFields.Add("US_FTeam")
-            
+            $viewFields.Add("TEAM_Members")
+            $viewFields.Add("TEAM_Game")
+            $viewFields.Add("TEAM_Date")   
 
         $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"
         $vista.Update()

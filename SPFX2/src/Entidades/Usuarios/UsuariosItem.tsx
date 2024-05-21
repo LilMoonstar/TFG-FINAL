@@ -21,10 +21,8 @@ export class UsuariosItem {
   public Platform: string | null;
   public Controls: string | null;
   public Champion: any | null;
-
-  static Role: string;
-  static Platform: string;
-  static Controls: string;
+  public FTEAM: string | null;
+  public LTEAM: string | null;
 
   constructor(ListItem: any, Lista: UsuariosLista) {
     this.ListItem = ListItem;
@@ -61,7 +59,10 @@ export class UsuariosItem {
     this.Platform = this.ListItem.US_Platform !== null ? this.ListItem.US_Platform : null;
     this.Controls = this.ListItem.US_Controls !== null ? this.ListItem.US_Controls : null;
     this.Champion = this.ListItem.US_Championpic !== null ? this.ListItem.US_Championpic : null;
+    this.FTEAM = this.ListItem.US_FTeam !== null ? this.ListItem.US_FTeam : null;
+    this.LTEAM = this.ListItem.US_LTeam !== null ? this.ListItem.US_LTeam : null;
   }
+
 
   public async updateItem(): Promise<boolean> {
     try {

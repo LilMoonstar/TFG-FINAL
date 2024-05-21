@@ -2,18 +2,18 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { IList } from "@pnp/sp/lists";
 import { IItem, IWeb } from "@pnp/sp/presets/all";
-import { EventosItem } from "./EventosItem";
+import { EquiposItem } from "./EquiposItem";
  
-export class EventosLista {
+export class EquiposLista {
   HandleSPError: any;
 
   getNewItem() {
-    const nuevo = new EventosItem(null, this);
+    const nuevo = new EquiposItem(null, this);
     nuevo.ID = null;
     return nuevo;
   }
 
-  public NombreLista = "Eventos";
+  public NombreLista = "Equipos";
   public SelectAllFields: string[] = [
     "*",
   ];
@@ -30,14 +30,14 @@ export class EventosLista {
  
 
 
-  public async CargarTodos(BatchedWeb?: IWeb): Promise<EventosItem[]> {
+  public async CargarTodos(BatchedWeb?: IWeb): Promise<EquiposItem[]> {
     const Items = this.List.items
       .expand(this.ExpandAllFields.join())
       .orderBy("Title")
       .select(this.SelectAllFields.join())()
       .then((Data: any) => {
         return Data.map((I:IItem) => {
-          return new EventosItem(I, this);
+          return new EquiposItem(I, this);
         });
       })
       .catch(async (E: Error) => {

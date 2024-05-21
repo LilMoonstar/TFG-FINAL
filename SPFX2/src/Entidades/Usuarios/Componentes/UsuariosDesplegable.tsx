@@ -153,7 +153,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
                   <Stack.Item>
                     <img
-                      src={Item.Controls !== null ? getImageForFortniteCONTROLS(Item.Controls) : getImageForFortnitePLATFORM(null)}
+                      src={Item.Controls !== null ? getImageForFortniteCONTROLS(Item.Controls) : getImageForFortniteCONTROLS(null)}
                       alt={Item.Controls !== null ? Item.Controls : "Default"}
                       style={{ width: '100px', height: '100px', padding: '10px' }}
                     />
@@ -199,7 +199,23 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                 </>
               )}
             </Stack>
+            <br />
+            {/* Mostrar equipo asignado según el PROFGAME */}
 
+            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+            <Text variant="medium">Equipo de {props.titulo}: </Text>
+              <Stack.Item>
+                {props.PROFGAME === 'LEAGUEPROFGAME' ? (
+                  <Button type="primary">
+                    {Item?.LTEAM ? Item.LTEAM : 'No team assigned yet'}
+                  </Button>
+                ) : (
+                  <Button type="primary">
+                    {Item?.FTEAM ? Item.FTEAM : 'No team assigned yet'}
+                  </Button>
+                )}
+              </Stack.Item>
+            </Stack>
 
             {/* Edit */}
 
