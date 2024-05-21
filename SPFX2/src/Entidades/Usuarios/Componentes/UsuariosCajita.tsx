@@ -1,11 +1,11 @@
 /* eslint-disable */
  
 import * as React from "react";
-import { Stack, Button } from '@fluentui/react';
-import { Persona } from "office-ui-fabric-react";
+import { Stack } from '@fluentui/react';
+import { DefaultButton, Persona } from "office-ui-fabric-react";
 
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import './UsuariosCajita.css';
+import '../../../webparts/gestorEventos/components/WebPart.css';
 import { UsuariosItem } from '../UsuariosItem';
 import UsuariosDesplegable from "./UsuariosDesplegable";
 
@@ -72,40 +72,34 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           imageShouldFadeIn={false}
           imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${props.email}`}
           text={props.title}
-          coinSize={props.size || 72}  // Ajusta el tamaño de la foto aquí
+          coinSize={props.size || 72} 
         />
       ) : props.mostrarSiVacio ? (
         <Persona
           showUnknownPersonaCoin={true}
-          coinSize={props.size || 72}  // Ajusta el tamaño de la foto aquí
+          coinSize={props.size || 72}
           title={props.mensajeSiVacio}
           text={props.mensajeSiVacio}
         />
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       <div className="usuarios-cajita">
-        {/* Foto y texto del usuario */}
         <div className="usuario-info">
           <Persona
             imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${currentUserEmail}`}
             hidePersonaDetails
-            coinSize={80}  // Ajusta el tamaño de la foto aquí
+            coinSize={80}  
           />
-          {/* Nombre de usuario */}
           <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{currentUserName}</span>
         </div>
 
-        {/* Botones F y L */}
         <div className="botones">
-          <Button id="botonFortnite" onClick={handleFortniteButtonClick}></Button>
-          <Button id="botonLol" onClick={handleLolButtonClick}></Button>
+          <DefaultButton id="botonFortnite" onClick={handleFortniteButtonClick}></DefaultButton>
+          <DefaultButton id="botonLol" onClick={handleLolButtonClick}></DefaultButton>
         </div>
       </div>
 
-      {/* Modal desplegable para los juegos */}
-      {ShowModal && (
+      {ShowModal && usuariosItem && (
         <UsuariosDesplegable
           titulo={Mode === "Fornite" ? "Fortnite" : "League Of Legends"}
           visible={ShowModal}
@@ -118,11 +112,9 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           championImageUrl={null}
         />
       )}
-
     </Stack>
   );
 }
 
 export default UsuariosCajita;
-/* eslint-enable*/
- 
+/* eslint-enable */

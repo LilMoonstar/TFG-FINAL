@@ -8,6 +8,8 @@ import GestorDeEventosWebPart, {
   IEventoWebpartProps,
 } from "./components/GestorDeEventosWebPart";
 import { SPFI, SPFx, spfi } from "@pnp/sp/presets/all";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
 
 export interface IGestorDeEventosWebpartWebPartProps {
   description: string;

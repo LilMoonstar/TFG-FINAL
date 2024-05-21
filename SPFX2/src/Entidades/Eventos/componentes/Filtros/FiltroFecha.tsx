@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable*/
 import * as React from "react";
 import { DatePicker, Button } from 'antd';
 import { Moment } from 'moment';
-import '../../../Eventos/componentes/Eventos.css';
+ import '../../../../webparts/gestorEventos/components/WebPart.css';
 
 interface FiltroFechaProps {
   onFilter: (startDate: string, endDate: string) => void;

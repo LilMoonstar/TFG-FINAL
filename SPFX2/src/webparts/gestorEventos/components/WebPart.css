@@ -1,29 +1,185 @@
+.ARRIBA {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  
-  .ARRIBA {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .CAJAPERFIL {
-    transition: transform 0.3s ease;
-  }
-  
-  .CAJAPERFIL:hover {
-    transform: scale(1.02);
+.CAJAPERFIL {
+  width: 40%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.CAJAPERFIL:hover {
+  transform: scale(1.02);
+}
+
+.CALENDARIOPERFIL {
+  width: 40%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.CALENDARIOPERFIL:hover {
+  transform: scale(1.02);
+}
+
+#PARRAFOWEBPART {
+  font-weight: bold;
+  text-align: center;
+  font-size: 20px;
+}
+
+#BOTONCREAR,
+#BOTONFILTRAR,
+#BOTONREINICIAR,
+#BOTONRESUME {
+  background-color: #1b4586;
+  color: #FFFFFF;
+  transition: all 0.3s ease;
+}
+
+#BOTONCREAR:hover,
+#BOTONFILTRAR:hover,
+#BOTONREINICIAR:hover,
+#BOTONRESUME:hover {
+  background-color: #4896d6;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+#BOTONBORRAR,
+#BOTONFILTRAR,
+#BOTONREINICIAR,
+#BOTONRESUME {
+  transition: all 0.3s ease;
+}
+
+#BOTONBORRAR:hover {
+  background-color: #e00606;
+  color: #ffffff;
+  font-weight: bolder;
+  animation: vibrar 0.1s infinite alternate;
+}
+
+@keyframes vibrar {
+  0% {
+    transform: translateX(-1px) rotate(-1deg);
   }
 
-  .CALENDARIOPERFIL{
-    transition: transform 0.3s ease;
+  50% {
+    transform: translateX(1px) rotate(1deg);
   }
 
-  .CALENDARIOPERFIL:hover {
-    transform: scale(1.02);
+  100% {
+    transform: translateX(-1px) rotate(-1deg);
   }
+}
 
-  #PARRAFOWEBPART{
-    font-weight: bold;
-    text-align: center;
-    font-size: 20px;
-  }
+.event-info-container {
+  text-align: center;
+  white-space: pre-line;
+}
+
+.event-info-container p {
+  text-align: justify;
+  margin-right: 35px;
+  font-size: 13px;
+  font-weight: normal;
+  transition: font-size 0.3s ease;
+}
+
+.event-info-container p:hover {
+  font-size: 15px;
+}
+
+#textomodalborrar {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.textomodalborrar:hover {
+  font-size: 15px;
+}
+
+.usuarios-cajita {
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+  height: 300px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 35px;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.usuario-info .ms-Persona {
+  width: 80px;
+  height: 80px;
+}
+
+.usuario-info span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#botonFortnite {
+  background-image: url('https://clipground.com/images/fortnite-f-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border: none;
+  margin: 10px;
+  transition: all 0.3s ease;
+}
+
+#botonLol {
+  background-image: url('https://vignette.wikia.nocookie.net/leagueoflegends/images/7/76/LoL_Icon.png/revision/latest?cb=20170427054945');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border: none;
+  margin: 10px;
+  transition: all 0.3s ease;
+}
+
+#botonFortnite:hover,
+#botonLol:hover {
+  transform: scale(1.1);
+}
+
+.ms-Persona {
+  display: flex;
+  justify-content: center;
+}
+
+.FILTRODEFECHA{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}

@@ -1,9 +1,9 @@
+/* eslint-disable*/
 import * as React from "react";
 import { Modal } from 'antd';
 import { ActionButton } from "@fluentui/react";
 import { EventosItem } from "../EventosItem";
-import './Eventos.css';
-
+ import '../../../webparts/gestorEventos/components/WebPart.css';
 const EventosResume: React.FC<{ titlename: string; text: string; info: EventosItem }> = ({ titlename, text, info }) => {
 
     const infoModal = () => {
@@ -41,3 +41,4 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
 };
 
 export default EventosResume;
+/* eslint-enable*/

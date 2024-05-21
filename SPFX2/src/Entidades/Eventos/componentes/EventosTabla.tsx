@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, dot-notation*/
+/* eslint-disable*/
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { Table, TableColumnsType } from "antd";
@@ -36,34 +36,22 @@ export default function EventosWebpart(
   // Filtro edición
 
   const columns: TableColumnsType<EventosItem> = [
-    {
+    ...(Props.ImAdmin ? [{
       key: "EDIT",
       title: "EDIT",
       dataIndex: "EDIT",
       render: (text: string, record: EventosItem) => (
-        <div>
-          {Props.ImAdmin && ( // Mostrar solo si es administrador
-            <EventosBotonEditar item={record} callback={Props.callback} />
-          )}
-        </div>
+        <EventosBotonEditar item={record} callback={Props.callback} />
       )
-    },
-
-    // Filtro Borrado
-
-    {
+    }] : []),
+    ...(Props.ImAdmin ? [{
       key: "DELETE",
       title: "DELETE",
       dataIndex: "DELETE",
       render: (text: string, record: EventosItem) => (
-        <div>
-          {Props.ImAdmin && ( // Mostrar solo si es administrador
-            <EventosBorrar item={record} onDelete={Props.callback} />
-          )}
-        </div>
+        <EventosBorrar item={record} onDelete={Props.callback} />
       )
-    },
-    
+    }] : []),
     {
       key: "Resume",
       title: "Resume",

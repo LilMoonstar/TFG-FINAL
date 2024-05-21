@@ -23,8 +23,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
   const [Item, setItem] = React.useState(props.item);
   const [editarVisible, setEditarVisible] = React.useState(false);
 
-
-
   React.useEffect(() => {
     setItem(props.item);
     setCargando(false);

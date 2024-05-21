@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-empty-function*/
+/* eslint-disable*/
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { useEffect, useState } from "react";
 import { IDropdownOption, PrimaryButton, StackItem } from "@fluentui/react";
 import { EventosLista } from "../EventosLista";
 import EventosForm from "./EventosForm";
-import './Eventos.css';
+import '../../../webparts/gestorEventos/components/WebPart.css';
 
 
 export interface IEventosBotonNuevoProps {
@@ -73,3 +73,4 @@ export default function EventosBotonNuevo(Props: IEventosBotonNuevoProps):JSX.El
     </StackItem>
   );
 }
+/*eslint-enable*/

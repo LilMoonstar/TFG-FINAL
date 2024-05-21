@@ -1,5 +1,4 @@
-/* eslint-disable*/
- 
+/* eslint-disable */
 
 import { UsuariosLista } from "./UsuariosLista";
 
@@ -13,6 +12,7 @@ export class UsuariosItem {
   public ListItem: any;
   public Lista: UsuariosLista;
   public ItemEdit: UsuariosItem;
+  public soyNuevo: boolean;
 
   public User: ComasisUser;
   public NicknameLol: string;
@@ -30,10 +30,12 @@ export class UsuariosItem {
     this.ListItem = ListItem;
     this.Lista = Lista;
     if (ListItem != null) {
+      this.soyNuevo = false;
       this.MapearCampos();
+    } else {
+      this.soyNuevo = true;
     }
   }
-
 
   public setNicknameLol(nickname: string) {
     this.NicknameLol = nickname;
@@ -61,17 +63,22 @@ export class UsuariosItem {
     this.Champion = this.ListItem.US_Championpic !== null ? this.ListItem.US_Championpic : null;
   }
 
-
   public async updateItem(): Promise<boolean> {
     try {
       let needUpdate = false;
       const item: any = {};
 
-      if (this.ItemEdit?.NicknameLol !== this?.NicknameLol) {
+      if (this.ItemEdit.soyNuevo || this.ItemEdit.User?.ID !== this.User?.ID) {
+        item.US_UserId = this.ItemEdit.User?.ID;
+        item["Title"] = this.ItemEdit.User?.Title;
+        needUpdate = true;
+      }
+
+      if (this.ItemEdit.soyNuevo || this.ItemEdit?.NicknameLol !== this?.NicknameLol) {
         item["US_UsernameLOL"] = this.ItemEdit?.NicknameLol;
         needUpdate = true;
       }
-      if (this.ItemEdit?.NicknameFortnite !== this?.NicknameFortnite) {
+      if (this.ItemEdit.soyNuevo || this.ItemEdit?.NicknameFortnite !== this?.NicknameFortnite) {
         item["US_UsernameFOR"] = this.ItemEdit?.NicknameFortnite;
         needUpdate = true;
       }
@@ -92,14 +99,27 @@ export class UsuariosItem {
         needUpdate = true;
       }
 
-
-      if (null !== this.ListItem.ID && needUpdate) {
+      if (this.soyNuevo && needUpdate) {
+        await this.Lista.List.items
+          .add(item)
+          .then((result) => {
+            console.log("Item created");
+            this.ListItem = result.data;
+            this.MapearCampos();
+            this.soyNuevo = false;
+            return true;
+          })
+          .catch(async (ex) => {
+            const mensaje = await this.Lista.HandleSPError(ex);
+            throw Error(`UsuariosItem.update: ${mensaje.message}`);
+          });
+      } else if (!this.soyNuevo && needUpdate) {
         await this.Lista.List.items
           .getById(this.ListItem.ID)
           .update(item)
           .then((result) => {
             console.log("Item updated");
-            this.ListItem = result;
+            this.ListItem = result.data;
             this.MapearCampos();
             return true;
           });
@@ -113,5 +133,4 @@ export class UsuariosItem {
   }
 }
 
-/* eslint-enable*/
- 
+/* eslint-enable */

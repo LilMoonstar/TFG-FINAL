@@ -1,7 +1,8 @@
+/* eslint-disable*/
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { Modal, Button } from "antd";
-import './Eventos.css';
+import '../../../webparts/gestorEventos/components/WebPart.css';
 
 
 export interface IEventosBotonBorrarProps {
@@ -42,3 +43,4 @@ const EventosBorrar: React.FC<IEventosBotonBorrarProps> = ({ item, onDelete }: I
 };
 
 export default EventosBorrar;
+/*eslint-enable*/

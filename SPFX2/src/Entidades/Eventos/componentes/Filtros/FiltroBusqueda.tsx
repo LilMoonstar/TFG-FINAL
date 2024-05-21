@@ -1,6 +1,8 @@
+/*eslint-disable*/
 import * as React from "react";
 import { Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import '../../../../webparts/gestorEventos/components/WebPart.css';
 
 interface FiltroJuegoProps {
   setSelectedKeys: (keys: string[]) => void;
@@ -14,17 +16,16 @@ const FiltroJuego: React.FC<FiltroJuegoProps> = ({
 
   const handleReiniciar = () => {
     clearFilters()
-    confirm ()
+    confirm()
   };
 
   return (
-    <div style={{ padding: 8 }}>
+    <div className="FILTRODEFECHA" style={{ padding: 8 }}>
       <Input
         placeholder="Buscando..."
         value={selectedKeys[0]}
         onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
         onPressEnter={confirm}
-        style={{ width: 188, marginBottom: 8, display: 'block' }}
       />
       <Space>
         <Button
@@ -48,3 +49,4 @@ const FiltroJuego: React.FC<FiltroJuegoProps> = ({
 };
 
 export default FiltroJuego;
+/*eslint-enable*/

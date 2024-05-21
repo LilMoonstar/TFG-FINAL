@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { SPFI } from "@pnp/sp";
 import * as React from "react";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { EventosLista } from "../../../Entidades/Eventos/EventosLista";
 import EventosTabla from "../../../Entidades/Eventos/componentes/EventosTabla";
 import EventosBotonNuevo from "../../../Entidades/Eventos/componentes/EventosCrear";
@@ -15,9 +14,11 @@ import CalendarioModal from "../../../Entidades/Calendario/CalendarioModal";
 import './WebPart.css';
 
 export interface IEventoWebpartProps {
-  SP: SPFI;
+  SP: any;
   WebPartContext: WebPartContext;
 }
+
+const ADMIN_EMAIL = "natasharey@comasis.com";
 
 export default function EventoWebpart(
   props: IEventoWebpartProps
@@ -28,7 +29,7 @@ export default function EventoWebpart(
   const listaUsuarios = React.useRef<UsuariosLista>(null);
   const [selectedEvent, setSelectedEvent] = React.useState<EventosCalendario | undefined>(undefined);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  
+  const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
 
   const recargaDatos = async (): Promise<void> => {
     await listaEventos.current.CargarTodos().then((i) => {
@@ -37,12 +38,22 @@ export default function EventoWebpart(
   };
 
   const ConsultaUsuario = async (): Promise<void> => {
+    const email = props.WebPartContext.pageContext.user.email;
     listaUsuarios.current = new UsuariosLista(props.SP.web, props.WebPartContext);
-    const User = await listaUsuarios.current.CargarPorUsuario();
+    let User = await listaUsuarios.current.CargarPorUsuario(email);
+
+    if (!User) {
+      User = listaUsuarios.current.getNewUsuario();
+      User.ItemEdit = User;
+      await User.updateItem();
+      User = await listaUsuarios.current.CargarPorUsuario(email);
+    }
+
     setItemUsuario(User);
+    setImAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
   };
 
-  React.useEffect((): () => void => {
+  React.useEffect(() => {
     listaEventos.current = new EventosLista(props.SP.web, props.WebPartContext);
     let isCancelled = false;
 
@@ -91,11 +102,11 @@ export default function EventoWebpart(
           <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario} />
         </div>
         <div className="CALENDARIOPERFIL">
-        <p id="PARRAFOWEBPART">CALENDARIO DE EVENTOS</p>
-          <MiCalendarioWP 
-            Context={props.WebPartContext} 
-            eventos={eventosCalendario} 
-            onSelectEvent={handleSelectEvent} 
+          <p id="PARRAFOWEBPART">CALENDARIO DE EVENTOS</p>
+          <MiCalendarioWP
+            Context={props.WebPartContext}
+            eventos={eventosCalendario}
+            onSelectEvent={handleSelectEvent}
           />
         </div>
       </div>
@@ -106,15 +117,14 @@ export default function EventoWebpart(
       <p id="PARRAFOWEBPART">MIS EVENTOS</p>
 
       <div className="TABLAEVENTOS">
-        <EventosBotonNuevo lista={listaEventos.current} callback={recargaDatos} />
-        <EventosTabla Items={Items} callback={recargaDatos} ImAdmin={false} />
+        {ImAdmin && <EventosBotonNuevo lista={listaEventos.current} callback={recargaDatos} />}
+        <EventosTabla Items={Items} callback={recargaDatos} ImAdmin={ImAdmin} />
       </div>
 
-
-      <CalendarioModal 
-        visible={isModalVisible} 
-        onClose={closeModal} 
-        event={selectedEvent} 
+      <CalendarioModal
+        visible={isModalVisible}
+        onClose={closeModal}
+        event={selectedEvent}
       />
     </>
   );
