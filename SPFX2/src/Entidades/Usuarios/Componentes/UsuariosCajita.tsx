@@ -8,11 +8,13 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import '../../../webparts/gestorEventos/components/WebPart.css';
 import { UsuariosItem } from '../UsuariosItem';
 import UsuariosDesplegable from "./UsuariosDesplegable";
+import { EquiposItem } from "../../Equipos/EquiposItem";
 
 
 interface IUsuariosCajitaProps {
   email: string;
   item: UsuariosItem;
+  minombredevariablequeyoescojoloquemesaledelacabeza: EquiposItem;
   title: string;
   mostrarSiVacio?: boolean;
   mensajeSiVacio?: string;
@@ -112,6 +114,8 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           championImageUrl={null}
         />
       )}
+
+      
     </Stack>
   );
 }

@@ -100,7 +100,7 @@ export default function EventoWebpart(
         <div className="CAJAPERFIL">
           <p id="PARRAFOWEBPART">MI PERFIL</p> 
           {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>} 
-          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario} />
+          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario} minombredevariablequeyoescojoloquemesaledelacabeza={undefined} />
         </div>
         <div className="CALENDARIOPERFIL">
           <p id="PARRAFOWEBPART">CALENDARIO DE EVENTOS</p>

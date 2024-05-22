@@ -4,7 +4,7 @@ import { Spinner, Stack, Text } from 'office-ui-fabric-react';
 import * as React from "react";
 import { UsuariosItem } from "../UsuariosItem";
 import UsuariosForm from "./UsuariosForm";
-
+import EquiposModal from '../../Equipos/Componentes/EquiposModal';
 
 interface IDatosDesplegableProps {
   titulo: string;
@@ -22,11 +22,21 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
   const [cargando, setCargando] = React.useState(true);
   const [Item, setItem] = React.useState(props.item);
   const [editarVisible, setEditarVisible] = React.useState(false);
+  const [equipoVisible, setEquipoVisible] = React.useState(false);
 
   React.useEffect(() => {
     setItem(props.item);
     setCargando(false);
   }, [props.item]);
+
+  const handleOk = async () => {
+    props.handleOk();
+
+  };
+
+  const handleEquipoClick = () => {
+    setEquipoVisible(true);
+  };
 
   // Funciones para obtener la URL de la imagen según el role y la plataforma
   const getImageForLeagueProfGame = (role: string | null): string => {
@@ -70,12 +80,9 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
-  const handleOk = async () => {
-    props.handleOk();
 
-  };
-
-
+  console.log(Item)
+  console.log(props.item)
 
   return (
     <>
@@ -203,19 +210,45 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
             {/* Mostrar equipo asignado según el PROFGAME */}
 
             <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-            <Text variant="medium">Equipo de {props.titulo}: </Text>
+              <Text variant="medium">Equipo de {props.titulo}: </Text>
               <Stack.Item>
-                {props.PROFGAME === 'LEAGUEPROFGAME' ? (
-                  <Button type="primary">
-                    {Item?.LTEAM ? Item.LTEAM : 'No team assigned yet'}
-                  </Button>
+                {props.PROFGAME === 'FORTNITEPROFGAME' ? (
+                  <>
+                    {props.item.FTEAM && props.item.FTEAM.Nombre !== null && props.item.FTEAM.Nombre !== "" ? (
+                      <Button type="primary" onClick={handleEquipoClick}>
+                        {props.item.FTEAM.Nombre}
+                      </Button>
+                    ) : (
+                      <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
+                        No team assigned yet
+                      </Button>
+                    )}
+                  </>
                 ) : (
-                  <Button type="primary">
-                    {Item?.FTEAM ? Item.FTEAM : 'No team assigned yet'}
-                  </Button>
+                  <>
+                    {props.item.LTEAM && props.item.LTEAM.Nombre !== null && props.item.LTEAM.Nombre !== "" ? (
+                      <Button type="primary" onClick={handleEquipoClick}>
+                        {props.item.LTEAM.Nombre}
+                      </Button>
+                    ) : (
+                      <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
+                        No team assigned yet
+                      </Button>
+                    )}
+                  </>
                 )}
               </Stack.Item>
             </Stack>
+
+
+            {equipoVisible && (
+              <EquiposModal
+                visible={equipoVisible}
+                onClose={() => setEquipoVisible(false)}
+                equipo={props.item.FTEAM || null}
+                equipoNombre={props.item.FTEAM?.Nombre || ''}
+              />
+            )}
 
             {/* Edit */}
 

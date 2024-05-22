@@ -1,6 +1,8 @@
 /* eslint-disable */
 
+import { ComasisUser } from "../Usuarios/UsuariosItem";
 import { EquiposLista } from "./EquiposLista";
+
 
 export class EquiposItem {
 
@@ -9,7 +11,8 @@ export class EquiposItem {
   public ItemEdit: EquiposItem | undefined;
 
   public ID: number;
-  public Miembros: string;
+  public Nombre: string;
+  public Miembros: ComasisUser[];
   public Juego: string;
   public Fecha: Date;
 
@@ -23,10 +26,21 @@ export class EquiposItem {
 
   private MapearCampos(): void {
     this.ID = this.ListItem.ID;
-    this.Miembros = this.ListItem.TEAM_Members;
+    this.Nombre = this.ListItem.Title;
+    if (this.ListItem.TEAM_Members){
+        this.Miembros = this.ListItem.TEAM_Members;
+    }else{
+        this.Miembros = [];
+    }
     this.Juego = this.ListItem.TEAM_Game;
     this.Fecha = this.ListItem.TEAM_Date;
   }
+
+    // Método para obtener la fecha como cadena de texto
+    public getDateString(): string {
+        return this.Fecha.toISOString();
+      }
+    
 
   public async updateItem(): Promise<boolean> {
     try {
@@ -34,10 +48,15 @@ export class EquiposItem {
       const item: any = {};
   
       if (this.ItemEdit) {
-        if (this.ItemEdit.Miembros !== this.Miembros) {
-          item["TEAM_Members"] = this.ItemEdit.Miembros;
-          needUpdate = true;
-        }
+        if (this.ID === null ||
+            this.ItemEdit.Miembros?.length !== this.Miembros?.length ||
+            this.ItemEdit.Miembros.some((miemb1, index) => miemb1.ID !== this.Miembros[index].ID)) {
+            if (this.ItemEdit.Miembros === undefined) {
+              this.ItemEdit.Miembros = [];
+            }
+            item.TEAM_MembersId = this.ItemEdit.Miembros.map(miemb => miemb.ID.toString());
+            needUpdate = true;
+          }
         if (this.ItemEdit.Juego !== this.Juego) {
           item["TEAM_Game"] = this.ItemEdit.Juego;
           needUpdate = true;

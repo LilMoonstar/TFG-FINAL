@@ -1,8 +1,10 @@
 /* eslint-disable */
 
+import { EquiposItem } from "../Equipos/EquiposItem";
 import { UsuariosLista } from "./UsuariosLista";
 
-interface ComasisUser {
+
+export interface ComasisUser {
   Title: string;
   ID: number;
   EMail: string;
@@ -21,8 +23,8 @@ export class UsuariosItem {
   public Platform: string | null;
   public Controls: string | null;
   public Champion: any | null;
-  public FTEAM: string | null;
-  public LTEAM: string | null;
+  public FTEAM: EquiposItem | null;
+  public LTEAM: EquiposItem | null;
 
   constructor(ListItem: any, Lista: UsuariosLista) {
     this.ListItem = ListItem;

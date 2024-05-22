@@ -14,9 +14,13 @@ export class UsuariosLista {
 
   public NombreLista = "Usuarios";
   public SelectAllFields: string[] = [
-    "*", "US_User/Title", "US_User/ID", "US_User/EMail"
+    "*", 
+    "US_User/Title", 
+    "US_User/ID", 
+    "US_User/EMail",
+
   ];
-  public ExpandAllFields: string[] = ["US_User"];
+  public ExpandAllFields: string[] = ["US_User",];
   public web: IWeb;
   public Context: WebPartContext;
   public List: IList;

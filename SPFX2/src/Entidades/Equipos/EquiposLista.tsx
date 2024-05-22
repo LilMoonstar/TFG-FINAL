@@ -16,8 +16,11 @@ export class EquiposLista {
   public NombreLista = "Equipos";
   public SelectAllFields: string[] = [
     "*",
+    "US_User/Title", 
+    "US_User/ID", 
+    "US_User/EMail",
   ];
-  public ExpandAllFields: string[] = [];
+  public ExpandAllFields: string[] = ["US_User"];
   public web: IWeb;
   public Context: WebPartContext;
   public List: IList;
