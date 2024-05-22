@@ -4,6 +4,7 @@ import { Spinner, Stack, Text } from 'office-ui-fabric-react';
 import * as React from "react";
 import { UsuariosItem } from "../UsuariosItem";
 import UsuariosForm from "./UsuariosForm";
+import { EquiposItem } from '../../Equipos/EquiposItem';
 import EquiposModal from '../../Equipos/Componentes/EquiposModal';
 
 interface IDatosDesplegableProps {
@@ -11,7 +12,10 @@ interface IDatosDesplegableProps {
   visible: boolean;
   onClose: () => void;
   PROFGAME: "FORTNITEPROFGAME" | "LEAGUEPROFGAME";
-  item: UsuariosItem;
+  UsuariosItem: UsuariosItem;
+  EquiposItem: EquiposItem;
+  equipo: EquiposItem;
+  equipoNombre: string;
   callback: () => Promise<void>;
   showModal: () => void;
   handleOk: () => void;
@@ -20,23 +24,32 @@ interface IDatosDesplegableProps {
 
 const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDesplegableProps) => {
   const [cargando, setCargando] = React.useState(true);
-  const [Item, setItem] = React.useState(props.item);
+  const [Item, setItem] = React.useState(props.UsuariosItem);
   const [editarVisible, setEditarVisible] = React.useState(false);
-  const [equipoVisible, setEquipoVisible] = React.useState(false);
+  const [showEquiposModal, setShowEquiposModal] = React.useState(false);
+  const [equipoModal, setEquipoModal] = React.useState<EquiposItem | null>(null);
+
+
+  {showEquiposModal && equipoModal && (
+    <EquiposModal
+      visible={showEquiposModal}
+      onClose={() => setShowEquiposModal(false)}
+      equipo={equipoModal}
+      equipoNombre={equipoModal.Nombre}
+    />
+  )}
+  
 
   React.useEffect(() => {
-    setItem(props.item);
+    setItem(props.UsuariosItem);
     setCargando(false);
-  }, [props.item]);
+  }, [props.UsuariosItem]);
 
   const handleOk = async () => {
     props.handleOk();
 
   };
 
-  const handleEquipoClick = () => {
-    setEquipoVisible(true);
-  };
 
   // Funciones para obtener la URL de la imagen según el role y la plataforma
   const getImageForLeagueProfGame = (role: string | null): string => {
@@ -80,9 +93,20 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
+  const handleFortniteTeamButtonClick = () => {
+    setShowEquiposModal(true); 
+    setEquipoModal(props.EquiposItem); 
+  };
+
+  const handleLeagueTeamButtonClick = () => {
+    setShowEquiposModal(true);
+    setEquipoModal(props.EquiposItem);
+  };
+
+
 
   console.log(Item)
-  console.log(props.item)
+  console.log(props.UsuariosItem)
 
   return (
     <>
@@ -116,7 +140,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
               {editarVisible && (
                 <UsuariosForm
-                  Item={props.item}
+                  Item={props.UsuariosItem}
                   guardando={cargando}
                   CloseModal={() => {
                     setEditarVisible(false);
@@ -207,6 +231,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               )}
             </Stack>
             <br />
+
             {/* Mostrar equipo asignado según el PROFGAME */}
 
             <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
@@ -214,9 +239,9 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               <Stack.Item>
                 {props.PROFGAME === 'FORTNITEPROFGAME' ? (
                   <>
-                    {props.item.FTEAM && props.item.FTEAM.Nombre !== null && props.item.FTEAM.Nombre !== "" ? (
-                      <Button type="primary" onClick={handleEquipoClick}>
-                        {props.item.FTEAM.Nombre}
+                    {props.EquiposItem !== null && props.EquiposItem.Nombre !== "" ? (
+                      <Button type="primary" onClick={handleFortniteTeamButtonClick}>
+                        {props.EquiposItem.Nombre}
                       </Button>
                     ) : (
                       <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
@@ -226,9 +251,9 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   </>
                 ) : (
                   <>
-                    {props.item.LTEAM && props.item.LTEAM.Nombre !== null && props.item.LTEAM.Nombre !== "" ? (
-                      <Button type="primary" onClick={handleEquipoClick}>
-                        {props.item.LTEAM.Nombre}
+                    {props.EquiposItem !== null && props.EquiposItem.Nombre !== "" ? (
+                      <Button type="primary" onClick={handleLeagueTeamButtonClick}>
+                        {props.EquiposItem.Nombre}
                       </Button>
                     ) : (
                       <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
@@ -239,16 +264,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                 )}
               </Stack.Item>
             </Stack>
-
-
-            {equipoVisible && (
-              <EquiposModal
-                visible={equipoVisible}
-                onClose={() => setEquipoVisible(false)}
-                equipo={props.item.FTEAM || null}
-                equipoNombre={props.item.FTEAM?.Nombre || ''}
-              />
-            )}
 
             {/* Edit */}
 

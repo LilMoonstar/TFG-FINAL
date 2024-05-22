@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable*/
 import * as React from "react";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { EventosLista } from "../../../Entidades/Eventos/EventosLista";
@@ -12,6 +12,8 @@ import MiCalendarioWP from "../../../Entidades/Calendario/Calendario";
 import { EventosCalendario } from "../../../Entidades/Calendario/CalendarioHELPER";
 import CalendarioModal from "../../../Entidades/Calendario/CalendarioModal";
 import './WebPart.css';
+import { EquiposItem } from "../../../Entidades/Equipos/EquiposItem";
+import { EquiposLista } from "../../../Entidades/Equipos/EquiposLista";
 
 export interface IEventoWebpartProps {
   SP: any;
@@ -23,17 +25,19 @@ const ADMIN_EMAIL = "natasharey@comasis.com";
 export default function EventoWebpart(
   props: IEventoWebpartProps
 ): JSX.Element {
-  const [Items, setItems] = React.useState<EventosItem[]>([]);
+  const [ItemEventos, setItemEventos] = React.useState<EventosItem[]>([]);
   const listaEventos = React.useRef<EventosLista>(null);
   const [ItemUsuario, setItemUsuario] = React.useState<UsuariosItem>();
   const listaUsuarios = React.useRef<UsuariosLista>(null);
+  const [ItemEquipos, setItemEquipos] = React.useState<EquiposItem[]>();
+  const listaEquipos = React.useRef<EquiposLista>(null);
   const [selectedEvent, setSelectedEvent] = React.useState<EventosCalendario | undefined>(undefined);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
 
   const recargaDatos = async (): Promise<void> => {
     await listaEventos.current.CargarTodos().then((i) => {
-      setItems(i);
+      setItemEventos(i);
     });
   };
 
@@ -53,6 +57,19 @@ export default function EventoWebpart(
     setImAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
   };
 
+
+  const ConsultaEquipos = async (): Promise<void> => {
+    const email = props.WebPartContext.pageContext.user.email;
+    listaEquipos.current = new EquiposLista(props.SP.web, props.WebPartContext);
+    let Equipo = await listaEquipos.current.BuscarPorMail(email);
+    console.log(Equipo);
+    
+    setItemEquipos(Equipo);
+    console.log(ItemEquipos);
+    
+  };
+
+
   React.useEffect(() => {
     listaEventos.current = new EventosLista(props.SP.web, props.WebPartContext);
     let isCancelled = false;
@@ -60,7 +77,7 @@ export default function EventoWebpart(
     listaEventos.current.CargarTodos()
       .then((i) => {
         if (!isCancelled) {
-          setItems(i);
+          setItemEventos(i);
         }
       })
       .catch((error) => {
@@ -70,13 +87,15 @@ export default function EventoWebpart(
     ConsultaUsuario().catch((error) => {
       console.error('Error en consultas iniciales:', error);
     });
+    ConsultaEquipos();
 
     return () => {
       isCancelled = true;
     };
   }, []);
 
-  const eventosCalendario: EventosCalendario[] = Items.map(item => ({
+
+  const eventosCalendario: EventosCalendario[] = ItemEventos.map(item => ({
     title: item.Nombre,
     start: new Date(item.Date),
     end: new Date(item.Date),
@@ -98,9 +117,9 @@ export default function EventoWebpart(
     <>
       <div className="ARRIBA">
         <div className="CAJAPERFIL">
-          <p id="PARRAFOWEBPART">MI PERFIL</p> 
-          {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>} 
-          <UsuariosCajita title="" context={props.WebPartContext} email={""} item={ItemUsuario} callback={ConsultaUsuario} minombredevariablequeyoescojoloquemesaledelacabeza={undefined} />
+          <p id="PARRAFOWEBPART">MI PERFIL</p>
+          {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>}
+          <UsuariosCajita title="" context={props.WebPartContext} email={""} callback={ConsultaUsuario} UsuariosItem={ItemUsuario} EquiposItem={undefined} PROFGAME={"FORTNITEPROFGAME"}  />
         </div>
         <div className="CALENDARIOPERFIL">
           <p id="PARRAFOWEBPART">CALENDARIO DE EVENTOS</p>
@@ -119,7 +138,7 @@ export default function EventoWebpart(
 
       <div className="TABLAEVENTOS">
         {ImAdmin && <EventosBotonNuevo lista={listaEventos.current} callback={recargaDatos} />}
-        <EventosTabla Items={Items} callback={recargaDatos} ImAdmin={ImAdmin} />
+        <EventosTabla Items={ItemEventos} callback={recargaDatos} ImAdmin={ImAdmin} />
       </div>
 
       <CalendarioModal
