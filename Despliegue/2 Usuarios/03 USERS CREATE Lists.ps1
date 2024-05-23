@@ -80,8 +80,6 @@ if ($contentType -ne $null) {
             $viewFields.Add("US_Platform")
             $viewFields.Add("US_Controls")
             $viewFields.Add("US_Championpic")
-            $viewFields.Add("US_LTeam")
-            $viewFields.Add("US_FTeam")
             
 
         $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"

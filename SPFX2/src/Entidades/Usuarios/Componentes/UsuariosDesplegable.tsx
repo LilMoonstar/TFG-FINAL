@@ -223,7 +223,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               <Stack.Item>
                 {props.PROFGAME === 'FORTNITEPROFGAME' ? (
                   <>
-                    {props.EquiposItem?.Nombre !== "" ? (
+                    {props.EquiposItem?.Nombre !== undefined ? (
                       <Button type="primary" onClick={handleTeamButtonClick}>
                         {props.EquiposItem?.Nombre}
                       </Button>
@@ -235,7 +235,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   </>
                 ) : (
                   <>
-                    {props.EquiposItem?.Nombre !== "" ? (
+                    {props.EquiposItem?.Nombre !== undefined ? (
                       <Button type="primary" onClick={handleTeamButtonClick}>
                         {props.EquiposItem?.Nombre}
                       </Button>

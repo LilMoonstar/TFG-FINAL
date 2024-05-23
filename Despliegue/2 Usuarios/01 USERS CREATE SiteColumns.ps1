@@ -79,22 +79,6 @@ $fieldsArray += '<Field ID="e621fba9-f92f-4416-90c7-8165f6490a42"
                 xmlns="http://schemas.microsoft.com/sharepoint/">
                 </Field>';
 
-$fieldsArray += '<Field ID="5a92cc9e-b0c7-4201-8ea1-9a28616e4366" 
-                Name="US_FTeam"
-                DisplayName="Fortnite Team" 
-                Type="Note"
-                Group="Usuarios"  
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
-
-$fieldsArray += '<Field ID="1b4a6374-304c-4eee-9524-c30b65e127ed" 
-                Name="US_LTeam"
-                DisplayName="League Of Legends Team" 
-                Type="Note"
-                Group="Usuarios"  
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
-
 
 $fieldOption = [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue;
 
