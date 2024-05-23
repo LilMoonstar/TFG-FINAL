@@ -14,8 +14,6 @@ interface IDatosDesplegableProps {
   PROFGAME: "FORTNITEPROFGAME" | "LEAGUEPROFGAME";
   UsuariosItem: UsuariosItem;
   EquiposItem: EquiposItem;
-  equipo: EquiposItem;
-  equipoNombre: string;
   callback: () => Promise<void>;
   showModal: () => void;
   handleOk: () => void;
@@ -26,19 +24,16 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
   const [cargando, setCargando] = React.useState(true);
   const [Item, setItem] = React.useState(props.UsuariosItem);
   const [editarVisible, setEditarVisible] = React.useState(false);
-  const [showEquiposModal, setShowEquiposModal] = React.useState(false);
-  const [equipoModal, setEquipoModal] = React.useState<EquiposItem | null>(null);
+
+  const [equipoSeleccionado, setEquipoSeleccionado] = React.useState<EquiposItem | null>(null);
 
 
-  {showEquiposModal && equipoModal && (
-    <EquiposModal
-      visible={showEquiposModal}
-      onClose={() => setShowEquiposModal(false)}
-      equipo={equipoModal}
-      equipoNombre={equipoModal.Nombre}
-    />
-  )}
-  
+
+  React.useEffect(() => {
+    console.log("DESPLEGABLE");
+    console.log(props);
+  }, []);
+
 
   React.useEffect(() => {
     setItem(props.UsuariosItem);
@@ -47,7 +42,10 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
   const handleOk = async () => {
     props.handleOk();
+  };
 
+  const handleTeamButtonClick = () => {
+    setEquipoSeleccionado(props.EquiposItem);
   };
 
 
@@ -93,21 +91,6 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
     }
   };
 
-  const handleFortniteTeamButtonClick = () => {
-    setShowEquiposModal(true); 
-    setEquipoModal(props.EquiposItem); 
-  };
-
-  const handleLeagueTeamButtonClick = () => {
-    setShowEquiposModal(true);
-    setEquipoModal(props.EquiposItem);
-  };
-
-
-
-  console.log(Item)
-  console.log(props.UsuariosItem)
-
   return (
     <>
       <div>
@@ -127,6 +110,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                 <Text variant="large" style={{ fontWeight: 'bold', fontSize: '2em' }} >{props.titulo}</Text>
 
               </Stack>
+
 
               {/* Username */}
 
@@ -239,9 +223,9 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               <Stack.Item>
                 {props.PROFGAME === 'FORTNITEPROFGAME' ? (
                   <>
-                    {props.EquiposItem !== null && props.EquiposItem.Nombre !== "" ? (
-                      <Button type="primary" onClick={handleFortniteTeamButtonClick}>
-                        {props.EquiposItem.Nombre}
+                    {props.EquiposItem?.Nombre !== "" ? (
+                      <Button type="primary" onClick={handleTeamButtonClick}>
+                        {props.EquiposItem?.Nombre}
                       </Button>
                     ) : (
                       <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
@@ -251,9 +235,9 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   </>
                 ) : (
                   <>
-                    {props.EquiposItem !== null && props.EquiposItem.Nombre !== "" ? (
-                      <Button type="primary" onClick={handleLeagueTeamButtonClick}>
-                        {props.EquiposItem.Nombre}
+                    {props.EquiposItem?.Nombre !== "" ? (
+                      <Button type="primary" onClick={handleTeamButtonClick}>
+                        {props.EquiposItem?.Nombre}
                       </Button>
                     ) : (
                       <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
@@ -264,6 +248,15 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                 )}
               </Stack.Item>
             </Stack>
+
+            {equipoSeleccionado && (
+              <EquiposModal
+                visible={true} 
+                onClose={() => setEquipoSeleccionado(null)}
+                equipo={equipoSeleccionado}
+                equipoNombre={equipoSeleccionado.Nombre}
+              />
+            )}
 
             {/* Edit */}
 

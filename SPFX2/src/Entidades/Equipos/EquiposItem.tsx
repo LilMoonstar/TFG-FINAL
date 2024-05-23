@@ -27,36 +27,36 @@ export class EquiposItem {
   private MapearCampos(): void {
     this.ID = this.ListItem.ID;
     this.Nombre = this.ListItem.Title;
-    if (this.ListItem.TEAM_Members){
-        this.Miembros = this.ListItem.TEAM_Members;
-    }else{
-        this.Miembros = [];
+    if (this.ListItem.TEAM_Members) {
+      this.Miembros = this.ListItem.TEAM_Members;
+    } else {
+      this.Miembros = [];
     }
     this.Juego = this.ListItem.TEAM_Game;
-    this.Fecha = this.ListItem.TEAM_Date;
+    this.Fecha = new Date(this.ListItem.TEAM_Date);
   }
 
-    // Método para obtener la fecha como cadena de texto
-    public getDateString(): string {
-        return this.Fecha.toISOString();
-      }
-    
+  // Método para obtener la fecha como cadena de texto
+  public getDateString(): string {
+    return this.Fecha.toISOString();
+  }
+
 
   public async updateItem(): Promise<boolean> {
     try {
       let needUpdate = false;
       const item: any = {};
-  
+
       if (this.ItemEdit) {
         if (this.ID === null ||
-            this.ItemEdit.Miembros?.length !== this.Miembros?.length ||
-            this.ItemEdit.Miembros.some((miemb1, index) => miemb1.ID !== this.Miembros[index].ID)) {
-            if (this.ItemEdit.Miembros === undefined) {
-              this.ItemEdit.Miembros = [];
-            }
-            item.TEAM_MembersId = this.ItemEdit.Miembros.map(miemb => miemb.ID.toString());
-            needUpdate = true;
+          this.ItemEdit.Miembros?.length !== this.Miembros?.length ||
+          this.ItemEdit.Miembros.some((miemb1, index) => miemb1.ID !== this.Miembros[index].ID)) {
+          if (this.ItemEdit.Miembros === undefined) {
+            this.ItemEdit.Miembros = [];
           }
+          item.TEAM_MembersId = this.ItemEdit.Miembros.map(miemb => miemb.ID.toString());
+          needUpdate = true;
+        }
         if (this.ItemEdit.Juego !== this.Juego) {
           item["TEAM_Game"] = this.ItemEdit.Juego;
           needUpdate = true;
@@ -66,7 +66,7 @@ export class EquiposItem {
           needUpdate = true;
         }
       }
-  
+
       if (needUpdate) {
         if (this.ListItem.ID) {
           await this.Lista.List.items
@@ -76,14 +76,14 @@ export class EquiposItem {
           throw new Error("El elemento no tiene un ID válido");
         }
       }
-  
+
       return true;
     } catch (error) {
       console.error("Error al actualizar el item:", error);
       return false;
     }
   }
-  
+
 }
 
 /* eslint-enable */

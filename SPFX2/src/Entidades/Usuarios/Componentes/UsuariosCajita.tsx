@@ -3,13 +3,12 @@
 import * as React from "react";
 import { Stack } from '@fluentui/react';
 import { DefaultButton, Persona } from "office-ui-fabric-react";
-
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import '../../../webparts/gestorEventos/components/WebPart.css';
-import { UsuariosItem } from '../UsuariosItem';
 import UsuariosDesplegable from "./UsuariosDesplegable";
+import { UsuariosItem } from "../UsuariosItem";
 import { EquiposItem } from "../../Equipos/EquiposItem";
-
+import { useEffect, useState } from "react";
 
 interface IUsuariosCajitaProps {
   email: string;
@@ -20,42 +19,53 @@ interface IUsuariosCajitaProps {
   mensajeSiVacio?: string;
   size?: number;
   context: WebPartContext;
-  callback: () => Promise<void>
-  PROFGAME: "FORTNITEPROFGAME" | "LEAGUEPROFGAME" | null;
+  callback: () => Promise<void>;
 }
 
 const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaProps) => {
+  const [currentUserEmail, setCurrentUserEmail] = useState<string>("");
+  const [currentUserName, setCurrentUserName] = useState<string>("");
+  const [Mode, setMode] = useState<"LEAGUE OF LEGENDS" | "FORTNITE">("LEAGUE OF LEGENDS");
+  const [ShowModal, setShowModal] = useState(false);
+  const [usuariosItem, setUsuariosItem] = useState<UsuariosItem | null>(null);
+  const [usuarioCargado, setUsuarioCargado] = useState(false);
+  const [equipoItem, setEquipoItem] = useState<EquiposItem | null>(null);
 
-  const [currentUserEmail, setCurrentUserEmail] = React.useState<string>("");
-  const [currentUserName, setCurrentUserName] = React.useState<string>("");
-  const [Mode, setMode] = React.useState<"Lol" | "Fornite">("Lol");
-  const [ShowModal, setShowModal] = React.useState(false);
-  const [usuariosItem, setUsuariosItem] = React.useState<UsuariosItem | null>(null);
-  const [EquiposItem, setEquiposItem] = React.useState<EquiposItem | null>(null);
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.UsuariosItem) {
       setUsuariosItem(props.UsuariosItem);
     }
   }, [props.UsuariosItem]);
 
-  React.useEffect(() => {
-    if (props.EquiposItem) {
-      setEquiposItem(EquiposItem);
-    }
-  }, [props.EquiposItem]);
+  useEffect(() => {
+    console.log("CAJITA");
+    console.log(props)
+  }, []);
 
+  useEffect(() => {
+    props.EquiposItem.forEach(e => {
+      if (e.Juego === (Mode === "FORTNITE" ? "FORTNITE" : "LEAGUE OF LEGENDS")) {
+        setEquipoItem(e);
+        console.log("EQUIPO SELECCIONADO");
+        console.log(e);
+      }
+    });
+  }, [Mode]);
 
-
-  React.useEffect(() => {
+  useEffect(() => {
     const userEmail = props.context.pageContext.user.email;
     setCurrentUserEmail(userEmail);
     const userName = props.context.pageContext.user.displayName;
     setCurrentUserName(userName);
   }, [props.context]);
 
-  const handleButtonClick = (mode: "Lol" | "Fornite") => {
-    setMode(mode);
+  const handleFortniteButtonClick = () => {
+    setMode("FORTNITE");
+    setShowModal(true);
+  };
+
+  const handleLolButtonClick = () => {
+    setMode("LEAGUE OF LEGENDS");
     setShowModal(true);
   };
 
@@ -70,12 +80,16 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
     setShowModal(false);
   };
 
-  const filteredEquipos = props.EquiposItem ? props.EquiposItem.filter(item => item.Juego === props.PROFGAME) : [];
+
+  useEffect(() => {
+    if (props.UsuariosItem && props.EquiposItem) {
+      setUsuarioCargado(true);
+    }
+  }, [props.UsuariosItem, props.EquiposItem]);
 
 
-
-  return (
-    <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }} >
+  return usuarioCargado ? (
+    <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
       {props.email !== "" ? (
         <Persona
           imageShouldFadeIn={false}
@@ -102,34 +116,31 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{currentUserName}</span>
         </div>
 
+        {/* Botones F y L */}
         <div className="botones">
-          <DefaultButton id="botonFortnite" onClick={handleButtonClick}></DefaultButton>
-          <DefaultButton id="botonLol" onClick={handleButtonClick}></DefaultButton>
+          <DefaultButton id="botonFortnite" onClick={handleFortniteButtonClick}></DefaultButton>
+          <DefaultButton id="botonLol" onClick={handleLolButtonClick}></DefaultButton>
         </div>
       </div>
 
-      {ShowModal && usuariosItem && filteredEquipos.length > 0 && (
+      {ShowModal && usuariosItem && (
         <UsuariosDesplegable
-          titulo={Mode === "Fornite" ? "Fortnite" : "League Of Legends"}
+          titulo={Mode === "FORTNITE" ? "Fortnite" : "League Of Legends"}
           visible={ShowModal}
           onClose={handleCloseModal}
-          PROFGAME={props.PROFGAME || "FORTNITEPROFGAME"} // Por defecto se establece como "FORTNITEPROFGAME" si es null
-          equipo={filteredEquipos[0]}
-          equipoNombre={filteredEquipos[0].Nombre}
-          UsuariosItem={usuariosItem} 
-          EquiposItem={filteredEquipos[0]} 
+          PROFGAME={Mode === "FORTNITE" ? "FORTNITEPROFGAME" : "LEAGUEPROFGAME"}
+          UsuariosItem={usuariosItem}
+          EquiposItem={equipoItem}
           callback={props.callback}
           showModal={() => setShowModal(true)}
           handleOk={handleFormOk}
           championImageUrl={null}
         />
       )}
-
-
-
     </Stack>
-  );
+  ) : null;
 }
 
 export default UsuariosCajita;
+
 /* eslint-enable */

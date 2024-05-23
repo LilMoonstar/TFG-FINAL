@@ -53,6 +53,8 @@ export default function EventoWebpart(
       User = await listaUsuarios.current.CargarPorUsuario(email);
     }
 
+    console.log("Usuario:", User);
+
     setItemUsuario(User);
     setImAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
   };
@@ -62,11 +64,9 @@ export default function EventoWebpart(
     const email = props.WebPartContext.pageContext.user.email;
     listaEquipos.current = new EquiposLista(props.SP.web, props.WebPartContext);
     let Equipo = await listaEquipos.current.BuscarPorMail(email);
-    console.log(Equipo);
-    
+    console.log("Equipo:", Equipo);
+
     setItemEquipos(Equipo);
-    console.log(ItemEquipos);
-    
   };
 
 
@@ -119,7 +119,9 @@ export default function EventoWebpart(
         <div className="CAJAPERFIL">
           <p id="PARRAFOWEBPART">MI PERFIL</p>
           {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>}
-          <UsuariosCajita title="" context={props.WebPartContext} email={""} callback={ConsultaUsuario} UsuariosItem={ItemUsuario} EquiposItem={undefined} PROFGAME={"FORTNITEPROFGAME"}  />
+          {ItemUsuario && ItemEquipos &&
+            < UsuariosCajita title="" context={props.WebPartContext} email={""} callback={ConsultaUsuario} UsuariosItem={ItemUsuario} EquiposItem={ItemEquipos} />
+          }
         </div>
         <div className="CALENDARIOPERFIL">
           <p id="PARRAFOWEBPART">CALENDARIO DE EVENTOS</p>
