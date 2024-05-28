@@ -122,12 +122,13 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
 
       <div className="usuarios-cajita">
         <div className="usuario-info">
+          <div className="Fotousuario">
           <Persona
             imageUrl={`/_layouts/15/userphoto.aspx?size=L&username=${currentUserEmail}`}
             hidePersonaDetails
             coinSize={80}
-          />
-          <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{currentUserName}</span>
+          /></div>
+          <span className="NombreUsuario" style={{ fontSize: '20px', fontWeight: 'bold' }}>{currentUserName}</span>
         </div>
 
         {/* Botones F y L */}

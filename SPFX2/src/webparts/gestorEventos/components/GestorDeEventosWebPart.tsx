@@ -104,7 +104,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
       {loading && (
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 999 }}>
           <Spin size="large" />
-          <p id="loadingtext">¡CARGANDO! :D</p>
+          <p id="loadingtext">CARGANDO...</p>
         </div>
       )}
 
@@ -124,7 +124,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
                     EquiposItem={ItemEquipos}
                   />
                 )}
-                {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>}
+                {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20}}>ADMIN</p>}
               </div>
               <div className="Textoarriba">
                 <p>Bienvenid@ usuario.</p>
