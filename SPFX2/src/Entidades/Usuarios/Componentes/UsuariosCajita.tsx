@@ -20,17 +20,17 @@ interface IUsuariosCajitaProps {
   size?: number;
   context: WebPartContext;
   callback: () => Promise<void>;
-  currentUserDisplayName: string;
 }
 
 const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaProps) => {
   const [currentUserEmail, setCurrentUserEmail] = useState<string>("");
   const [currentUserName, setCurrentUserName] = useState<string>("");
-  const [Mode, setMode] = useState<"LEAGUE OF LEGENDS" | "FORTNITE">("LEAGUE OF LEGENDS");
+  const [Mode, setMode] = useState<"LEAGUE OF LEGENDS" | "FORTNITE">();
   const [ShowModal, setShowModal] = useState(false);
   const [usuariosItem, setUsuariosItem] = useState<UsuariosItem | null>(null);
   const [usuarioCargado, setUsuarioCargado] = useState(false);
-  const [equipoItem, setEquipoItem] = useState<EquiposItem | null>(null);
+  const [equipoItem, setEquipoItem] = useState<EquiposItem>();
+  const [equiposUsuario, setequiposUsuario] = useState<EquiposItem[]>([]);
 
   useEffect(() => {
     if (props.UsuariosItem) {
@@ -38,15 +38,29 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
     }
   }, [props.UsuariosItem]);
 
-  useEffect(() => {
-    console.log("CAJITA");
-    console.log(props)
-    console.log(EquiposItem)
+  React.useEffect(() => {
+
+    const equiposselect: EquiposItem[] = [];
+    props.EquiposItem.forEach(e => {
+      const usuariosID = e.Miembros.map(u => u.ID);
+      if (usuariosID.includes(props.UsuariosItem.User.ID)) {
+        equiposselect.push(e);
+      }
+    });
+    
+    setequiposUsuario(equiposselect);
+  }, [props.EquiposItem]);
+
+  React.useEffect(() => {
+    console.log("Cajita");
+    console.log(props);
   }, []);
 
+
+
   useEffect(() => {
-    props.EquiposItem.forEach(e => {
-      if (e.Juego === (Mode === "FORTNITE" ? "FORTNITE" : "LEAGUE OF LEGENDS")) {
+    equiposUsuario.forEach(e => {
+      if (e.Juego === Mode) {
         setEquipoItem(e);
       }
     });
@@ -135,7 +149,6 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           showModal={() => setShowModal(true)}
           handleOk={handleFormOk}
           championImageUrl={null}
-          currentUserDisplayName={currentUserName}
         />
       )}
     </Stack>

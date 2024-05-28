@@ -20,7 +20,6 @@ import Info from "../../../Entidades/Informacion/Info";
 export interface IEventoWebpartProps {
   SP: any;
   WebPartContext: WebPartContext;
-  currentUserDisplayName: string;
 }
 
 const ADMIN_EMAIL = "natasharey@comasis.com";
@@ -36,7 +35,6 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
-  const [currentUserDisplayName, setCurrentUserDisplayName] = React.useState("");
 
 
   // Función para cargar datos de eventos
@@ -80,7 +78,6 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
   React.useEffect(() => {
     cargarDatosEventos();
-    setCurrentUserDisplayName(WebPartContext.pageContext.user.displayName);
   }, []);
 
   const eventosCalendario: EventosCalendario[] = React.useMemo(() => ItemEventos.map(item => ({
@@ -125,7 +122,6 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
                     callback={ConsultaUsuario}
                     UsuariosItem={ItemUsuario}
                     EquiposItem={ItemEquipos}
-                    currentUserDisplayName={currentUserDisplayName}
                   />
                 )}
                 {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>}

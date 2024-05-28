@@ -18,7 +18,6 @@ interface IDatosDesplegableProps {
   showModal: () => void;
   handleOk: () => void;
   championImageUrl: string;
-  currentUserDisplayName: string;
 }
 
 const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDesplegableProps) => {
@@ -218,36 +217,44 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
             <br />
 
             {/* Mostrar equipo asignado según el PROFGAME */}
+
             <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
               <Text variant="medium">Equipo de {props.titulo}: </Text>
               <Stack.Item>
-                {props.EquiposItem && props.EquiposItem.Miembros.length > 0 ? (
-                  props.EquiposItem.Miembros.some(member =>
-                    member.Title.includes(props.currentUserDisplayName)
-                  ) ? (
-                    <Button type="primary" onClick={handleTeamButtonClick}>
-                      {props.EquiposItem.Nombre}
-                    </Button>
-                  ) : (
-                    <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                      No team assigned yet
-                    </Button>
-                  )
+                {props.PROFGAME === 'FORTNITEPROFGAME' ? (
+                  <>
+                    {props.EquiposItem?.Nombre !== undefined ? (
+                      <Button type="primary" onClick={handleTeamButtonClick}>
+                        {props.EquiposItem?.Nombre}
+                      </Button>
+                    ) : (
+                      <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
+                        No team assigned yet
+                      </Button>
+                    )}
+                  </>
                 ) : (
-                  <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                    No team assigned yet
-                  </Button>
+                  <>
+                    {props.EquiposItem?.Nombre !== undefined ? (
+                      <Button type="primary" onClick={handleTeamButtonClick}>
+                        {props.EquiposItem?.Nombre}
+                      </Button>
+                    ) : (
+                      <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
+                        No team assigned yet
+                      </Button>
+                    )}
+                  </>
                 )}
               </Stack.Item>
             </Stack>
 
             {equipoSeleccionado && (
               <EquiposModal
-                visible={true}
+                visible={true} 
                 onClose={() => setEquipoSeleccionado(null)}
                 equipo={equipoSeleccionado}
                 equipoNombre={equipoSeleccionado.Nombre}
-                currentUserDisplayName={props.currentUserDisplayName}
               />
             )}
 

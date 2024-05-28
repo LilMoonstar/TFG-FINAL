@@ -9,10 +9,10 @@ interface EquiposModalProps {
   onClose: () => void;
   equipo: EquiposItem;
   equipoNombre: string;
-  currentUserDisplayName: string;
 }
 
-const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, equipoNombre, currentUserDisplayName }) => {
+
+const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, equipoNombre }) => {
   // Función para formatear la fecha
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -25,13 +25,10 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, e
     return date.toLocaleDateString('es-ES', options);
   };
 
-  // Filtrar los miembros del equipo para mostrar solo aquellos que coincidan con el currentUserDisplayName
-  const filteredMembers = equipo.Miembros.filter(miembro => miembro.Title === currentUserDisplayName);
-
   return (
     <Modal
       title={`Información del Equipo: ${equipoNombre}`}
-      visible={visible}
+      open={visible}
       onOk={onClose}
       onCancel={onClose}
       className="ESTILOMODALEQUIPOS"
@@ -44,22 +41,23 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, e
       centered
       width={800}
     >
-      {equipo && (
-        <div className="Contenidomodalequipos">
-          <p><strong>Nombre:</strong> {equipo.Nombre}</p>
-          <p>
-            <strong>Miembros:</strong>{" "}
-            {filteredMembers.map((miembro, index) => (
-              <span key={index}>
-                {miembro.Title}
-                {index !== filteredMembers.length - 1 ? ", " : ""}
-              </span>
-            ))}
-          </p>
-          <p><strong>Juego:</strong> {equipo.Juego}</p>
-          <p><strong>Fecha:</strong> {formatDate(new Date(equipo.getDateString()))}</p>
-        </div>
-      )}
+     {equipo && (
+  <div className="Contenidomodalequipos">
+    <p><strong>Nombre:</strong> {equipo.Nombre}</p>
+    <p>
+      <strong>Miembros:</strong>{" "}
+      {equipo.Miembros.map((miembro, index) => (
+        <span key={index}>
+          {miembro.Title}
+          {index !== equipo.Miembros.length - 1 ? ", " : ""} 
+        </span>
+      ))}
+    </p>
+    <p><strong>Juego:</strong> {equipo.Juego}</p>
+    <p><strong>Fecha:</strong> {formatDate(new Date(equipo.getDateString()))}</p>
+  </div>
+)}
+
     </Modal>
   );
 };
