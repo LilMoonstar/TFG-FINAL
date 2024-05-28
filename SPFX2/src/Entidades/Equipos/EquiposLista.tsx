@@ -33,21 +33,25 @@ export class EquiposLista {
 
 
   public async CargarTodos(BatchedWeb?: IWeb): Promise<EquiposItem[]> {
-    const Items = this.List.items
-      .expand(this.ExpandAllFields.join())
-      .orderBy("Title")
-      .select(this.SelectAllFields.join())()
-      .then((Data: any) => {
-        return Data.map((I: IItem) => {
-          return new EquiposItem(I, this);
-        });
-      })
-      .catch(async (E: Error) => {
-        console.error(E);
-      });
+    try {
+        const Data = await this.List.items
+            .expand(this.ExpandAllFields.join())
+            .orderBy("Title")
+            .select(this.SelectAllFields.join())()
+            .then((response: any) => response)
+            .catch((error: any) => {
+                console.error("Error al cargar los equipos:", error);
+                throw error;
+            });
 
-    return await Items;
-  }
+        return Data.map((I: IItem) => {
+            return new EquiposItem(I, this);
+        });
+    } catch (error) {
+        console.error("Error al cargar los equipos:", error);
+        return [];
+    }
+}
 
 
   public async BuscarPorMail(usuarioEmail: string, BatchedWeb?: IWeb): Promise<EquiposItem[]> {

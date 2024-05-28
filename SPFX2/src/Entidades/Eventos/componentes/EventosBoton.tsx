@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import * as React from "react";
 import { Modal } from 'antd';
 import { IconButton, Stack } from "@fluentui/react";
@@ -36,7 +37,7 @@ const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, te
                 <IconButton
                     onClick={info}
                     iconProps={{ iconName: getIconName(titlename) }}
-                    styles={{ root: { backgroundColor: "#FFFFFF", color: "#1b4586" } }}
+                    styles={{ root: { backgroundColor: "#FFFFFF", color: "#04570f" } }}
                 />
             </Stack>
         </>
@@ -44,3 +45,4 @@ const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, te
 };
 
 export default BOTONGENIAL;
+/* eslint-enable*/

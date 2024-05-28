@@ -98,6 +98,7 @@ const CustomToolbar = (props: any): JSX.Element => {
           display: "flex",
           justifyContent: "space-between",
           width: "100%",
+          backgroundColor: "white"
         }}
       >
         <IconButton
@@ -113,6 +114,7 @@ const CustomToolbar = (props: any): JSX.Element => {
             fontSize: "14px",
             lineHeight: "32px",
             fontWeight: "600",
+            backgroundColor: "white"
           }}
         >
           {props.label}

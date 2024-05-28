@@ -31,7 +31,7 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
                 id="BOTONRESUME"
                 type="info"
                 onClick={infoModal}
-                style={{ backgroundColor: "#1b4586", color: "#FFFFFF" }}
+                style={{ backgroundColor: "#04570f", color: "#FFFFFF" }}
             >
                 {titlename}
             </ActionButton>

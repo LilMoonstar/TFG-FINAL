@@ -15,10 +15,12 @@ import CalendarioModal from "../../../Entidades/Calendario/CalendarioModal";
 import './WebPart.css';
 import { EquiposItem } from "../../../Entidades/Equipos/EquiposItem";
 import { EquiposLista } from "../../../Entidades/Equipos/EquiposLista";
+import Info from "../../../Entidades/Informacion/Info";
 
 export interface IEventoWebpartProps {
   SP: any;
   WebPartContext: WebPartContext;
+  currentUserDisplayName: string;
 }
 
 const ADMIN_EMAIL = "natasharey@comasis.com";
@@ -34,17 +36,29 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
+  const [currentUserDisplayName, setCurrentUserDisplayName] = React.useState("");
 
-  // Función para cargar datos
-  const cargarDatos = async () => {
+
+  // Función para cargar datos de eventos
+  const cargarDatosEventos = async () => {
     try {
       const eventos = await listaEventos.current.CargarTodos();
       setItemEventos(eventos);
       await ConsultaUsuario();
-      await ConsultaEquipos();
+      await cargarDatosEquipos();
       setTimeout(() => setLoading(false), 1000); // Oculta el spinner de carga después de 1 segundo
     } catch (error) {
       console.error('Error en consultas iniciales:', error);
+    }
+  };
+
+  // Función para cargar datos de equipos
+  const cargarDatosEquipos = async () => {
+    try {
+      const equipos = await listaEquipos.current.CargarTodos();
+      setItemEquipos(equipos);
+    } catch (error) {
+      console.error('Error al cargar equipos:', error);
     }
   };
 
@@ -64,15 +78,9 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     setImAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
   };
 
-  // Función para consultar equipos
-  const ConsultaEquipos = async () => {
-    const email = WebPartContext.pageContext.user.email;
-    const equipos = await listaEquipos.current.BuscarPorMail(email);
-    setItemEquipos(equipos);
-  };
-
   React.useEffect(() => {
-    cargarDatos(); // Inicia la carga de datos al montar el componente
+    cargarDatosEventos();
+    setCurrentUserDisplayName(WebPartContext.pageContext.user.displayName);
   }, []);
 
   const eventosCalendario: EventosCalendario[] = React.useMemo(() => ItemEventos.map(item => ({
@@ -93,9 +101,10 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     setSelectedEvent(undefined);
   }, []);
 
+
   return (
     <>
-      {loading && ( // Renderiza el spinner de carga mientras loading es true
+      {loading && (
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 999 }}>
           <Spin size="large" />
           <p id="loadingtext">¡CARGANDO! :D</p>
@@ -104,46 +113,67 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
       {!loading && ( // Renderiza el resto del contenido cuando loading es false
         <>
-          <div className="ARRIBA">
-            <div className="CAJAPERFIL">
-              <p id="PARRAFOWEBPART">MI PERFIL</p>
-              {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>}
-              {ItemUsuario && ItemEquipos.length > 0 && (
-                <UsuariosCajita
-                  title=""
-                  context={WebPartContext}
-                  email=""
-                  callback={ConsultaUsuario}
-                  UsuariosItem={ItemUsuario}
-                  EquiposItem={ItemEquipos}
+          <div className="Background" >
+
+            <div className="ARRIBA">
+              <div className="CAJAPERFIL">
+                {ItemUsuario && ItemEquipos.length >= 0 && (
+                  <UsuariosCajita
+                    title=""
+                    context={WebPartContext}
+                    email=""
+                    callback={ConsultaUsuario}
+                    UsuariosItem={ItemUsuario}
+                    EquiposItem={ItemEquipos}
+                    currentUserDisplayName={currentUserDisplayName}
+                  />
+                )}
+                {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red' }}>ADMIN</p>}
+              </div>
+              <div className="Textoarriba">
+                <p>Bienvenid@ usuario.</p>
+                <p>Esta es la sección de tu perfil, presiona cualquiera de los botones de la izquierda para configurar 
+                  tus datos de jugador, o los botones de la derecha para más información de interés.
+                </p>
+              </div>
+              <div className="infoperfil">
+              <Info ItemEquipos={ItemEquipos} callback = {cargarDatosEquipos} />
+              </div>
+            </div>
+
+            <br /><br />
+
+            <div className="MEDIO">
+              <div className="Textocentro">
+                <p>Este es tu calendario.</p>
+                <p>Presiona en cada evento para visualizar información detallada.</p>
+              </div>
+              <div className="CALENDARIOPERFIL">
+                <p id="PARRAFOCALENDARIO">CALENDARIO DE EVENTOS</p>
+                <MiCalendarioWP
+                  Context={WebPartContext}
+                  eventos={eventosCalendario}
+                  onSelectEvent={handleSelectEvent}
                 />
-              )}
+              </div>
             </div>
-            <div className="CALENDARIOPERFIL">
-              <p id="PARRAFOWEBPART">CALENDARIO DE EVENTOS</p>
-              <MiCalendarioWP
-                Context={WebPartContext}
-                eventos={eventosCalendario}
-                onSelectEvent={handleSelectEvent}
-              />
+
+            <br /><br />
+
+            <div className="ABAJO">
+              <div className="TABLAEVENTOS">
+                {ImAdmin && <EventosBotonNuevo lista={listaEventos.current} callback={cargarDatosEventos} />}
+                <EventosTabla Items={ItemEventos} callback={cargarDatosEventos} ImAdmin={ImAdmin} />
+              </div>
             </div>
+
+            <CalendarioModal
+              visible={isModalVisible}
+              onClose={closeModal}
+              event={selectedEvent}
+            />
+
           </div>
-
-          <br />
-          <br />
-
-          <p id="PARRAFOWEBPART">MIS EVENTOS</p>
-
-          <div className="TABLAEVENTOS">
-            {ImAdmin && <EventosBotonNuevo lista={listaEventos.current} callback={cargarDatos} />}
-            <EventosTabla Items={ItemEventos} callback={cargarDatos} ImAdmin={ImAdmin} />
-          </div>
-
-          <CalendarioModal
-            visible={isModalVisible}
-            onClose={closeModal}
-            event={selectedEvent}
-          />
         </>
       )}
     </>

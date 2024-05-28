@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import * as React from "react";
 import { IDropdownOption, IStackStyles, IStackTokens, IconButton, Stack } from "@fluentui/react";
 import { useEffect, useState } from "react";
@@ -60,7 +61,7 @@ export default function EventosBotonEditar(props: IEventosBotonEditarProps): JSX
                 <IconButton
                     onClick={showModal}
                     iconProps={{ iconName: "Edit" }}
-                    style={{ backgroundColor: "#FFFFFF", color: "#1b4586" }}
+                    style={{ backgroundColor: "#FFFFFF", color: "#04570f" }}
                 />
                 <EventosForm
                     title="Título"
@@ -78,3 +79,4 @@ export default function EventosBotonEditar(props: IEventosBotonEditarProps): JSX
         </>
     );
 }
+/* eslint-enable*/

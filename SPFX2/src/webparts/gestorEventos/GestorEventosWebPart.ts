@@ -22,6 +22,7 @@ export default class GestorDeEventosWebpartWebPart extends BaseClientSideWebPart
     const webpartProps = {
       SP: this.SP,
       WebPartContext: this.context,
+      currentUserDisplayName: "", 
     };
     const element: React.ReactElement<IEventoWebpartProps> =
       React.createElement(GestorDeEventosWebPart, webpartProps);

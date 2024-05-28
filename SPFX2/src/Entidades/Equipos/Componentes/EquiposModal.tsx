@@ -9,10 +9,10 @@ interface EquiposModalProps {
   onClose: () => void;
   equipo: EquiposItem;
   equipoNombre: string;
+  currentUserDisplayName: string;
 }
 
-
-const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, equipoNombre }) => {
+const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, equipoNombre, currentUserDisplayName }) => {
   // Función para formatear la fecha
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -25,10 +25,13 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, e
     return date.toLocaleDateString('es-ES', options);
   };
 
+  // Filtrar los miembros del equipo para mostrar solo aquellos que coincidan con el currentUserDisplayName
+  const filteredMembers = equipo.Miembros.filter(miembro => miembro.Title === currentUserDisplayName);
+
   return (
     <Modal
       title={`Información del Equipo: ${equipoNombre}`}
-      open={visible}
+      visible={visible}
       onOk={onClose}
       onCancel={onClose}
       className="ESTILOMODALEQUIPOS"
@@ -46,8 +49,11 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, e
           <p><strong>Nombre:</strong> {equipo.Nombre}</p>
           <p>
             <strong>Miembros:</strong>{" "}
-            {equipo.Miembros.map((miembro, index) => (
-              <span key={index}>{miembro.Title}</span>
+            {filteredMembers.map((miembro, index) => (
+              <span key={index}>
+                {miembro.Title}
+                {index !== filteredMembers.length - 1 ? ", " : ""}
+              </span>
             ))}
           </p>
           <p><strong>Juego:</strong> {equipo.Juego}</p>

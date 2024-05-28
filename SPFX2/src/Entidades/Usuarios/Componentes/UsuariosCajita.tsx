@@ -20,6 +20,7 @@ interface IUsuariosCajitaProps {
   size?: number;
   context: WebPartContext;
   callback: () => Promise<void>;
+  currentUserDisplayName: string;
 }
 
 const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaProps) => {
@@ -40,14 +41,13 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
   useEffect(() => {
     console.log("CAJITA");
     console.log(props)
+    console.log(EquiposItem)
   }, []);
 
   useEffect(() => {
     props.EquiposItem.forEach(e => {
       if (e.Juego === (Mode === "FORTNITE" ? "FORTNITE" : "LEAGUE OF LEGENDS")) {
         setEquipoItem(e);
-        console.log("EQUIPO SELECCIONADO");
-        console.log(e);
       }
     });
   }, [Mode]);
@@ -135,6 +135,7 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
           showModal={() => setShowModal(true)}
           handleOk={handleFormOk}
           championImageUrl={null}
+          currentUserDisplayName={currentUserName}
         />
       )}
     </Stack>
@@ -142,5 +143,6 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
 }
 
 export default UsuariosCajita;
+
 
 /* eslint-enable */
