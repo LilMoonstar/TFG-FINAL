@@ -151,6 +151,7 @@ export default function EventosWebpart(
             return true; // Devuelve todos los elementos si no hay filtro de fecha
           })}
           columns={columns}
+          pagination={{ pageSize: 4}}
         />
       </div>
     </>

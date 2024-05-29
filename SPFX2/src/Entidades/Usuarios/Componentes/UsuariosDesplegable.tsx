@@ -101,172 +101,181 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
 
           {/* MODAL PRINCIPAL */}
 
-          <Modal open={props.visible} cancelButtonProps={{ hidden: true }} onOk={handleOk} closable={false}>
+          <div className='MODALPERFILJUEGOS'>
 
-            <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px', padding: '35px' }}>
+            <Modal
+              open={props.visible}
+              cancelButtonProps={{ hidden: true }}
+              onOk={handleOk}
+              closable={false}
+              style={{ top: 30 }}
+            >
 
-              <Stack horizontal horizontalAlign="center" tokens={{ childrenGap: 10 }}>
+              <Stack verticalAlign="center" tokens={{ childrenGap: 20 }} style={{ width: '500px' }}>
 
-                <Text variant="large" style={{ fontWeight: 'bold', fontSize: '2em' }} >{props.titulo}</Text>
+                <Stack horizontal horizontalAlign="center" tokens={{ childrenGap: 10 }}>
 
+                  <Text variant="large" style={{ fontWeight: 'bold', fontSize: '2em' }} >{props.titulo}</Text>
+
+                </Stack>
+
+
+                {/* Username */}
+
+                <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
+                  <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
+                    {(props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol) && (props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol) !== "I Don't have a Name"
+                      ? `USERNAME: @${props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}`
+                      : `You don't have a username for this game`}
+                  </Text>
+                </Stack>
+
+                {editarVisible && (
+                  <UsuariosForm
+                    Item={props.UsuariosItem}
+                    guardando={cargando}
+                    CloseModal={() => {
+                      setEditarVisible(false);
+                    }}
+                    OnSubmit={async () => {
+
+                      await props.callback();
+                      setEditarVisible(false);
+
+                    }}
+                    profGame={props.PROFGAME}
+                  />
+                )}
               </Stack>
 
+              {/* COSAS QUE SE VEN SI PROFGAME ES 'FORTNITEPROFGAME' */}
 
-              {/* Username */}
+              <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
 
-              <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-                <Text variant="medium" style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
-                  {(props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol) && (props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol) !== "I Don't have a Name"
-                    ? `USERNAME: @${props.PROFGAME === "FORTNITEPROFGAME" ? Item?.NicknameFortnite : Item?.NicknameLol}`
-                    : `You don't have a username for this game`}
-                </Text>
-              </Stack>
-
-              {editarVisible && (
-                <UsuariosForm
-                  Item={props.UsuariosItem}
-                  guardando={cargando}
-                  CloseModal={() => {
-                    setEditarVisible(false);
-                  }}
-                  OnSubmit={async () => {
-
-                    await props.callback();
-                    setEditarVisible(false);
-
-                  }}
-                  profGame={props.PROFGAME}
-                />
-              )}
-            </Stack>
-
-            {/* COSAS QUE SE VEN SI PROFGAME ES 'FORTNITEPROFGAME' */}
-
-            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-
-              {props.PROFGAME === 'FORTNITEPROFGAME' && (
-                <>
-                  <Stack.Item>
-                    <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
-                  </Stack.Item>
-
-                  {/* Mostrar imagen según la plataforma o la imagen por defecto */}
-
-                  <Stack.Item>
-                    <img
-                      src={Item.Platform !== null ? getImageForFortnitePLATFORM(Item.Platform) : getImageForFortnitePLATFORM(null)}
-                      alt={Item.Platform !== null ? Item.Platform : "Default"}
-                      style={{ width: '100px', height: '100px', padding: '10px' }}
-                    />
-                  </Stack.Item>
-
-                  <Stack.Item>
-                    <Text variant="medium">Controls: {Item.Controls !== null ? Item.Controls : "No controls assigned yet"}</Text>
-                  </Stack.Item>
-
-                  {/* Mostrar imagen según los controles o la imagen por defecto */}
-
-                  <Stack.Item>
-                    <img
-                      src={Item.Controls !== null ? getImageForFortniteCONTROLS(Item.Controls) : getImageForFortniteCONTROLS(null)}
-                      alt={Item.Controls !== null ? Item.Controls : "Default"}
-                      style={{ width: '100px', height: '100px', padding: '10px' }}
-                    />
-                  </Stack.Item>
-                </>
-              )}
-            </Stack>
-
-            {/* COSAS QUE SE VEN SI PROFGAME ES 'LEAGUEPROFGAME' */}
-
-            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-              {props.PROFGAME === 'LEAGUEPROFGAME' && (
-                <>
-                  <Stack.Item>
-                    <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
-                  </Stack.Item>
-
-                  {/* Mostrar imagen según el role o la imagen por defecto */}
-
-                  <Stack.Item>
-                    <img
-                      src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
-                      alt={Item?.Role !== null ? Item?.Role : "Default"}
-                      style={{ width: '100px', height: '100px', padding: '10px' }}
-                    />
-                  </Stack.Item>
-
-                  {/* Mostrar imagen del campeón seleccionado */}
-
-                  <Stack.Item>
-                    <Text variant="medium">Main champion: {Item?.Champion?.Url ? Item?.Champion?.Url.split('/').pop()?.replace('_0.jpg', '') : "I don't have one!"}</Text>
-                  </Stack.Item>
-
-                  <Stack.Item>
-                    <img
-                      src={Item?.Champion?.Url || "https://pbs.twimg.com/media/EGKvlXpUcAEqfXO.jpg"}
-                      alt={Item?.Champion?.Description || "Default"}
-                      style={{ width: '100px', height: '100px', padding: '10px' }}
-                    />
-                  </Stack.Item>
-
-
-                </>
-              )}
-            </Stack>
-            <br />
-
-            {/* Mostrar equipo asignado según el PROFGAME */}
-
-            <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
-              <Text variant="medium">Equipo de {props.titulo}: </Text>
-              <Stack.Item>
-                {props.PROFGAME === 'FORTNITEPROFGAME' ? (
+                {props.PROFGAME === 'FORTNITEPROFGAME' && (
                   <>
-                    {props.EquiposItem?.Nombre !== undefined ? (
-                      <Button type="primary" onClick={handleTeamButtonClick}>
-                        {props.EquiposItem?.Nombre}
-                      </Button>
-                    ) : (
-                      <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                        No team assigned yet
-                      </Button>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {props.EquiposItem?.Nombre !== undefined ? (
-                      <Button type="primary" onClick={handleTeamButtonClick}>
-                        {props.EquiposItem?.Nombre}
-                      </Button>
-                    ) : (
-                      <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                        No team assigned yet
-                      </Button>
-                    )}
+                    <Stack.Item>
+                      <Text variant="medium">Platform: {Item.Platform !== null ? Item.Platform : "No platform assigned yet"}</Text>
+                    </Stack.Item>
+
+                    {/* Mostrar imagen según la plataforma o la imagen por defecto */}
+
+                    <Stack.Item>
+                      <img
+                        src={Item.Platform !== null ? getImageForFortnitePLATFORM(Item.Platform) : getImageForFortnitePLATFORM(null)}
+                        alt={Item.Platform !== null ? Item.Platform : "Default"}
+                        style={{ width: '100px', height: '100px', padding: '10px' }}
+                      />
+                    </Stack.Item>
+
+                    <Stack.Item>
+                      <Text variant="medium">Controls: {Item.Controls !== null ? Item.Controls : "No controls assigned yet"}</Text>
+                    </Stack.Item>
+
+                    {/* Mostrar imagen según los controles o la imagen por defecto */}
+
+                    <Stack.Item>
+                      <img
+                        src={Item.Controls !== null ? getImageForFortniteCONTROLS(Item.Controls) : getImageForFortniteCONTROLS(null)}
+                        alt={Item.Controls !== null ? Item.Controls : "Default"}
+                        style={{ width: '100px', height: '100px', padding: '10px' }}
+                      />
+                    </Stack.Item>
                   </>
                 )}
-              </Stack.Item>
-            </Stack>
+              </Stack>
 
-            {equipoSeleccionado && (
-              <EquiposModal
-                visible={true} 
-                onClose={() => setEquipoSeleccionado(null)}
-                equipo={equipoSeleccionado}
-                equipoNombre={equipoSeleccionado.Nombre}
-              />
-            )}
+              {/* COSAS QUE SE VEN SI PROFGAME ES 'LEAGUEPROFGAME' */}
 
-            {/* Edit */}
+              <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+                {props.PROFGAME === 'LEAGUEPROFGAME' && (
+                  <>
+                    <Stack.Item>
+                      <Text variant="medium">Position: {Item?.Role !== null ? Item?.Role : "No role assigned yet"}</Text>
+                    </Stack.Item>
 
-            <Stack horizontal horizontalAlign="start" style={{ width: '500px', marginLeft: '20px', marginBottom: '20px' }}>
+                    {/* Mostrar imagen según el role o la imagen por defecto */}
 
-              <Button onClick={() => { setEditarVisible(true) }}>{"Editar"}</Button>
+                    <Stack.Item>
+                      <img
+                        src={Item?.Role !== null ? getImageForLeagueProfGame(Item?.Role) : getImageForLeagueProfGame(null)}
+                        alt={Item?.Role !== null ? Item?.Role : "Default"}
+                        style={{ width: '100px', height: '100px', padding: '10px' }}
+                      />
+                    </Stack.Item>
 
-            </Stack>
+                    {/* Mostrar imagen del campeón seleccionado */}
 
-          </Modal>
+                    <Stack.Item>
+                      <Text variant="medium">Main champion: {Item?.Champion?.Url ? Item?.Champion?.Url.split('/').pop()?.replace('_0.jpg', '') : "I don't have one!"}</Text>
+                    </Stack.Item>
+
+                    <Stack.Item>
+                      <img
+                        src={Item?.Champion?.Url || "https://pbs.twimg.com/media/EGKvlXpUcAEqfXO.jpg"}
+                        alt={Item?.Champion?.Description || "Default"}
+                        style={{ width: '100px', height: '100px', padding: '10px' }}
+                      />
+                    </Stack.Item>
+
+
+                  </>
+                )}
+              </Stack>
+              <br />
+
+              {/* Mostrar equipo asignado según el PROFGAME */}
+
+              <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
+                <Text variant="medium">Equipo de {props.titulo}: </Text>
+                <Stack.Item>
+                  {props.PROFGAME === 'FORTNITEPROFGAME' ? (
+                    <>
+                      {props.EquiposItem?.Nombre !== undefined ? (
+                        <Button type="primary" onClick={handleTeamButtonClick}>
+                          {props.EquiposItem?.Nombre}
+                        </Button>
+                      ) : (
+                        <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
+                          No team assigned yet
+                        </Button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {props.EquiposItem?.Nombre !== undefined ? (
+                        <Button type="primary" onClick={handleTeamButtonClick}>
+                          {props.EquiposItem?.Nombre}
+                        </Button>
+                      ) : (
+                        <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
+                          No team assigned yet
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </Stack.Item>
+              </Stack>
+
+              {equipoSeleccionado && (
+                <EquiposModal
+                  visible={true}
+                  onClose={() => setEquipoSeleccionado(null)}
+                  equipo={equipoSeleccionado}
+                  equipoNombre={equipoSeleccionado.Nombre}
+                />
+              )}
+
+              {/* Edit */}
+
+              <Stack horizontal horizontalAlign="start" style={{ width: '500px', marginLeft: '20px', marginBottom: '20px' }}>
+
+                <Button onClick={() => { setEditarVisible(true) }}>{"Editar"}</Button>
+
+              </Stack>
+
+            </Modal>
+          </div>
         </div>
       )}
     </>

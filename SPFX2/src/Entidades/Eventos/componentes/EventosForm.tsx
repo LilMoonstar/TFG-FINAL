@@ -1,10 +1,10 @@
 import * as React from "react";
-import { TextField, Dropdown, IDropdownOption, Spinner, Stack } from "@fluentui/react";
-import { EventosItem } from "../EventosItem";
+import { useState, useRef } from 'react';
+import { TextField, Dropdown, IDropdownOption, Spinner, Stack, StackItem } from "@fluentui/react";
 import { Modal } from "antd";
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { DateTimePicker } from "@pnp/spfx-controls-react";
-import { StackItem } from "office-ui-fabric-react";
-
+import { EventosItem } from "../EventosItem";
 
 export interface IEventosFormProps {
     title: string;
@@ -19,8 +19,60 @@ export interface IEventosFormProps {
 }
 
 const EventosForm: React.FC<IEventosFormProps> = (props) => {
+    const [disabled, setDisabled] = useState(true);
+    const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+    const draggleRef = useRef<HTMLDivElement>(null);
+
+    const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
+        const { clientWidth, clientHeight } = window.document.documentElement;
+        const targetRect = draggleRef.current?.getBoundingClientRect();
+        if (!targetRect) {
+            return;
+        }
+        setBounds({
+            left: -targetRect.left + uiData.x,
+            right: clientWidth - (targetRect.right - uiData.x),
+            top: -targetRect.top + uiData.y,
+            bottom: clientHeight - (targetRect.bottom - uiData.y),
+        });
+    };
+
     return (
-        <Modal title="Características" open={props.isModalOpen} onOk={props.handleOk} onCancel={props.handleCancel}>
+        <Modal
+            title={
+                <div
+                    style={{
+                        width: '100%',
+                        cursor: 'move',
+                    }}
+                    onMouseOver={() => {
+                        if (disabled) {
+                            setDisabled(false);
+                        }
+                    }}
+                    onMouseOut={() => {
+                        setDisabled(true);
+                    }}
+                    onFocus={() => {}}
+                    onBlur={() => {}}
+                >
+                    {props.title}
+                </div>
+            }
+            open={props.isModalOpen}
+            onOk={props.handleOk}
+            onCancel={props.handleCancel}
+            modalRender={(modal) => (
+                <Draggable
+                    disabled={disabled}
+                    bounds={bounds}
+                    nodeRef={draggleRef}
+                    onStart={(event: any, uiData: any) => onStart(event, uiData)}
+                >
+                    <div ref={draggleRef}>{modal}</div>
+                </Draggable>
+            )}
+        >
             <Stack hidden={!props.guardando}>
                 <Spinner label="Guardando..." />
             </Stack>

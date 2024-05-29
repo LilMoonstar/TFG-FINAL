@@ -98,11 +98,34 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     setSelectedEvent(undefined);
   }, []);
 
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible2, setIsVisible2] = React.useState(false);
+  const [calendarioStyle, setCalendarioStyle] = React.useState({});
+  const [cajitaStyle, setCajitaStyle] = React.useState({});
+
+  const toggleText = () => {
+    setIsVisible(!isVisible);
+    if (!isVisible) {
+      setCajitaStyle({ transform: 'translateX(-40%)' });
+    } else {
+      setCajitaStyle({});
+    }
+  };
+
+  const toggleText2 = () => {
+    setIsVisible2(!isVisible2);
+    if (!isVisible2) {
+      setCalendarioStyle({ transform: 'translateX(5%)' });
+    } else {
+      setCalendarioStyle({});
+    }
+  };
+
 
   return (
     <div className="CONTENIDO">
       {loading && (
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 999 }}>
+        <div className="cargando" style={{ position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 999 }}>
           <Spin size="large" />
           <p id="loadingtext">CARGANDO...</p>
         </div>
@@ -111,10 +134,11 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
       {!loading && ( // Renderiza el resto del contenido cuando loading es false
         <>
           <Info ItemEquipos={ItemEquipos} callback={cargarDatosEquipos} />
-          
+
           <div className="Background">
+          {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20 }}>ADMIN</p>}
             <div id="SECCION1" className="ARRIBA">
-              <div className="CAJAPERFIL">
+              <div className="CAJAPERFIL" style={cajitaStyle} >
                 {ItemUsuario && ItemEquipos.length >= 0 && (
                   <UsuariosCajita
                     title=""
@@ -125,24 +149,36 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
                     EquiposItem={ItemEquipos}
                   />
                 )}
-                {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20 }}>ADMIN</p>}
               </div>
-              <div className="Textoarriba">
+              <div id="Textoarriba" className={`Textoarriba ${isVisible ? 'visible' : 'hidden'}`}>
                 <p>Bienvenid@ usuario.</p>
                 <p>Esta es la sección de tu perfil, presiona cualquiera de los botones de la izquierda para configurar
-                  tus datos de jugador, o los botones de la derecha para más información de interés.
+                  tus datos de jugador, o los botones del menú superior para navegar por la página u obtener más información de interés.
                 </p>
               </div>
+              <img
+                id="infoicon"
+                className="infoicon"
+                src="https://icon-library.com/images/help-icon-png/help-icon-png-0.jpg"
+                alt="?"
+                onClick={toggleText}
+              />
             </div>
 
-            <br /><br />
-
             <div id="SECCION2" className="MEDIO">
-              <div className="Textocentro">
-                <p>Este es tu calendario.</p>
-                <p>Presiona en cada evento para visualizar información detallada.</p>
+              <img
+                id="infoicon2"
+                className="infoicon2"
+                src="https://icon-library.com/images/help-icon-png/help-icon-png-0.jpg"
+                alt="?"
+                onClick={toggleText2}
+              />
+              <div id="Textocentro" className={`Textocentro ${isVisible2 ? 'visible' : 'hidden'}`}>
+                <p>Este es el calendario de eventos.</p>
+                <p>Presiona en cada uno de ellos para visualizar información detallada al respecto.</p>
+                <p>Tambien puedes buscarlos en la tabla ifnerior gracias a los filtros.</p>
               </div>
-              <div className="CALENDARIOPERFIL">
+              <div className="CALENDARIOPERFIL" style={calendarioStyle}>
                 <p id="PARRAFOCALENDARIO">CALENDARIO DE EVENTOS</p>
                 <MiCalendarioWP
                   Context={WebPartContext}
@@ -151,8 +187,6 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
                 />
               </div>
             </div>
-
-            <br /><br />
 
             <div id="SECCION3" className="ABAJO">
               <div className="CONTENEDORDETABLAEVENTOS">
