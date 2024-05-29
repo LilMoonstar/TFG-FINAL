@@ -100,7 +100,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
 
   return (
-    <>
+    <div className="CONTENIDO">
       {loading && (
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 999 }}>
           <Spin size="large" />
@@ -110,9 +110,10 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
       {!loading && ( // Renderiza el resto del contenido cuando loading es false
         <>
-          <div className="Background" >
-
-            <div className="ARRIBA">
+          <Info ItemEquipos={ItemEquipos} callback={cargarDatosEquipos} />
+          
+          <div className="Background">
+            <div id="SECCION1" className="ARRIBA">
               <div className="CAJAPERFIL">
                 {ItemUsuario && ItemEquipos.length >= 0 && (
                   <UsuariosCajita
@@ -124,22 +125,19 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
                     EquiposItem={ItemEquipos}
                   />
                 )}
-                {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20}}>ADMIN</p>}
+                {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20 }}>ADMIN</p>}
               </div>
               <div className="Textoarriba">
                 <p>Bienvenid@ usuario.</p>
-                <p>Esta es la sección de tu perfil, presiona cualquiera de los botones de la izquierda para configurar 
+                <p>Esta es la sección de tu perfil, presiona cualquiera de los botones de la izquierda para configurar
                   tus datos de jugador, o los botones de la derecha para más información de interés.
                 </p>
-              </div>
-              <div className="infoperfil">
-              <Info ItemEquipos={ItemEquipos} callback = {cargarDatosEquipos} />
               </div>
             </div>
 
             <br /><br />
 
-            <div className="MEDIO">
+            <div id="SECCION2" className="MEDIO">
               <div className="Textocentro">
                 <p>Este es tu calendario.</p>
                 <p>Presiona en cada evento para visualizar información detallada.</p>
@@ -156,8 +154,8 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
             <br /><br />
 
-            <div className="ABAJO">
-              <div className="TABLAEVENTOS">
+            <div id="SECCION3" className="ABAJO">
+              <div className="CONTENEDORDETABLAEVENTOS">
                 {ImAdmin && <EventosBotonNuevo lista={listaEventos.current} callback={cargarDatosEventos} />}
                 <EventosTabla Items={ItemEventos} callback={cargarDatosEventos} ImAdmin={ImAdmin} />
               </div>
@@ -172,7 +170,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

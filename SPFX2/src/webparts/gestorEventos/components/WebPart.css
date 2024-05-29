@@ -1,8 +1,8 @@
 *:active {
-  text-decoration-color: #04570f; 
+  text-decoration-color: #04570f;
 }
 
-.Background{
+.Background {
   background-color: #d8f1d2;
 }
 
@@ -24,31 +24,52 @@
   transform: scale(1.02);
 }
 
-.MEDIO{
+.MEDIO {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .CALENDARIOPERFIL {
-  width: 35%;
+  width: 100%;
   height: auto;
   transition: transform 0.3s ease;
-  margin-right: 25%
+  margin-right: 5%;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 0px 20px #04570f1a;
 }
 
 .current-day {
-  background-color: #89dd94 !important;
+  background-image: url(https://img.freepik.com/premium-vector/abstract-polygonal-tirangle-pattern-background_536326-160.jpg) !important;
+  background-size: cover;
+  background-position: center;
 }
 
-.ABAJO{
+.filtrofechatabla {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.TABLAEVENTOS{
+.CONTENEDORDETABLAEVENTOS {
   margin: 10px;
+  z-index: 9999;
+}
+
+#Tablaeventos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 0px 20px #04570f1a;
 }
 
 #PARRAFOCALENDARIO {
@@ -69,7 +90,7 @@
 #BOTONCREAR:hover,
 #BOTONFILTRAR:hover,
 #BOTONREINICIAR:hover,
-#BOTONRESUME:hover{
+#BOTONRESUME:hover {
   background-color: #3ca328;
   color: #ffffff;
   font-weight: bold;
@@ -79,7 +100,7 @@
 #BOTONBORRAR,
 #BOTONFILTRAR,
 #BOTONREINICIAR,
-#BOTONRESUME{
+#BOTONRESUME {
   transition: all 0.3s ease;
 }
 
@@ -107,28 +128,30 @@
 .Textocentro {
   margin-left: 5%;
   margin-right: 5%;
-  text-align: left;
 }
 
 .Textoarriba {
   margin-left: 5%;
   margin-right: 5%;
-  text-align: right;
 }
 
-.Textocentro p, .Textoarriba p{
-  overflow-wrap: break-word; 
+.Textocentro p,
+.Textoarriba p {
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
-.Textoarriba, .Textocentro {
+.Textoarriba,
+.Textocentro {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 17px;
   font-weight: bold;
-  color: #039717; 
+  color: #039717;
   max-width: 400px;
   padding: 20px;
   border-radius: 15px;
   background-color: white;
+  box-shadow: 0px 0px 20px #04570f1a;
 }
 
 .info-content {
@@ -160,13 +183,14 @@
 .textomodalborrar:hover {
   font-size: 15px;
 }
+
 .usuarios-cajita {
   background-image: url('https://u7.uidownload.com/vector/154/526/vector-color-diagonal-rounded-square-pattern-background-vector-ai-eps.jpg');
   background-size: cover;
   background-position: center;
   padding: 20px;
-  border: 5px solid white; 
-  border-radius: 20px; 
+  border: 5px solid white;
+  border-radius: 20px;
   max-width: 400px;
   text-align: center;
   height: 300px;
@@ -176,8 +200,8 @@
   justify-content: center;
   flex-direction: column;
   margin-top: 35px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden; 
+  box-shadow: 0px 0px 20px #04570f1a;
+  overflow: hidden;
 }
 
 .usuario-info {
@@ -202,8 +226,8 @@
   position: relative;
   width: 80px;
   height: 80px;
-  border: 10px solid white; 
-  border-radius: 50%; 
+  border: 10px solid white;
+  border-radius: 50%;
 }
 
 .Fotousuario img {
@@ -212,7 +236,7 @@
 }
 
 .NombreUsuario {
-  background-color: white; 
+  background-color: white;
   border-radius: 5px;
   width: 110%;
   height: auto;
@@ -242,8 +266,8 @@
   height: 70px;
   border: none;
   margin: 10px;
-  border: 10px solid white; 
-  border-radius: 2px; 
+  border: 10px solid white;
+  border-radius: 2px;
   transition: all 0.3s ease;
 }
 
@@ -326,16 +350,16 @@
 }
 
 .Contenidomodalequipos {
-  display:block;
+  display: block;
   justify-content: center;
   align-items: left;
   text-align: left;
-  max-height: 70vh; 
+  max-height: 70vh;
   overflow-y: auto;
-  width: 100%; 
+  width: 100%;
 }
 
-.Contenidomodalequipos > p {
+.Contenidomodalequipos>p {
   margin: 5px 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
@@ -362,21 +386,51 @@
   color: #01579b;
   margin-top: 20px;
   margin-bottom: 20px;
-  animation: fadeInOut 1s infinite; 
+  animation: fadeInOut 1s infinite;
 }
 
 @keyframes fadeInOut {
   0% {
-    color: #01579b; 
+    color: #01579b;
     font-size: 1rem;
   }
+
   50% {
-    color: #82c0ff; 
-    font-size: 1.1rem; 
+    color: #82c0ff;
+    font-size: 1.1rem;
   }
+
   100% {
-    color: #01579b; 
-    font-size: 1rem; 
+    color: #01579b;
+    font-size: 1rem;
   }
 }
 
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  display: flex;
+  background-image: linear-gradient(to right, #d8f1d2, #d8f1d231 33.3%, #333, #d8f1d231 66.6%, #d8f1d2);
+  justify-content: center;
+  width: 100%; 
+  font-size: 20px;
+}
+
+.navbar li a {
+  margin-left: 15px;
+  margin-right: 15px;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar li a:hover {
+  background-color: #ffffff;
+  color: #04570f;
+  font-weight: bold;
+}

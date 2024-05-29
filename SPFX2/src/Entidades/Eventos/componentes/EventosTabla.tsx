@@ -10,13 +10,14 @@ import EventosJuego, { JuegoFiltro } from "./EventosJuego";
 import FiltroFecha from "./Filtros/FiltroFecha";
 import EventosBotonEditar from "./EventosBotonEditar";
 import EventosBorrar from "./EventosBorrar";
+import '../../../webparts/gestorEventos/components/WebPart.css';
 
 // "Reload" tras editar
 
 export interface IEventoWebpartProps {
   Items: EventosItem[];
   callback: () => Promise<void>;
-  ImAdmin: boolean; 
+  ImAdmin: boolean;
 }
 
 export default function EventosWebpart(
@@ -135,28 +136,23 @@ export default function EventosWebpart(
     },
   ];
 
-  // CSS
-
-  const tableStyle = {
-    margin: 'auto',
-    width: 'fit-content'
-  };
-
   return (
     <>
+    <div className="filtrofechatabla">
       <FiltroFecha onFilter={handleFilter} />
-
-      <Table
-        dataSource={Props.Items.filter(item => {
-          // Filtrar por fecha si startDate y endDate no están vacíos
-          if (startDate && endDate) {
-            return item.Date >= new Date(startDate) && item.Date <= new Date(endDate);
-          }
-          return true; // Devuelve todos los elementos si no hay filtro de fecha
-        })}
-        columns={columns}
-        style={tableStyle}
-      />
+    </div>
+      <div id="Tablaeventos">
+        <Table
+          dataSource={Props.Items.filter(item => {
+            // Filtrar por fecha si startDate y endDate no están vacíos
+            if (startDate && endDate) {
+              return item.Date >= new Date(startDate) && item.Date <= new Date(endDate);
+            }
+            return true; // Devuelve todos los elementos si no hay filtro de fecha
+          })}
+          columns={columns}
+        />
+      </div>
     </>
   );
 }

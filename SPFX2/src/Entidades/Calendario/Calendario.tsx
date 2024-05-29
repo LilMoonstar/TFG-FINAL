@@ -44,7 +44,7 @@ export default function MiCalendarioWP(props: MiCalendarioProps): JSX.Element {
       culture={UICultureName.current}
       showMultiDayTimes
       step={60}
-      style={{ height: "450px", width: "700px", backgroundColor: "white" }}
+      style={{ height: "450px", width: "700px", backgroundColor: "white", fontWeight: "bold"}}
       views={["month"]}
       startAccessor="start"
       endAccessor="end"
