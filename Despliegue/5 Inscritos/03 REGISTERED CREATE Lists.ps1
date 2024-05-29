@@ -1,6 +1,6 @@
 # Creación de la lista
-$listTitle = "Eventos"
-$listDescription = "Lista Eventos"
+$listTitle = "Inscritos"
+$listDescription = "Lista Inscritos"
 $listTemplate = [Microsoft.SharePoint.Client.ListTemplateType]::GenericList
 
 $lci = New-Object Microsoft.SharePoint.Client.ListCreationInformation
@@ -26,7 +26,7 @@ $list.Update()
 $context.ExecuteQuery()
 
 # Añadir tipo de contenido existente a la lista
-$tipodecontenido = "THISEventos"
+$tipodecontenido = "THISUsuarios"
 $contentTypes = $context.web.ContentTypes
 
 $context.Load($contentTypes)
@@ -73,13 +73,9 @@ if ($contentType -ne $null) {
         $context.ExecuteQuery()
 
             $viewFields.Add("ID")
-            $viewFields.Add("EV_game")
-            $viewFields.Add("EV_requirements")
-            $viewFields.Add("EV_description")
-            $viewFields.Add("EV_awards")
-            $viewFields.Add("EV_date")
-            $viewFields.Add("EV_composition")
-
+            $viewFields.Add("LookupEvento")
+            $viewFields.Add("LookupEquipo")
+            
 
         $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"
         $vista.Update()
@@ -93,24 +89,3 @@ if ($contentType -ne $null) {
 } else {
     Write-Host "ERROR: Content type $tipodecontenido not found" -ForegroundColor Red
 }
-
-$fields = $web.Fields;
-$context.Load($fields);
-$context.ExecuteQuery();
- 
-$list.ID
-write-host "|--- Lookup Evento";
-$fieldxml= '<Field ID="{6e5be620-b717-4bae-8143-82a3a51744c5}" 
-                Name="LookupEvento"
-                DisplayName="LookupEvento" 
-                Type="Lookup"
-                Mult="TRUE"
-                List="'+$list.ID+'"
-                ShowField="Title"
-                Group="Lookups" 
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-</Field>';
- 
-$field = $fields.AddFieldAsXml($fieldxml, $true, [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue); 
-$context.Load($field);
-$context.ExecuteQuery();

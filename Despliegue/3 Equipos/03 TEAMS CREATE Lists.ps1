@@ -89,3 +89,24 @@ if ($contentType -ne $null) {
 } else {
     Write-Host "ERROR: Content type $tipodecontenido not found" -ForegroundColor Red
 }
+ 
+$fields = $web.Fields;
+$context.Load($fields);
+$context.ExecuteQuery();
+ 
+$list.ID
+write-host "|--- Lookup Equipo";
+$fieldxml= '<Field ID="{5642937b-9440-44fe-9501-4e2da4632a82}" 
+                Name="LookupEquipo"
+                DisplayName="LookupEquipo" 
+                Type="Lookup"
+                Indexed="TRUE"
+                List="'+$list.ID+'"
+                ShowField="Title"
+                Group="Lookups" 
+                xmlns="http://schemas.microsoft.com/sharepoint/">
+</Field>';
+ 
+$field = $fields.AddFieldAsXml($fieldxml, $true, [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue); 
+$context.Load($field);
+$context.ExecuteQuery();
