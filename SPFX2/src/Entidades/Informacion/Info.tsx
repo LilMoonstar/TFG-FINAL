@@ -1,18 +1,24 @@
-/* eslint-disable*/
+/* eslint-disable */
 import * as React from "react";
 import { Popover } from 'antd';
 import EquiposTabla from "../Equipos/Componentes/EquiposTabla";
+import InscritosTabla from "../Inscritos/Componentes/InscritosTabla";
 import { EquiposItem } from "../Equipos/EquiposItem";
+import { InscritosItem } from "../Inscritos/InscritosItem";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { useState } from "react";
 
 interface NavBarProps {
   ItemEquipos: EquiposItem[];
+  Inscritos: InscritosItem[];
   callback: () => Promise<void>;
+  WebPartContext: WebPartContext;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ ItemEquipos, callback }) => {
+const NavBar: React.FC<NavBarProps> = ({ ItemEquipos, Inscritos, callback, WebPartContext }) => {
   const [infoVisible, setInfoVisible] = useState(false);
   const [equiposVisible, setEquiposVisible] = useState(false);
+  const [inscritosVisible, setInscritosVisible] = useState(false);
 
   const hideInfo = () => {
     setInfoVisible(false);
@@ -22,12 +28,20 @@ const NavBar: React.FC<NavBarProps> = ({ ItemEquipos, callback }) => {
     setEquiposVisible(false);
   };
 
+  const hideInscritos = () => {
+    setInscritosVisible(false);
+  };
+
   const handleInfoOpenChange = (newOpen: boolean) => {
     setInfoVisible(newOpen);
   };
 
   const handleEquiposOpenChange = (newOpen: boolean) => {
     setEquiposVisible(newOpen);
+  };
+
+  const handleInscritosOpenChange = (newOpen: boolean) => {
+    setInscritosVisible(newOpen);
   };
 
   return (
@@ -79,9 +93,26 @@ const NavBar: React.FC<NavBarProps> = ({ ItemEquipos, callback }) => {
           <a href="#" onClick={(e) => { e.preventDefault(); setEquiposVisible(!equiposVisible); }}>Equipos existentes</a>
         </Popover>
       </li>
+      <li>
+        <Popover
+          content={
+            <>
+              <InscritosTabla Items={Inscritos} callback={callback} WebPartContext={WebPartContext} />
+              <button onClick={hideInscritos}>Cerrar</button>
+            </>
+          }
+          title="Mis inscripciones"
+          trigger="click"
+          open={inscritosVisible}
+          onOpenChange={handleInscritosOpenChange}
+          placement="bottomLeft"
+        >
+          <a href="#" onClick={(e) => { e.preventDefault(); setInscritosVisible(!inscritosVisible); }}>Mis inscripciones</a>
+        </Popover>
+      </li>
     </ul>
   );
 };
 
 export default NavBar;
-/* eslint-enable*/
+/* eslint-enable */

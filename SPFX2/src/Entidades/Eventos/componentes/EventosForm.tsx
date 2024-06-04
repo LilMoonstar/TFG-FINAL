@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from "react";
 import { useState, useRef } from 'react';
 import { TextField, Dropdown, IDropdownOption, Spinner, Stack, StackItem } from "@fluentui/react";
@@ -53,8 +54,8 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
                     onMouseOut={() => {
                         setDisabled(true);
                     }}
-                    onFocus={() => {}}
-                    onBlur={() => {}}
+                    onFocus={() => { }}
+                    onBlur={() => { }}
                 >
                     {props.title}
                 </div>
@@ -78,10 +79,14 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
             </Stack>
             <Stack hidden={props.guardando}>
                 <TextField
-                    label="Nombre"
-                    value={props.itemEdit && props.itemEdit.Nombre}
-                    onChange={(e, newValue) => { props.setItemEdit({ ...props.itemEdit!, Nombre: newValue } as EventosItem) }}
+                    label="Title"
+                    value={props.itemEdit && props.itemEdit.Title}
+                    onChange={(e, newValue) => {
+                        newValue = newValue.length > 30 ? newValue.substring(0, 30) : newValue;
+                        props.setItemEdit({ ...props.itemEdit!, Title: newValue } as EventosItem)
+                    }}
                 />
+
                 <Dropdown
                     label="Game"
                     selectedKey={props.itemEdit && props.itemEdit.Game}
@@ -147,3 +152,4 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
 };
 
 export default EventosForm;
+/* eslint-enable */

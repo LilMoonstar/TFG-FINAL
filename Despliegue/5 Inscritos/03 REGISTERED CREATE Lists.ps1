@@ -26,7 +26,7 @@ $list.Update()
 $context.ExecuteQuery()
 
 # Añadir tipo de contenido existente a la lista
-$tipodecontenido = "THISUsuarios"
+$tipodecontenido = "THISInscritos"
 $contentTypes = $context.web.ContentTypes
 
 $context.Load($contentTypes)

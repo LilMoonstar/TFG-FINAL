@@ -229,31 +229,15 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
               <Stack horizontalAlign="center" tokens={{ childrenGap: 20 }}>
                 <Text variant="medium">Equipo de {props.titulo}: </Text>
                 <Stack.Item>
-                  {props.PROFGAME === 'FORTNITEPROFGAME' ? (
-                    <>
-                      {props.EquiposItem?.Nombre !== undefined ? (
+                      {props.EquiposItem?.Title !== undefined ? (
                         <Button type="primary" onClick={handleTeamButtonClick}>
-                          {props.EquiposItem?.Nombre}
+                          {props.EquiposItem?.Title}
                         </Button>
                       ) : (
                         <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                          No team assigned yet
+                          No Fortnite team assigned yet
                         </Button>
                       )}
-                    </>
-                  ) : (
-                    <>
-                      {props.EquiposItem?.Nombre !== undefined ? (
-                        <Button type="primary" onClick={handleTeamButtonClick}>
-                          {props.EquiposItem?.Nombre}
-                        </Button>
-                      ) : (
-                        <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                          No team assigned yet
-                        </Button>
-                      )}
-                    </>
-                  )}
                 </Stack.Item>
               </Stack>
 
@@ -262,7 +246,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                   visible={true}
                   onClose={() => setEquipoSeleccionado(null)}
                   equipo={equipoSeleccionado}
-                  equipoNombre={equipoSeleccionado.Nombre}
+                  equipoTitle={equipoSeleccionado.Title}
                 />
               )}
 

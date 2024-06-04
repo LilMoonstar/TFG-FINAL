@@ -53,17 +53,23 @@ export default function MiCalendarioWP(props: MiCalendarioProps): JSX.Element {
         if (moment(date).isSame(new Date(), "day")) {
           return {
             className: "current-day",
+
           };
         }
         return {};
       }}
       showAllEvents={false}
       onSelectEvent={props.onSelectEvent}
-      eventPropGetter={(event: EventosCalendario) => ({
-        style: {
-          backgroundColor: event.fondo || '#04570f',
-        },
-      })}
+      eventPropGetter={(event: EventosCalendario) => {
+        const isPast = moment(event.end).isBefore(new Date(), 'day');
+        return {
+          style: {
+            backgroundColor: isPast ? 'gray' : (event.fondo || '#04570f'),
+            color: isPast ? 'darkgray' : 'white',
+            textAlign: 'center',
+          },
+        };
+      }}
     />
   );
 }

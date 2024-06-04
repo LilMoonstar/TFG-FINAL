@@ -64,15 +64,20 @@ export default function EventosWebpart(
       )
     },
     {
-      key: "Nombre",
-      title: "Nombre",
-      dataIndex: "Nombre",
+      key: "Title",
+      title: "Title",
+      dataIndex: "Title",
       filterDropdown: FiltroJuego,
       filterIcon: (filtered: boolean) => (
         <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
       ),
       onFilter: (value: any, record: EventosItem) =>
-        record.Nombre.toLowerCase().indexOf((value as string).toLowerCase()) !== -1,
+        record.Title.toLowerCase().indexOf((value as string).toLowerCase()) !== -1,
+      render: (title: string) => (
+        <div>
+          {title.length > 15 ? title.substring(0, 15) + '...' : title}
+        </div>
+      )
     },
     {
       key: "ID",

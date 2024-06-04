@@ -12,7 +12,7 @@ export class EventosItem {
   public DELETE: string;
   public EDIT: string;
   public Resume: string;
-  public Nombre: string;
+  public Title: string;
   public ID: number;
   public Game: string;
   public Requirements: string;
@@ -30,10 +30,12 @@ export class EventosItem {
   }
 
   private MapearCampos(): void {
+    console.log("mira que pasa cuando viene de lookup")
+    console.log(this.ListItem)
+    this.Title = this.ListItem.Title;
     this.DELETE = this.ListItem.EV_delete;
     this.EDIT = this.ListItem.EV_edit;
     this.Resume = this.ListItem.EV_resume;
-    this.Nombre = this.ListItem.Title;
     this.ID = this.ListItem.ID;
     this.Game = this.ListItem.EV_game;
     this.Requirements = this.ListItem.EV_requirements;
@@ -45,14 +47,15 @@ export class EventosItem {
 
   // Método para obtener la fecha como cadena de texto
   public getDateString(): string {
-    return this.Date.toISOString();
+    return this.Date.toISOString()
   }
+
 
   // Método para crear un nuevo elemento en la lista
   public async crearItem(): Promise<boolean> {
     try {
       const newItemData: any = {
-        Title: this.Nombre,
+        Title: this.Title,
         EV_game: this.Game,
         EV_requirements: this.Requirements,
         EV_description: this.Description,
@@ -97,8 +100,8 @@ export class EventosItem {
     try {
       let needUpdate = false;
       const item: any = {}
-      if (this.ItemEdit.Nombre !== this.Nombre) {
-        item["Title"] = this.ItemEdit.Nombre;
+      if (this.ItemEdit.Title !== this.Title) {
+        item["Title"] = this.ItemEdit.Title;
         needUpdate = true;
       }
       if (this.ItemEdit.ID !== this.ID) {

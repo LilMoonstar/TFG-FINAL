@@ -27,14 +27,6 @@ $fieldsArray += '<Field ID="06a1ffe5-f46d-4f4a-b203-da6d9ccaec36"
                 </CHOICES>
                 </Field>';
 
-$fieldsArray += '<Field ID="a752ea1e-9969-40c3-8632-02ef0149cf01" 
-                Name="TEAM_Date"
-                DisplayName="Fecha" 
-                Type="DateTime"
-                Group="Equipos" 
-                xmlns="http://schemas.microsoft.com/sharepoint/">
-                </Field>';
-
 
 $fieldOption = [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue;
 

@@ -1,6 +1,10 @@
+/* eslint-disable */
+
 import * as React from "react";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { EventosCalendario } from "./CalendarioHELPER";
+import { useState } from "react";
+import InscritosForm from "../Inscritos/Componentes/InscritosForm";
 
 interface CalendarioModalProps {
   visible: boolean;
@@ -39,17 +43,30 @@ const CalendarioModal: React.FC<CalendarioModalProps> = ({ visible, onClose, eve
         timeZone:"Europe/Madrid",
       });
 
+      const [ShowModal, setShowModal] = useState(false);
+      
+      const handleInscribirseClick = () => {
+        setShowModal(true);
+      };
+
       Modal.info({
         title: event.title,
         content: (
           <div>
-            <p><strong>Juego: </strong> <span style={{ color: txtcolor, backgroundColor: color, padding: '2px 4px', borderRadius: '3px' }}>{event.Game}</span></p>
-            <p><strong>Fecha del evento: </strong> {formatDate.format(event.start)}</p>
-            <p><strong>Descripción: </strong> <span style={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{event.Description}</span></p>
+            <p className="Parrafobold">Juego:  <span style={{ color: txtcolor, backgroundColor: color, padding: '2px 4px', borderRadius: '3px' }}>{event.Game}</span></p>
+            <p className="Parrafobold">Fecha del evento:  {formatDate.format(event.start)}</p>
+            <p className="Parrafobold">Descripción:  <span style={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{event.Description}</span></p>
+            <Button onClick={handleInscribirseClick}>Inscribirse</Button>
           </div>
         ),
+        
         onOk: onClose,
       });
+
+      {ShowModal && (
+        <InscritosForm visible={false} />
+      )}
+
     }
   }, [visible, event, onClose]);
 
@@ -57,3 +74,5 @@ const CalendarioModal: React.FC<CalendarioModalProps> = ({ visible, onClose, eve
 };
 
 export default CalendarioModal;
+
+/* eslint-enable */

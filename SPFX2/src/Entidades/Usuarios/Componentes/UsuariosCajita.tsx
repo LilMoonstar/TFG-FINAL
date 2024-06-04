@@ -29,7 +29,7 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
   const [ShowModal, setShowModal] = useState(false);
   const [usuariosItem, setUsuariosItem] = useState<UsuariosItem | null>(null);
   const [usuarioCargado, setUsuarioCargado] = useState(false);
-  const [equipoItem, setEquipoItem] = useState<EquiposItem>();
+  const [equipoItem, setEquipoItem] = useState<EquiposItem>(null);
   const [equiposUsuario, setequiposUsuario] = useState<EquiposItem[]>([]);
 
   useEffect(() => {
@@ -59,9 +59,15 @@ const UsuariosCajita: React.FC<IUsuariosCajitaProps> = (props: IUsuariosCajitaPr
 
 
   useEffect(() => {
+    const n = equiposUsuario.length;
+    let i = 0;
     equiposUsuario.forEach(e => {
+      i++;
       if (e.Juego === Mode) {
         setEquipoItem(e);
+      }
+      else if (i === n) {
+        setEquipoItem(null)
       }
     });
   }, [Mode]);

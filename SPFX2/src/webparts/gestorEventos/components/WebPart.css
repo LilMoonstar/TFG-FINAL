@@ -6,6 +6,10 @@
   background-color: #d8f1d2;
 }
 
+.Parrafobold{
+  font-weight: bold;
+}
+
 .ARRIBA {
   display: flex;
   justify-content: space-between;
@@ -25,7 +29,7 @@
   transform: scale(1.02);
 }
 
-.MEDIO {
+.MEDIOARRIBA {
   margin-top: 30px;
   display: flex;
   justify-content: space-between;

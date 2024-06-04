@@ -74,8 +74,7 @@ if ($contentType -ne $null) {
 
             $viewFields.Add("ID")
             $viewFields.Add("TEAM_Members")
-            $viewFields.Add("TEAM_Game")
-            $viewFields.Add("TEAM_Date")   
+            $viewFields.Add("TEAM_Game") 
 
         $vista.ViewQuery = "<OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy>"
         $vista.Update()

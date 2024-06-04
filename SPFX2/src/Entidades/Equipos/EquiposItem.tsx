@@ -11,10 +11,9 @@ export class EquiposItem {
   public ItemEdit: EquiposItem | undefined;
 
   public ID: number;
-  public Nombre: string;
+  public Title: string;
   public Miembros: ComasisUser[];
   public Juego: string;
-  public Fecha: Date;
 
   constructor(ListItem: any, Lista: EquiposLista) {
     this.ListItem = ListItem;
@@ -26,19 +25,13 @@ export class EquiposItem {
 
   private MapearCampos(): void {
     this.ID = this.ListItem.ID;
-    this.Nombre = this.ListItem.Title;
+    this.Title = this.ListItem.Title;
     if (this.ListItem.TEAM_Members) {
       this.Miembros = this.ListItem.TEAM_Members;
     } else {
       this.Miembros = [];
     }
     this.Juego = this.ListItem.TEAM_Game;
-    this.Fecha = new Date(this.ListItem.TEAM_Date);
-  }
-
-  // Método para obtener la fecha como cadena de texto
-  public getDateString(): string {
-    return this.Fecha.toISOString();
   }
 
 
@@ -59,10 +52,6 @@ export class EquiposItem {
         }
         if (this.ItemEdit.Juego !== this.Juego) {
           item["TEAM_Game"] = this.ItemEdit.Juego;
-          needUpdate = true;
-        }
-        if (this.ItemEdit.Fecha !== this.Fecha) {
-          item["TEAM_Date"] = this.ItemEdit.Fecha.toISOString();
           needUpdate = true;
         }
       }

@@ -7,7 +7,7 @@
 
         $context.ExecuteQuery();
 
-        $columns = "TEAM_Members","TEAM_Game","TEAM_Date"
+        $columns = "TEAM_Members","TEAM_Game"
 
         foreach($column in $columns) {
 

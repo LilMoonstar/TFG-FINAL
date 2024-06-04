@@ -16,6 +16,8 @@ import './WebPart.css';
 import { EquiposItem } from "../../../Entidades/Equipos/EquiposItem";
 import { EquiposLista } from "../../../Entidades/Equipos/EquiposLista";
 import Info from "../../../Entidades/Informacion/Info";
+import { InscritosItem } from "../../../Entidades/Inscritos/InscritosItem";
+import { InscritosLista } from "../../../Entidades/Inscritos/InscritosLista";
 
 export interface IEventoWebpartProps {
   SP: any;
@@ -31,11 +33,17 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
   const listaUsuarios = React.useRef<UsuariosLista>(new UsuariosLista(SP.web, WebPartContext));
   const [ItemEquipos, setItemEquipos] = React.useState<EquiposItem[]>([]);
   const listaEquipos = React.useRef<EquiposLista>(new EquiposLista(SP.web, WebPartContext));
+  const [ItemInscritos, setItemInscritos] = React.useState<InscritosItem[]>([]);
+  const listaInscritos = React.useRef<InscritosLista>(new InscritosLista(SP.web, WebPartContext));
   const [selectedEvent, setSelectedEvent] = React.useState<EventosCalendario | undefined>(undefined);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
 
+  React.useEffect(() => {
+    cargarDatosEventos();
+    cargarDatosInscritos();
+  }, []);
 
   // Función para cargar datos de eventos
   const cargarDatosEventos = async () => {
@@ -44,7 +52,8 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
       setItemEventos(eventos);
       await ConsultaUsuario();
       await cargarDatosEquipos();
-      setTimeout(() => setLoading(false), 1000); // Oculta el spinner de carga después de 1 segundo
+      await cargarDatosInscritos();
+      setTimeout(() => setLoading(false), 1000);
     } catch (error) {
       console.error('Error en consultas iniciales:', error);
     }
@@ -57,6 +66,17 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
       setItemEquipos(equipos);
     } catch (error) {
       console.error('Error al cargar equipos:', error);
+    }
+  };
+
+  // Función para cargar datos de donde estoy inscrito
+
+  const cargarDatosInscritos = async () => {
+    try {
+      const inscritos = await listaInscritos.current.CargarTodos();
+      setItemInscritos(inscritos);
+    } catch (error) {
+      console.error('Error al cargar inscritos:', error);
     }
   };
 
@@ -76,17 +96,15 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     setImAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
   };
 
-  React.useEffect(() => {
-    cargarDatosEventos();
-  }, []);
 
   const eventosCalendario: EventosCalendario[] = React.useMemo(() => ItemEventos.map(item => ({
-    title: item.Nombre,
+    title: item.Title,
     start: new Date(item.Date),
     end: new Date(item.Date),
     Description: item.Description,
     Game: item.Game,
   })), [ItemEventos]);
+
 
   const handleSelectEvent = React.useCallback((event: EventosCalendario): void => {
     setSelectedEvent(event);
@@ -133,10 +151,15 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
       {!loading && ( // Renderiza el resto del contenido cuando loading es false
         <>
-          <Info ItemEquipos={ItemEquipos} callback={cargarDatosEquipos} />
+          <Info
+            ItemEquipos={ItemEquipos}
+            callback={cargarDatosEquipos}
+            Inscritos={ItemInscritos}
+            WebPartContext={WebPartContext}
+          />
 
           <div className="Background">
-          {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20 }}>ADMIN</p>}
+            {ImAdmin && <p id="ADMINLABEL" style={{ color: 'red', marginTop: 20 }}>ADMIN</p>}
             <div id="SECCION1" className="ARRIBA">
               <div className="CAJAPERFIL" style={cajitaStyle} >
                 {ItemUsuario && ItemEquipos.length >= 0 && (
@@ -165,7 +188,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
               />
             </div>
 
-            <div id="SECCION2" className="MEDIO">
+            <div id="SECCION2" className="MEDIOARRIBA">
               <img
                 id="infoicon2"
                 className="infoicon2"
@@ -199,6 +222,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
               visible={isModalVisible}
               onClose={closeModal}
               event={selectedEvent}
+              
             />
 
           </div>

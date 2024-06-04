@@ -17,15 +17,15 @@ export default function EquiposWebpart(
 
     const columns: TableColumnsType<EquiposItem> = [
         {
-            key: "Nombre",
-            title: "Nombre",
-            dataIndex: "Nombre",
+            key: "Title",
+            title: "Title",
+            dataIndex: "Title",
             filterDropdown: FiltroJuego,
             filterIcon: (filtered: boolean) => (
                 <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
             ),
             onFilter: (value: any, record: EquiposItem) =>
-                record.Nombre.toLowerCase().indexOf((value as string).toLowerCase()) !== -1,
+                record.Title.toLowerCase().indexOf((value as string).toLowerCase()) !== -1,
         },
         {
             key: "ID",
@@ -61,13 +61,6 @@ export default function EquiposWebpart(
                     <EventosJuego juego={juego} />
                 );
             }
-        },
-        {
-            key: "Fecha",
-            title: "Fecha",
-            dataIndex: "Fecha",
-            render: (Fecha: Date, record: EquiposItem) => (
-                <span style={{ fontSize: '16px' }}>{record.Fecha.toLocaleDateString()} {record.Fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>),
         },
     ];
 

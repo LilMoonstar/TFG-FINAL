@@ -3,7 +3,7 @@ $contentTypeGroup = "Equipos"
 $contentTypeName = "THISEquipos"
 
 # Añadir los nombres internos de las columnas que compondrán el tipo de contenido
-$columns = "TEAM_Members","TEAM_Game","TEAM_Date"
+$columns = "TEAM_Members","TEAM_Game"
 
 
 # ID del tipo de contenido padre

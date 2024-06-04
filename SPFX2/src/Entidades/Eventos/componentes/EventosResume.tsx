@@ -11,14 +11,14 @@ const EventosResume: React.FC<{ titlename: string; text: string; info: EventosIt
             title: titlename,
             content: (
                 <div className="event-info-container">
-                    <p><strong>ID:</strong> {info.ID}</p>
-                    <p><strong>Título del Evento:</strong> {info.Nombre}</p>
-                    <p><strong>Game:</strong> {info.Game}</p>
-                    <p><strong>Requirements:</strong> {info.Requirements}</p>
-                    <p><strong>Description:</strong> {info.Description}</p>
-                    <p><strong>Awards:</strong> {info.Awards}</p>
-                    <p><strong>Date:</strong> {info.Date.toString()}</p>
-                    <p><strong>Composition:</strong> {info.Composition}</p>
+                    <p className="Parrafobold">ID: {info.ID}</p>
+                    <p className="Parrafobold">Título del Evento: {info.Title}</p>
+                    <p className="Parrafobold">Game: {info.Game}</p>
+                    <p className="Parrafobold">Requirements: {info.Requirements}</p>
+                    <p className="Parrafobold">Description: {info.Description}</p>
+                    <p className="Parrafobold">Awards: {info.Awards}</p>
+                    <p className="Parrafobold">Date: {info.Date.toString()}</p>
+                    <p className="Parrafobold">Composition: {info.Composition}</p>
                 </div>
             ),
             width: 1200,

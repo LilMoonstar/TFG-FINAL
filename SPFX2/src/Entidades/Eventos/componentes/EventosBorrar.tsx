@@ -23,7 +23,7 @@ const EventosBorrar: React.FC<IEventosBotonBorrarProps> = ({ item, onDelete }: I
             title: "Confirmar eliminación",
             content: (
                 <>
-                    <p id="textomodalborrar">¿Estás seguro de que quieres eliminar el elemento "{item.Nombre}" con ID "{item.ID}"?</p>
+                    <p id="textomodalborrar">¿Estás seguro de que quieres eliminar el elemento "{item.Title}" con ID "{item.ID}"?</p>
                 </>
             ),
             okText: "Eliminar",

@@ -28,8 +28,6 @@ export class EventosLista {
     this.List = this.web.lists.getByTitle(this.NombreLista);
   }
  
-
-
   public async CargarTodos(BatchedWeb?: IWeb): Promise<EventosItem[]> {
     const Items = this.List.items
       .expand(this.ExpandAllFields.join())

@@ -8,26 +8,16 @@ interface EquiposModalProps {
   visible: boolean;
   onClose: () => void;
   equipo: EquiposItem;
-  equipoNombre: string;
+  equipoTitle: string;
 }
 
 
-const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, equipoNombre }) => {
-  // Función para formatear la fecha
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    };
-    return date.toLocaleDateString('es-ES', options);
-  };
+const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, equipoTitle }) => {
 
   return (
+    
     <Modal
-      title={`Información del Equipo: ${equipoNombre}`}
+      title={`Información del Equipo: ${equipoTitle}`}
       open={visible}
       onOk={onClose}
       onCancel={onClose}
@@ -43,9 +33,9 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, e
     >
      {equipo && (
   <div className="Contenidomodalequipos">
-    <p><strong>Nombre:</strong> {equipo.Nombre}</p>
-    <p>
-      <strong>Miembros:</strong>{" "}
+    <p className="Parrafobold">Nombre: {equipo.Title}</p>
+    <p className="Parrafobold">
+      Miembros:{" "}
       {equipo.Miembros.map((miembro, index) => (
         <span key={index}>
           {miembro.Title}
@@ -53,8 +43,7 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ visible, onClose, equipo, e
         </span>
       ))}
     </p>
-    <p><strong>Juego:</strong> {equipo.Juego}</p>
-    <p><strong>Fecha:</strong> {formatDate(new Date(equipo.getDateString()))}</p>
+    <p className="Parrafobold">Juego: {equipo.Juego}</p>
   </div>
 )}
 
