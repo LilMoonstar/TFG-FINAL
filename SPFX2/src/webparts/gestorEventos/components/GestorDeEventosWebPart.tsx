@@ -45,10 +45,13 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
   React.useEffect(() => {
     cargarDatosEventos();
-    cargarDatosInscritos();
     obtenerEquiposAsignados();
   }, []);
-
+  
+  React.useEffect(() => {
+    cargarDatosInscritos();
+  }, [equiposAsignados]);
+  
   // Función para cargar datos de eventos
   const cargarDatosEventos = async () => {
     try {
@@ -75,14 +78,35 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
   // Función para cargar datos de donde estoy inscrito
 
-  const cargarDatosInscritos = async () => {
+
+  /*CORRECCION PENDIENTE*/
+  /*const cargarDatosInscritos = async () => {
     try {
       const inscritos = await listaInscritos.current.CargarTodos();
+      
+      //filtrar solo los que esten en equipos del usuario (equiposAsignado)
+
+
       setItemInscritos(inscritos);
     } catch (error) {
       console.error('Error al cargar inscritos:', error);
     }
-  };
+  }; */
+
+const cargarDatosInscritos = async () => {
+  try {
+    const inscritos = await listaInscritos.current.CargarTodos();
+    const inscritosFiltrados = inscritos.filter(inscrito => {
+      console.log("Equipo ID del inscrito:", inscrito.Equipo.ID);
+      console.log("IDs de equipos asignados:", equiposAsignados.map(equipo => equipo.ID));
+      return equiposAsignados.some(equipo => equipo.ID === inscrito.Equipo.ID);
+    });
+        setItemInscritos(inscritosFiltrados);
+  } catch (error) {
+    console.error('Error al cargar inscritos:', error);
+  }
+};
+
 
   // Función para consultar usuario
   const ConsultaUsuario = async () => {
@@ -106,6 +130,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
       const usuarioEmail = WebPartContext.pageContext.user.email;
       const equiposAsignados = await equiposLista.BuscarPorMail(usuarioEmail);
       setEquiposAsignados(equiposAsignados); 
+      
     } catch (error) {
       console.error('Error al obtener equipos asignados:', error);
     }
@@ -172,6 +197,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
             callback={cargarDatosEquipos}
             Inscritos={ItemInscritos}
             WebPartContext={WebPartContext}
+
           />
 
           <div className="Background">
@@ -185,7 +211,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
                     email=""
                     callback={ConsultaUsuario}
                     UsuariosItem={ItemUsuario}
-                    EquiposItem={ItemEquipos}
+                    EquiposItem={equiposAsignados}
                   />
                 )}
               </div>

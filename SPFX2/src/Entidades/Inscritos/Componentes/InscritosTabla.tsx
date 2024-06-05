@@ -3,8 +3,6 @@ import * as React from "react";
 import { Table } from "antd";
 import { InscritosItem } from "../InscritosItem";
 
-
-
 export interface IInscritosTablaProps {
     Items: InscritosItem[];
     callback: () => Promise<void>;
@@ -12,25 +10,25 @@ export interface IInscritosTablaProps {
 
 const InscritosTabla: React.FC<IInscritosTablaProps> = ({ Items }: IInscritosTablaProps) => {
 
-    const [tableData, setTableData] = React.useState(Items);
+    const [tableData, setTableData] = React.useState<InscritosItem[]>([]);
 
     React.useEffect(() => {
         setTableData(Items);
-      }, [Items]);
+    }, [Items]);
 
-    const columns = [
+       const columns = [
         {
             key: "EventoTitle",
             title: "Evento",
             render: (item: InscritosItem) => {
-                return item.Evento.Title
+                return item.Evento.Title;
             }
         },
         {
-            key: "EquipoTitle",
-            title: "Equipo",
+            key: "Equipos",
+            title: "Equipos", 
             render: (item: InscritosItem) => {
-                return item.Equipo.Title
+                return item.Equipo.Title; 
             }
         }
     ];

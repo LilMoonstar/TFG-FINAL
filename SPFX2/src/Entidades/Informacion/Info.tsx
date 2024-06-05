@@ -10,6 +10,7 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { useState } from "react";
 import '../../webparts/gestorEventos/components/WebPart.css';
 
+
 interface NavBarProps {
   ItemEquipos: EquiposItem[];
   Inscritos: InscritosItem[];
@@ -55,6 +56,9 @@ const NavBar: React.FC<NavBarProps> = ({ ItemEquipos, Inscritos, callback, WebPa
     navbar.style.setProperty('--y', `${y}px`);
   };
 
+
+  // Función para obtener los equipos del usuario actual
+ 
   return (
     <div className="navbar-container">
       <ul className="navbar" onMouseMove={handleMouseMove}>
@@ -110,7 +114,7 @@ const NavBar: React.FC<NavBarProps> = ({ ItemEquipos, Inscritos, callback, WebPa
           <Popover
             content={
               <>
-                <InscritosTabla Items={Inscritos} callback={callback}/>
+                <InscritosTabla Items={Inscritos} callback={callback} />
                 <button onClick={hideInscritos}>Cerrar</button>
               </>
             }

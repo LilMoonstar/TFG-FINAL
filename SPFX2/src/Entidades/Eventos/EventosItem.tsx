@@ -30,7 +30,6 @@ export class EventosItem {
   }
 
   private MapearCampos(): void {
-    console.log("mira que pasa cuando viene de lookup")
     console.log(this.ListItem)
     this.Title = this.ListItem.Title;
     this.DELETE = this.ListItem.EV_delete;
