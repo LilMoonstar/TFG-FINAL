@@ -19,6 +19,7 @@ import Info from "../../../Entidades/Informacion/Info";
 import { InscritosItem } from "../../../Entidades/Inscritos/InscritosItem";
 import { InscritosLista } from "../../../Entidades/Inscritos/InscritosLista";
 
+
 export interface IEventoWebpartProps {
   SP: any;
   WebPartContext: WebPartContext;
@@ -39,10 +40,13 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
+  const [equiposAsignados, setEquiposAsignados] = React.useState<EquiposItem[]>([]);
+
 
   React.useEffect(() => {
     cargarDatosEventos();
     cargarDatosInscritos();
+    obtenerEquiposAsignados();
   }, []);
 
   // Función para cargar datos de eventos
@@ -95,6 +99,18 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     setItemUsuario(user);
     setImAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
   };
+
+  const obtenerEquiposAsignados = async () => {
+    try {
+      const equiposLista = new EquiposLista(SP.web, WebPartContext);
+      const usuarioEmail = WebPartContext.pageContext.user.email;
+      const equiposAsignados = await equiposLista.BuscarPorMail(usuarioEmail);
+      setEquiposAsignados(equiposAsignados); 
+    } catch (error) {
+      console.error('Error al obtener equipos asignados:', error);
+    }
+  };
+  
 
 
   const eventosCalendario: EventosCalendario[] = React.useMemo(() => ItemEventos.map(item => ({
@@ -222,7 +238,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
               visible={isModalVisible}
               onClose={closeModal}
               event={selectedEvent}
-              
+              equiposAsignados={equiposAsignados}             
             />
 
           </div>

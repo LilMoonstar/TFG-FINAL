@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, dot-notation */
+/* eslint-disable */
 import * as React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import '../../webparts/gestorEventos/components/WebPart.css';
@@ -44,7 +44,7 @@ export default function MiCalendarioWP(props: MiCalendarioProps): JSX.Element {
       culture={UICultureName.current}
       showMultiDayTimes
       step={60}
-      style={{ height: "450px", width: "700px", backgroundColor: "white", fontWeight: "bold"}}
+      style={{ height: "500px", width: "700px", backgroundColor: "white", fontWeight: "bold"}}
       views={["month"]}
       startAccessor="start"
       endAccessor="end"
@@ -62,10 +62,19 @@ export default function MiCalendarioWP(props: MiCalendarioProps): JSX.Element {
       onSelectEvent={props.onSelectEvent}
       eventPropGetter={(event: EventosCalendario) => {
         const isPast = moment(event.end).isBefore(new Date(), 'day');
+        let backgroundColor = isPast ? 'darkgray' : '#04570f'; 
+        let textColor = 'white'; 
+        if (event.Game === "FORTNITE") {
+          backgroundColor = isPast ? 'darkgray' : '#5FCEEA'; 
+          textColor = 'white'; 
+        } else if (event.Game === "LEAGUE OF LEGENDS") {
+          backgroundColor = isPast ? 'darkgray' : '#091428'; 
+          textColor = isPast ? 'white' : '#C4A15B'; 
+        }
         return {
           style: {
-            backgroundColor: isPast ? 'gray' : (event.fondo || '#04570f'),
-            color: isPast ? 'darkgray' : 'white',
+            backgroundColor,
+            color: textColor,
             textAlign: 'center',
           },
         };

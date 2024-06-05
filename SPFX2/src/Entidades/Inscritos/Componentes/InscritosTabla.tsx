@@ -2,17 +2,21 @@
 import * as React from "react";
 import { Table } from "antd";
 import { InscritosItem } from "../InscritosItem";
-import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 
 
 export interface IInscritosTablaProps {
     Items: InscritosItem[];
     callback: () => Promise<void>;
-    WebPartContext: WebPartContext;
 }
 
-const InscritosTabla: React.FC<IInscritosTablaProps> = ({ Items, callback, WebPartContext }: IInscritosTablaProps) => {
+const InscritosTabla: React.FC<IInscritosTablaProps> = ({ Items }: IInscritosTablaProps) => {
+
+    const [tableData, setTableData] = React.useState(Items);
+
+    React.useEffect(() => {
+        setTableData(Items);
+      }, [Items]);
 
     const columns = [
         {
@@ -40,7 +44,7 @@ const InscritosTabla: React.FC<IInscritosTablaProps> = ({ Items, callback, WebPa
         <>
             <Table
                 columns={columns}
-                dataSource={Items}
+                dataSource={tableData}
                 style={tableStyle}
                 rowKey="ID"
                 pagination={false}

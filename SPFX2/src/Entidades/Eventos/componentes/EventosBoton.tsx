@@ -3,7 +3,7 @@ import * as React from "react";
 import { Modal } from 'antd';
 import { IconButton, Stack } from "@fluentui/react";
 
-const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, text }) => {
+const BOTONGENIAL: React.FC<{ titlename: string, text: string }> = ({ titlename, text }) => {
 
     const info = (): void => {
         Modal.info({
@@ -34,11 +34,13 @@ const BOTONGENIAL: React.FC<{titlename:string, text: string }> = ({titlename, te
     return (
         <>
             <Stack horizontal disableShrink>
-                <IconButton
-                    onClick={info}
-                    iconProps={{ iconName: getIconName(titlename) }}
-                    styles={{ root: { backgroundColor: "#FFFFFF", color: "#04570f" } }}
-                />
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <IconButton
+                        onClick={info}
+                        iconProps={{ iconName: getIconName(titlename) }}
+                        styles={{ root: { backgroundColor: "#FFFFFF", color: "#04570f" } }}
+                    />
+                </div>
             </Stack>
         </>
     );

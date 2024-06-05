@@ -1,4 +1,4 @@
-/* eslint-disable*/
+/* eslint-disable */
 import * as React from "react";
 import { EventosItem } from "../EventosItem";
 import { Table, TableColumnsType } from "antd";
@@ -43,7 +43,8 @@ export default function EventosWebpart(
       dataIndex: "EDIT",
       render: (text: string, record: EventosItem) => (
         <EventosBotonEditar item={record} callback={Props.callback} />
-      )
+      ),
+      className: 'ant-table-column-edit'
     }] : []),
     ...(Props.ImAdmin ? [{
       key: "DELETE",
@@ -51,7 +52,8 @@ export default function EventosWebpart(
       dataIndex: "DELETE",
       render: (text: string, record: EventosItem) => (
         <EventosBorrar item={record} onDelete={Props.callback} />
-      )
+      ),
+      className: 'ant-table-column-delete'
     }] : []),
     {
       key: "Resume",
@@ -61,7 +63,8 @@ export default function EventosWebpart(
         <div>
           <EventosResume titlename="Resume" text={text} info={record} />
         </div>
-      )
+      ),
+      className: 'ant-table-column-resume'
     },
     {
       key: "Title",
@@ -133,19 +136,24 @@ export default function EventosWebpart(
       dataIndex: "Date",
       render: (date: Date, record: EventosItem) => (
         <span style={{ fontSize: '16px' }}>{record.Date.toLocaleDateString()} {record.Date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>),
+      className: 'ant-table-cell-date'
     },
     {
       key: "Composition",
       title: "Composition",
       dataIndex: "Composition",
+      render: (text: string) => (
+        <div style={{ fontSize: '16px' }}>{text}</div>
+      ),
+      className: 'ant-table-cell-composition'
     },
   ];
 
   return (
     <>
-    <div className="filtrofechatabla">
-      <FiltroFecha onFilter={handleFilter} />
-    </div>
+      <div className="filtrofechatabla">
+        <FiltroFecha onFilter={handleFilter} />
+      </div>
       <div id="Tablaeventos">
         <Table
           dataSource={Props.Items.filter(item => {
@@ -156,10 +164,10 @@ export default function EventosWebpart(
             return true; // Devuelve todos los elementos si no hay filtro de fecha
           })}
           columns={columns}
-          pagination={{ pageSize: 4}}
+          pagination={{ pageSize: 4 }}
         />
       </div>
     </>
   );
 }
-/*eslint-enable*/
+/* eslint-enable */
