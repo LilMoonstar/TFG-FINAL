@@ -97,6 +97,28 @@ export class InscritosLista {
 
         return await Items;
     }
+
+    public async BuscarPorEquipoYEvento(equipoNombre: string, eventoTitle: string): Promise<InscritosItem[]> {
+        try {
+            const inscritos = await this.List.items
+                .expand(this.ExpandAllFields.join())
+                .filter(`LookupEquipo/Title eq '${equipoNombre}' and LookupEvento/Title eq '${eventoTitle}'`)
+                .select(this.SelectAllFields.join())()
+                .then((response: any) => response)
+                .catch((error: any) => {
+                    console.error("Error al buscar inscritos por equipo y evento:", error);
+                    throw error;
+                });
+
+            return inscritos.map((I: IItem) => {
+                return new InscritosItem(I, this);
+            });
+        } catch (error) {
+            console.error("Error al buscar inscritos por equipo y evento:", error);
+            return [];
+        }
+    }
+
 }
 
 /* eslint-enable */

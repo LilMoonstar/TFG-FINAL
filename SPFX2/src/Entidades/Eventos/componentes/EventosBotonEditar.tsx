@@ -64,7 +64,7 @@ export default function EventosBotonEditar(props: IEventosBotonEditarProps): JSX
                     style={{ backgroundColor: "#FFFFFF", color: "#04570f" }}
                 />
                 <EventosForm
-                    title="Título"
+                    title="ADMIN FUNCTION ONLY"
                     isModalOpen={isModalOpen}
                     itemEdit={itemEdit}
                     guardando={guardando}

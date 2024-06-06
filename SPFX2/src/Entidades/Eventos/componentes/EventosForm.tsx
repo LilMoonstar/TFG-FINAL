@@ -40,6 +40,7 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
 
     return (
         <Modal
+            closable={false}
             title={
                 <div
                     style={{
@@ -56,6 +57,7 @@ const EventosForm: React.FC<IEventosFormProps> = (props) => {
                     }}
                     onFocus={() => { }}
                     onBlur={() => { }}
+                    
                 >
                     {props.title}
                 </div>

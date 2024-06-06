@@ -1,9 +1,7 @@
 /* eslint-disable */
-
 import { EquiposItem } from "../Equipos/EquiposItem";
 import { EventosItem } from "../Eventos/EventosItem";
 import { InscritosLista } from "./InscritosLista";
-
 
 export class InscritosItem {
   public ListItem: any;
@@ -13,6 +11,8 @@ export class InscritosItem {
   public ID: number;
   public Evento: EventosItem;
   public Equipo: EquiposItem;
+  public EventoID: number;
+  public EquipoID: number;
 
   constructor(ListItem: any, Lista: InscritosLista) {
     this.ListItem = ListItem;
@@ -26,16 +26,17 @@ export class InscritosItem {
     this.ID = this.ListItem.ID;
     this.Evento = new EventosItem(this.ListItem.LookupEvento, this.Lista.EventosLista);
     this.Equipo = new EquiposItem(this.ListItem.LookupEquipo, this.Lista.EquiposLista);
-    console.log(this.ListItem.LookupEvento)
-    console.log(this)
+    this.EventoID = this.ListItem.LookupEvento.ID;
+    this.EquipoID = this.ListItem.LookupEquipo.ID;
   }
 
-  // Método para crear un nuevo elemento en la lista
   public async crearItem(): Promise<boolean> {
     try {
       const newItemData: any = {
         LookupEventoId: this.Evento.ID,
-        LookupEquipoId: this.Equipo.ID
+        LookupEquipoId: this.Equipo.ID,
+        EventoTitle: this.Evento.Title,
+        EquipoTitle: this.Equipo.Title
       };
 
       await this.Lista.List.items.add(newItemData);
@@ -47,12 +48,9 @@ export class InscritosItem {
     }
   }
 
-  // Método para borrar un elemento en la lista
   public async borrarItem(): Promise<boolean> {
     try {
-      // Verifica si el elemento tiene un ID válido
       if (this.ID) {
-        // Elimina el elemento de la lista por su ID
         await this.Lista.List.items.getById(this.ID).delete();
         console.log("Item deleted");
         return true;
@@ -66,18 +64,17 @@ export class InscritosItem {
     }
   }
 
-  // Método para actualizar un elemento en la lista
   public async updateItem(): Promise<boolean> {
     try {
       let needUpdate = false;
       const item: any = {};
 
-      if (this.ItemEdit.Evento.ID !== this.Evento.ID) {
-        item["LookupEventoId"] = this.ItemEdit.Evento.ID;
+      if (this.ItemEdit.EventoID !== this.EventoID) {
+        item["LookupEventoId"] = this.ItemEdit.EventoID;
         needUpdate = true;
       }
-      if (this.ItemEdit.Equipo.ID !== this.Equipo.ID) {
-        item["LookupEquipoId"] = this.ItemEdit.Equipo.ID;
+      if (this.ItemEdit.EquipoID !== this.EquipoID) {
+        item["LookupEquipoId"] = this.ItemEdit.EquipoID;
         needUpdate = true;
       }
 

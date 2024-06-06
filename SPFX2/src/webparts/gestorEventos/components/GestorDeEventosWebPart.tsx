@@ -47,11 +47,14 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     cargarDatosEventos();
     obtenerEquiposAsignados();
   }, []);
-  
+
   React.useEffect(() => {
-    cargarDatosInscritos();
+    console.log("effect ", equiposAsignados)
+    if (equiposAsignados.length > 0) {
+      cargarDatosInscritos();
+    }
   }, [equiposAsignados]);
-  
+
   // Función para cargar datos de eventos
   const cargarDatosEventos = async () => {
     try {
@@ -59,8 +62,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
       setItemEventos(eventos);
       await ConsultaUsuario();
       await cargarDatosEquipos();
-      await cargarDatosInscritos();
-      setTimeout(() => setLoading(false), 1000);
+
     } catch (error) {
       console.error('Error en consultas iniciales:', error);
     }
@@ -78,35 +80,24 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
 
   // Función para cargar datos de donde estoy inscrito
 
-
-  /*CORRECCION PENDIENTE*/
-  /*const cargarDatosInscritos = async () => {
+  const cargarDatosInscritos = async () => {
     try {
       const inscritos = await listaInscritos.current.CargarTodos();
-      
+      console.log("esto quieres ver")
+      console.log(equiposAsignados)
+      console.log(inscritos)
       //filtrar solo los que esten en equipos del usuario (equiposAsignado)
+      const misInscripciones = inscritos.filter((i: InscritosItem) => {
+        return equiposAsignados.filter((e: EquiposItem) => { return e.ID === i.Equipo.ID }).length > 0;
 
+      })
 
-      setItemInscritos(inscritos);
+      setItemInscritos(misInscripciones);
+      setLoading(false)
     } catch (error) {
       console.error('Error al cargar inscritos:', error);
     }
-  }; */
-
-const cargarDatosInscritos = async () => {
-  try {
-    const inscritos = await listaInscritos.current.CargarTodos();
-    const inscritosFiltrados = inscritos.filter(inscrito => {
-      console.log("Equipo ID del inscrito:", inscrito.Equipo.ID);
-      console.log("IDs de equipos asignados:", equiposAsignados.map(equipo => equipo.ID));
-      return equiposAsignados.some(equipo => equipo.ID === inscrito.Equipo.ID);
-    });
-        setItemInscritos(inscritosFiltrados);
-  } catch (error) {
-    console.error('Error al cargar inscritos:', error);
-  }
-};
-
+  };
 
   // Función para consultar usuario
   const ConsultaUsuario = async () => {
@@ -129,13 +120,13 @@ const cargarDatosInscritos = async () => {
       const equiposLista = new EquiposLista(SP.web, WebPartContext);
       const usuarioEmail = WebPartContext.pageContext.user.email;
       const equiposAsignados = await equiposLista.BuscarPorMail(usuarioEmail);
-      setEquiposAsignados(equiposAsignados); 
-      
+      setEquiposAsignados(equiposAsignados);
+
     } catch (error) {
       console.error('Error al obtener equipos asignados:', error);
     }
   };
-  
+
 
 
   const eventosCalendario: EventosCalendario[] = React.useMemo(() => ItemEventos.map(item => ({
@@ -152,10 +143,11 @@ const cargarDatosInscritos = async () => {
     setIsModalVisible(true);
   }, []);
 
-  const closeModal = React.useCallback((): void => {
+  const closeModal = React.useCallback(() => {
     setIsModalVisible(false);
     setSelectedEvent(undefined);
   }, []);
+  
 
   const [isVisible, setIsVisible] = React.useState(false);
   const [isVisible2, setIsVisible2] = React.useState(false);
@@ -184,7 +176,7 @@ const cargarDatosInscritos = async () => {
   return (
     <div className="CONTENIDO">
       {loading && (
-        <div className="cargando" style={{ position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 999 }}>
+        <div className="cargando" style={{ top: '50%', left: '50%', textAlign: 'center', zIndex: 999 }}>
           <Spin size="large" />
           <p id="loadingtext">CARGANDO...</p>
         </div>
@@ -259,13 +251,17 @@ const cargarDatosInscritos = async () => {
                 <EventosTabla Items={ItemEventos} callback={cargarDatosEventos} ImAdmin={ImAdmin} />
               </div>
             </div>
-
+                {isModalVisible&&
             <CalendarioModal
               visible={isModalVisible}
               onClose={closeModal}
               event={selectedEvent}
-              equiposAsignados={equiposAsignados}             
-            />
+              equiposAsignados={equiposAsignados}
+              items={ItemInscritos}
+              callback={cargarDatosInscritos}
+              lista={listaInscritos.current}
+            />}
+
 
           </div>
         </>

@@ -1,62 +1,51 @@
-/* eslint-disable*/
-import * as React from "react";
-import { Modal, Form, Input, Button } from "antd";
+/*eslint-disable*/
 
-interface InscritosFormProps {
-  visible: boolean;
+import * as React from "react";
+import { Modal } from "antd";
+import '../../../webparts/gestorEventos/components/WebPart.css';
+import { InscritosItem } from "../InscritosItem";
+
+export interface InscritosFormProps {
+  itemEdit: InscritosItem | null;
+  eventTitle: string | undefined;
+  equipoNombre: string | null;
+  isModalOpen: boolean;
+  estaInscrito: boolean;
+  handleOk: () => Promise<void>;
   onClose: () => void;
+  setItemEdit: React.Dispatch<React.SetStateAction<InscritosItem | null>>;
 }
 
-const InscritosForm: React.FC<InscritosFormProps> = ({ visible, onClose }) => {
-  const [form] = Form.useForm();
+const InscritosForm: React.FC<InscritosFormProps> = (props) => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  
 
-  const handleSubmit = () => {
-    form.submit();
-  };
+  React.useEffect(()=> {
+    setIsModalOpen(props.isModalOpen)
+  },[props.isModalOpen])
 
   return (
     <Modal
-      title="Formulario de Inscripción"
-      visible={visible}
-      onCancel={onClose}
-      footer={[
-        <Button key="back" onClick={onClose}>
-          Cancelar
-        </Button>,
-        <Button key="submit" type="primary" onClick={handleSubmit}>
-          Enviar
-        </Button>,
-      ]}
+      style={{ zIndex: 1050 }}
+      closable={false}
+      maskClosable={false}
+      cancelButtonProps={{ hidden: true }}
+      okButtonProps={{ hidden: true }}
+      footer={null}
+      open={isModalOpen}
     >
-      <Form form={form} layout="vertical">
-        <Form.Item
-          name="nombre"
-          label="Nombre"
-          rules={[{ required: true, message: "Por favor ingrese su nombre" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="email"
-          label="Correo electrónico"
-          rules={[
-            { required: true, message: "Por favor ingrese su correo electrónico" },
-            { type: "email", message: "Por favor ingrese un correo electrónico válido" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="mensaje"
-          label="Mensaje"
-          rules={[{ required: true, message: "Por favor ingrese un mensaje" }]}
-        >
-          <Input.TextArea />
-        </Form.Item>
-      </Form>
+      <div className="contenidoModalInscripcion">
+        <p className="textoModalInscripcion">¿Estás seguro de que quieres inscribirte a {props.eventTitle} con el equipo {props.equipoNombre}?</p>
+        <div className="botonesModalInscripcion">
+          <button onClick={props.handleOk}>Confirmar</button>
+          <button onClick={() => {
+            props.onClose();
+          }}>Cancelar</button>
+        </div>
+      </div>
     </Modal>
   );
 };
 
 export default InscritosForm;
-/* eslint-enable*/
+/*eslint-enable*/
