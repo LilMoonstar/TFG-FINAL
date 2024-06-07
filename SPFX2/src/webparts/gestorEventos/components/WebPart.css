@@ -154,7 +154,8 @@
 #BOTONCREAR,
 #BOTONFILTRAR,
 #BOTONREINICIAR,
-#BOTONRESUME {
+#BOTONRESUME,
+.botonInscribirse {
   background-color: #04570f;
   color: #FFFFFF;
   transition: all 0.3s ease;
@@ -162,18 +163,13 @@
 
 #BOTONFILTRAR:hover,
 #BOTONREINICIAR:hover,
-#BOTONRESUME:hover {
+#BOTONRESUME:hover,
+.botonInscribirse:hover {
   background-color: #3ca328;
   color: #ffffff;
   font-weight: bold;
   transform: scale(1.1);
-}
-
-#BOTONBORRAR,
-#BOTONFILTRAR,
-#BOTONREINICIAR,
-#BOTONRESUME {
-  transition: all 0.3s ease;
+  border: transparent;
 }
 
 #BOTONCREAR {

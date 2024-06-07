@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 import * as React from "react";
 import { Modal } from "antd";
 import '../../webparts/gestorEventos/components/WebPart.css';
@@ -18,19 +19,24 @@ export interface CalendarioModalProps {
   lista: InscritosLista;
 }
 
-export default function CalendarioModal(Props: CalendarioModalProps): JSX.Element {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [equipoNombre, setEquipoNombre] = React.useState<string | null>(null);
-  const [nuevoInscrito, setNuevoInscrito] = React.useState<InscritosItem>(null);
+const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
+  const [isFormOpen, setIsFormOpen] = React.useState(false);
+  const [nuevoInscrito, setNuevoInscrito] = React.useState<InscritosItem | null>(null);
   const [itemEdit, setItemEdit] = React.useState<InscritosItem | null>(null);
+  const [equipoSeleccionado, setEquipoSeleccionado] = React.useState<EquiposItem | undefined>(undefined);
+  const [estaInscrito, setEstaInscrito] = React.useState(false);
 
-  const handleOk = async () => {
-    nuevoInscrito.ItemEdit = itemEdit;
-    await nuevoInscrito.updateItem();
-    await Props.callback(true);
-    setIsModalOpen(false);
-    Props.onClose();
-  };
+  React.useEffect(() => {
+    console.log("Props.items:", Props.items);
+    console.log("equipoSeleccionado:", equipoSeleccionado);
+    const siseinscribio = Props.items.some(item =>
+      item.Evento.Title === Props.event?.title &&
+      item.Equipo.Title === equipoSeleccionado?.Title
+    );
+    console.log("siseinscribio:", siseinscribio);
+    setEstaInscrito(siseinscribio);
+  }, [Props.items, Props.event, equipoSeleccionado]);
+
 
   React.useEffect(() => {
     if (Props.visible && Props.event) {
@@ -69,11 +75,11 @@ export default function CalendarioModal(Props: CalendarioModalProps): JSX.Elemen
       Props.equiposAsignados.forEach((equipo) => {
         if (equipo.Juego === Props.event.Game) {
           canInscribe = true;
-          setEquipoNombre(equipo.Title);
+          setEquipoSeleccionado(equipo);
         }
       });
 
-      const modal = Modal.info({
+      Modal.info({
         onOk: Props.onClose,
         title: Props.event.title,
         content: (
@@ -81,49 +87,67 @@ export default function CalendarioModal(Props: CalendarioModalProps): JSX.Elemen
             <p className="Parrafobold">Juego: <span style={{ color: txtcolor, backgroundColor: color, padding: '2px 4px', borderRadius: '3px' }}>{Props.event.Game}</span></p>
             <p className="Parrafobold">Fecha del evento: {formatDate.format(Props.event.start)}</p>
             <p className="Parrafobold">Descripción: <span style={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{Props.event.Description}</span></p>
-            {Props.event.start.getTime() > now.getTime() ? (
+            {Props.event.start.getTime() > now.getTime() && !isFormOpen ? (
               canInscribe ? (
-                <button className="botonInscribirse" onClick={() => {
-                  const nuevoparaForm = Props.lista.getNewItem();
-                  setIsModalOpen(true);
-                  setNuevoInscrito(nuevoparaForm);
-                  setItemEdit(nuevoparaForm);
-                }}>Inscribirse</button>
+                <>
+                  {!estaInscrito ? (
+                    <button className="botonInscribirse" onClick={() => {
+                      const nuevo = Props.lista.getNewItem();
+                      setIsFormOpen(true);
+                      setNuevoInscrito(nuevo);
+                      setItemEdit(nuevo);
+                    }}>Inscribirse</button>
+                  ) : (
+                    <p>Ya estás inscrito a este evento</p>
+                  )}
+                </>
               ) : (
                 <p className="mensajeModalCalendario">No puedes inscribirte porque no tienes un equipo asignado para este juego.</p>
               )
             ) : (
               <p className="mensajeModalCalendario">No puedes apuntarte a eventos que ya han acabado.</p>
             )}
+
           </div>
         ),
         zIndex: 1000
       });
-      console.log(modal)
-
     }
-  }, [Props.visible, Props.event, Props.onClose, Props.equiposAsignados]);
+
+  }, [Props.visible, Props.event, Props.onClose, Props.equiposAsignados, Props.items]);
+
+
 
   return (
     <>
-    {isModalOpen&&
-      <InscritosForm
-        eventTitle={Props.event?.title}
-        isModalOpen={isModalOpen}
-        equipoNombre={equipoNombre}
-        estaInscrito={false}
-        itemEdit={itemEdit}
-        handleOk={handleOk}
-        onClose={() => {
-          setIsModalOpen(false);
-          setNuevoInscrito(null);
-          setItemEdit(null);
-          Props.onClose();
-        }}
-        setItemEdit={setItemEdit}
-      />}
+      {isFormOpen && (
+        <InscritosForm
+          isModalOpen={isFormOpen}
+          evento={Props.event}
+          equipo={equipoSeleccionado}
+          estaInscrito={false}
+          itemEdit={itemEdit}
+          handleOk={async () => {
+            if (nuevoInscrito && itemEdit) {
+              nuevoInscrito.ItemEdit = itemEdit;
+              await nuevoInscrito.updateItem();
+              await Props.callback(true);
+              setIsFormOpen(false);
+              Props.onClose();
+            }
+          }}
+          onClose={() => {
+            setIsFormOpen(false);
+            setNuevoInscrito(null);
+            setItemEdit(null);
+          }}
+          setItemEdit={setItemEdit}
+        />
+      )}
     </>
   );
 };
+
+export default CalendarioModal;
 
 /* eslint-enable */

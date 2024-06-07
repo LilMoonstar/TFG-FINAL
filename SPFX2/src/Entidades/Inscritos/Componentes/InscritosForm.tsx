@@ -4,11 +4,13 @@ import * as React from "react";
 import { Modal } from "antd";
 import '../../../webparts/gestorEventos/components/WebPart.css';
 import { InscritosItem } from "../InscritosItem";
+import { EventosCalendario } from "../../Calendario/CalendarioHELPER";
+import { EquiposItem } from "../../Equipos/EquiposItem";
 
 export interface InscritosFormProps {
   itemEdit: InscritosItem | null;
-  eventTitle: string | undefined;
-  equipoNombre: string | null;
+  evento: EventosCalendario | undefined;
+  equipo: EquiposItem | undefined;
   isModalOpen: boolean;
   estaInscrito: boolean;
   handleOk: () => Promise<void>;
@@ -17,12 +19,34 @@ export interface InscritosFormProps {
 }
 
 const InscritosForm: React.FC<InscritosFormProps> = (props) => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  
 
-  React.useEffect(()=> {
-    setIsModalOpen(props.isModalOpen)
-  },[props.isModalOpen])
+const confirmInscripcion = async () => {
+  if (props.itemEdit && props.evento && props.equipo) {
+    try {
+      const updatedItem = new InscritosItem(
+        {
+          Evento: { ID: props.evento.id }, 
+          Equipo: { ID: props.equipo.ID}, 
+        },
+        props.itemEdit.Lista
+      );
+      
+      const success = await updatedItem.crearItem();
+      
+      if (success) {
+        console.log("Inscripción creada exitosamente");
+        props.setItemEdit(updatedItem);
+        await props.handleOk(); 
+        props.onClose();
+      } else {
+        console.error("Error al crear la inscripción");
+      }
+    } catch (error) {
+      console.error("Error en la inscripción:", error);
+    }
+  } 
+};
+
 
   return (
     <Modal
@@ -32,15 +56,13 @@ const InscritosForm: React.FC<InscritosFormProps> = (props) => {
       cancelButtonProps={{ hidden: true }}
       okButtonProps={{ hidden: true }}
       footer={null}
-      open={isModalOpen}
+      open={props.isModalOpen}
     >
       <div className="contenidoModalInscripcion">
-        <p className="textoModalInscripcion">¿Estás seguro de que quieres inscribirte a {props.eventTitle} con el equipo {props.equipoNombre}?</p>
+        <p className="textoModalInscripcion">¿Estás seguro de que quieres inscribirte a {props.evento.title} con el equipo {props.equipo.Title}?</p>
         <div className="botonesModalInscripcion">
-          <button onClick={props.handleOk}>Confirmar</button>
-          <button onClick={() => {
-            props.onClose();
-          }}>Cancelar</button>
+          <button onClick={confirmInscripcion}>Confirmar</button>
+          <button onClick={props.onClose}>Cancelar</button>
         </div>
       </div>
     </Modal>
@@ -48,4 +70,5 @@ const InscritosForm: React.FC<InscritosFormProps> = (props) => {
 };
 
 export default InscritosForm;
+
 /*eslint-enable*/

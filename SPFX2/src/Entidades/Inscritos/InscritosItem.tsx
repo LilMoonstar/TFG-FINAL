@@ -35,8 +35,6 @@ export class InscritosItem {
       const newItemData: any = {
         LookupEventoId: this.Evento.ID,
         LookupEquipoId: this.Equipo.ID,
-        EventoTitle: this.Evento.Title,
-        EquipoTitle: this.Equipo.Title
       };
 
       await this.Lista.List.items.add(newItemData);
