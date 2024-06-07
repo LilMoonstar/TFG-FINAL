@@ -24,6 +24,8 @@ const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
   const [itemEdit, setItemEdit] = React.useState<InscritosItem | null>(null);
   const [equipoSeleccionado, setEquipoSeleccionado] = React.useState<EquiposItem | undefined>(undefined);
   const [modalVisible, setModalVisible] = React.useState(Props.visible);
+  let color = 'White';
+  let txtcolor = 'White';
 
   React.useEffect(() => {
     setModalVisible(Props.visible);
@@ -48,12 +50,27 @@ const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
         }
       });
 
+      switch (Props.event.Game) {
+        case "LEAGUE OF LEGENDS":
+          color = '#091428';
+          txtcolor = '#C4A15B';
+          break;
+        case "FORTNITE":
+          color = '#5FCEEA';
+          txtcolor = 'White';
+          break;
+        default:
+          color = 'White';
+          txtcolor = 'White';
+          break;
+      }      
+
       Modal.info({
         onOk: () => Props.onClose(),
         title: Props.event.title,
         content: (
           <div>
-            <p className="Parrafobold">Juego: <span style={{ color: 'white', backgroundColor: 'white', padding: '2px 4px', borderRadius: '3px' }}>{Props.event.Game}</span></p>
+            <p className="Parrafobold">Juego: <span style={{ color: txtcolor, backgroundColor: color, padding: '2px 4px', borderRadius: '3px' }}>{Props.event.Game}</span></p>
             <p className="Parrafobold">Fecha del evento: {new Intl.DateTimeFormat("es", {
               weekday: "short",
               month: "short",
@@ -64,6 +81,8 @@ const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
               timeZone: "Europe/Madrid",
             }).format(Props.event.start)}</p>
             <p className="Parrafobold">Descripción: <span style={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{Props.event.Description}</span></p>
+
+            
             {Props.items.some(item => item.EventoID === Props.event.id && item.Title === "Inscrito") ? (
               <p className="mensajeModalCalendario">Ya estás inscrito en este evento.</p> /*QUEDA INCOMPLETO POR FALTA DE TIEMPO*/
             ) : (

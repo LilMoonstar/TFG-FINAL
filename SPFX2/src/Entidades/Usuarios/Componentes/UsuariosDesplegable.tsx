@@ -235,7 +235,7 @@ const DatosDesplegable: React.FC<IDatosDesplegableProps> = (props: IDatosDespleg
                         </Button>
                       ) : (
                         <Button disabled style={{ background: '#f0f0f0', color: '#888' }}>
-                          No Fortnite team assigned yet
+                          No  {props.titulo} team assigned yet
                         </Button>
                       )}
                 </Stack.Item>
