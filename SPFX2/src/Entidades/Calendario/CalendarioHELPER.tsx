@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { EventosItem } from "../Eventos/EventosItem";
 
 export interface EventosCalendario {
   Description: ReactNode;
@@ -10,4 +11,5 @@ export interface EventosCalendario {
   fondo?: string;
   id?: number;
   Ver?: (callback: () => void) => JSX.Element;
+  item: EventosItem
 }

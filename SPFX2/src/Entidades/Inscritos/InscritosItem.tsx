@@ -9,6 +9,7 @@ export class InscritosItem {
   public ItemEdit: InscritosItem | undefined;
 
   public ID: number;
+  public Title: string;
   public Evento: EventosItem;
   public Equipo: EquiposItem;
   public EventoID: number;
@@ -24,6 +25,7 @@ export class InscritosItem {
 
   private MapearCampos(): void {
     this.ID = this.ListItem.ID;
+    this.Title = this.ListItem.Title;
     this.Evento = new EventosItem(this.ListItem.LookupEvento, this.Lista.EventosLista);
     this.Equipo = new EquiposItem(this.ListItem.LookupEquipo, this.Lista.EquiposLista);
     this.EventoID = this.ListItem.LookupEvento.ID;
@@ -35,6 +37,7 @@ export class InscritosItem {
       const newItemData: any = {
         LookupEventoId: this.Evento.ID,
         LookupEquipoId: this.Equipo.ID,
+        Title: "Inscrito" 
       };
 
       await this.Lista.List.items.add(newItemData);

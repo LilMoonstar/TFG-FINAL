@@ -40,6 +40,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [ImAdmin, setImAdmin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
+  
   const [equiposAsignados, setEquiposAsignados] = React.useState<EquiposItem[]>([]);
 
 
@@ -135,6 +136,7 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
     end: new Date(item.Date),
     Description: item.Description,
     Game: item.Game,
+    item: item
   })), [ItemEventos]);
 
 
@@ -258,7 +260,6 @@ const EventoWebpart: React.FC<IEventoWebpartProps> = ({ SP, WebPartContext }) =>
               event={selectedEvent}
               equiposAsignados={equiposAsignados}
               items={ItemInscritos}
-              callback={cargarDatosInscritos}
               lista={listaInscritos.current}
             />}
 

@@ -13,6 +13,7 @@ export class InscritosLista {
     public NombreLista = "Inscritos";
     public SelectAllFields: string[] = [
         "*",
+        "Title",
         "LookupEvento/ID",
         "LookupEvento/Title",
         "LookupEquipo/ID",

@@ -15,7 +15,6 @@ export interface CalendarioModalProps {
   event: EventosCalendario | undefined;
   equiposAsignados: EquiposItem[];
   items: InscritosItem[];
-  callback: (result: boolean) => Promise<void>;
   lista: InscritosLista;
 }
 
@@ -24,105 +23,73 @@ const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
   const [nuevoInscrito, setNuevoInscrito] = React.useState<InscritosItem | null>(null);
   const [itemEdit, setItemEdit] = React.useState<InscritosItem | null>(null);
   const [equipoSeleccionado, setEquipoSeleccionado] = React.useState<EquiposItem | undefined>(undefined);
-  const [estaInscrito, setEstaInscrito] = React.useState(false);
+  const [modalVisible, setModalVisible] = React.useState(Props.visible);
 
   React.useEffect(() => {
-    console.log("Props.items:", Props.items);
-    console.log("equipoSeleccionado:", equipoSeleccionado);
-    const siseinscribio = Props.items.some(item =>
-      item.Evento.Title === Props.event?.title &&
-      item.Equipo.Title === equipoSeleccionado?.Title
-    );
-    console.log("siseinscribio:", siseinscribio);
-    setEstaInscrito(siseinscribio);
-  }, [Props.items, Props.event, equipoSeleccionado]);
+    setModalVisible(Props.visible);
+    setEquipoSeleccionado(undefined);
+    setNuevoInscrito(null);
+    setItemEdit(null);
+    setIsFormOpen(false);
+  }, [Props.visible, Props.event, Props.items]);
 
+  const handleInscripcionClick = () => {
+    const nuevo = Props.lista.getNewItem();
+    setIsFormOpen(true);
+    setNuevoInscrito(nuevo);
+    setItemEdit(nuevo);
+  };
 
   React.useEffect(() => {
     if (Props.visible && Props.event) {
-      let color = 'White';
-      let txtcolor = 'White';
-      let canInscribe = false;
-
-      switch (Props.event.Game) {
-        case "LEAGUE OF LEGENDS":
-          color = '#091428';
-          txtcolor = '#C4A15B';
-          break;
-        case "FORTNITE":
-          color = '#5FCEEA';
-          txtcolor = 'White';
-          break;
-        default:
-          color = 'White';
-          txtcolor = 'White';
-          break;
-      }
-
-      const formatDate = new Intl.DateTimeFormat("es", {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: false,
-        timeZone: "Europe/Madrid",
-      });
-
-      const now = new Date();
-
-      // Comprobar si hay equipos asignados al usuario que coincidan con el juego del evento
       Props.equiposAsignados.forEach((equipo) => {
         if (equipo.Juego === Props.event.Game) {
-          canInscribe = true;
           setEquipoSeleccionado(equipo);
         }
       });
 
       Modal.info({
-        onOk: Props.onClose,
+        onOk: () => Props.onClose(),
         title: Props.event.title,
         content: (
           <div>
-            <p className="Parrafobold">Juego: <span style={{ color: txtcolor, backgroundColor: color, padding: '2px 4px', borderRadius: '3px' }}>{Props.event.Game}</span></p>
-            <p className="Parrafobold">Fecha del evento: {formatDate.format(Props.event.start)}</p>
+            <p className="Parrafobold">Juego: <span style={{ color: 'white', backgroundColor: 'white', padding: '2px 4px', borderRadius: '3px' }}>{Props.event.Game}</span></p>
+            <p className="Parrafobold">Fecha del evento: {new Intl.DateTimeFormat("es", {
+              weekday: "short",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              hour12: false,
+              timeZone: "Europe/Madrid",
+            }).format(Props.event.start)}</p>
             <p className="Parrafobold">Descripción: <span style={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{Props.event.Description}</span></p>
-            {Props.event.start.getTime() > now.getTime() && !isFormOpen ? (
-              canInscribe ? (
-                <>
-                  {!estaInscrito ? (
-                    <button className="botonInscribirse" onClick={() => {
-                      const nuevo = Props.lista.getNewItem();
-                      setIsFormOpen(true);
-                      setNuevoInscrito(nuevo);
-                      setItemEdit(nuevo);
-                    }}>Inscribirse</button>
-                  ) : (
-                    <p>Ya estás inscrito a este evento</p>
-                  )}
-                </>
-              ) : (
-                <p className="mensajeModalCalendario">No puedes inscribirte porque no tienes un equipo asignado para este juego.</p>
-              )
+            {Props.items.some(item => item.EventoID === Props.event.id && item.Title === "Inscrito") ? (
+              <p className="mensajeModalCalendario">Ya estás inscrito en este evento.</p> /*QUEDA INCOMPLETO POR FALTA DE TIEMPO*/
             ) : (
-              <p className="mensajeModalCalendario">No puedes apuntarte a eventos que ya han acabado.</p>
+              Props.event.end.getTime() < new Date().getTime() ? (
+                <p className="mensajeModalCalendario">No puedes participar en eventos que ya han terminado.</p>
+              ) : (
+                Props.equiposAsignados.some(equipo => equipo.Juego === Props.event.Game) ? (
+                  <button className="botonInscribirse" onClick={handleInscripcionClick}>Inscribirse</button>
+                ) : (
+                  <p className="mensajeModalCalendario">No tienes equipo para participar en este juego.</p>
+                )
+              )
             )}
-
           </div>
         ),
         zIndex: 1000
       });
     }
-
-  }, [Props.visible, Props.event, Props.onClose, Props.equiposAsignados, Props.items]);
-
+  }, [Props.visible, Props.event, Props.onClose, Props.equiposAsignados]);
 
 
   return (
     <>
       {isFormOpen && (
         <InscritosForm
-          isModalOpen={isFormOpen}
+          isModalOpen={modalVisible}
           evento={Props.event}
           equipo={equipoSeleccionado}
           estaInscrito={false}
@@ -131,8 +98,8 @@ const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
             if (nuevoInscrito && itemEdit) {
               nuevoInscrito.ItemEdit = itemEdit;
               await nuevoInscrito.updateItem();
-              await Props.callback(true);
               setIsFormOpen(false);
+              setModalVisible(false);
               Props.onClose();
             }
           }}
@@ -142,6 +109,7 @@ const CalendarioModal: React.FC<CalendarioModalProps> = (Props) => {
             setItemEdit(null);
           }}
           setItemEdit={setItemEdit}
+
         />
       )}
     </>
